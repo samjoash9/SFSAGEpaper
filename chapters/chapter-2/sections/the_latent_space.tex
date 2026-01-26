@@ -1,0 +1,85 @@
+\section{The Latent Space}
+
+Early GANs drew a latent vector z from a simple distribution and fed it through a generator, but the resulting latent space was largely 
+entangled and hard to control. InfoGAN by \citet{chen2016infoganinterpretablerepresentationlearning} introduced an information-maximizing 
+objective to encourage disentanglement, yielding interpretable latent factors.
+The progressive GAN (PGGAN) of \citet{karras2018progressivegrowinggansimproved} improved image quality via multiresolution training but still used a single latent code at the input. 
+A major shift occurred with StyleGAN \citet{karras2019stylebasedgeneratorarchitecturegenerative}, which used a learned mapping network to transform the input z into an intermediate latent W space
+This mapping ,via 8 fully-connected layers, “unfolds” the simple z distribution into W, aligning it to the generator's feature distribution and enabling axis-parallel edits\citep{Melnik_2024}.
+StyleGAN also injects this W code and a random per-layer noise at each convolutional layer, allowing layer-wise control of coarse-to-fine image attributes.
+
+StyleGAN2 built on this by replacing Adaptive Instance Normalization (Ada\\in) with weight modulation and demodulation; it further regularized the latent mapping to smooth out the generator's response to latent shifts \citep{karras2020analyzingimprovingimagequality}.
+This made the latent-to-image mapping more uniform and significantly easier to invert, meaning real images could be projected more reliably into W.
+Importantly, StyleGAN2 popularized the use of an extended latent space $W^+$, in which a separate 512-dim w vector is supplied to each of the 18 generator layers.
+In $W^+$, each layer can have its own style code, greatly increasing representational power: for a 1024x1024 model, $W^+$ is 18x512-dim.
+However, $W^+$ vectors do not come from the learned W distribution, so naive sampling can produce realistic “face-like” images but also novel patterns that are still face-like (eg. Aliens) \citep{Melnik_2024}.
+$W^+$ is used mostly for reconstruction/inversion and fine edits, whereas $W$ remains the base latent space for smooth, in-distribution sampling.
+Finally, StyleGAN2's style code w is further transformed, once per layer,
+into a channel-wise affine vector $s$ in Style Space $S$, which directly scales convolutional feature maps \citep{Melnik_2024}.
+In StyleGAN2 , each channel's style parameter in S is a single scalar, controlling only scale (no bias).
+Thus StyleGAN2 introduced multiple nested latent spaces: the input $Z$, the mapped $W$, the layered $W^+$, and the channel-wise $S$.
+
+The StyleGAN architecture encourages disentanglement by design. 
+\citet{karras2020analyzingimprovingimagequality} observed that W becomes “much closer to the required feature distribution” than $z$, 
+so that semantic edits align with simple directions.
+In StyleGAN the $W$ space yields more disentangled representations than the original $Z$ space, making long-range manipulations (e.g. aging) more robust \citep{shen2020interpretinglatentspacegans}.
+InterFaceGAN explicitly exploits this: it identifies linear hyperplanes in W corresponding 
+to binary face attributes (smile, age, eyeglasses, etc.) and shows that moving w across these decision boundaries toggles the attribute.
+In StyleGAN's W space, these attributes become nearly disentangled after a linear transformation, unlike in Z.
+
+Unsupervised methods have since discovered many such directions.
+GAN\-Space applies Principal Component Analysis (PCA) to StyleGAN2 latent codes and finds that principal components correspond
+to high-level edits (pose, color, environment) \citep{härkönen2020ganspacediscoveringinterpretablegan}.
+emarkably, GANSpace shows that a single global PCA direction, when applied at specific layers (“layer-wise decomposition”), 
+can control attributes from coarse (camera angle) to fine (facial features) without labels.
+Similarly, \citet{voynov2020unsuperviseddiscoveryinterpretabledirections} developed an unsupervised optimization to 
+extract interpretable latent directions from any GAN; they report non-trivial findings (e.g. a “background removal” direction) 
+without any supervision.
+Semantic Factorization (SeFa) by \citet{shen2021closedformfactorizationlatentsemantics} provides a complementary approach 
+by performing a closed-form eigen-decomposition of the pretrained generator's weight matrices, 
+SeFa factors the W space into semantically meaningful directions (necklace on/off, lighting, etc.) without training or samples.
+Empirically, SeFa's directions often match or exceed those from supervised methods (e.g. InterFaceGAN) in manipulating specific attributes.
+
+% Style Space $S$ was also discovered to have been more disentangled than $W$ or $W^+$ space.
+% Using DCI metrics , \citet{wu2020stylespaceanalysisdisentangledcontrols} compared the $Z$, $W$ and $S$ spaces and found that "while
+% the informativeness of both W and S is high and comparable, S scores much higher in terms of disentanglement and
+% completeness. This indicates that each dimension of S is
+% more likely to control a single attribute and vice versa.".
+% They also compared it $W^+$ and discovered that $S$ shows higher score. \citet{wu2020stylespaceanalysisdisentangledcontrols} demonstrate that one can find single S-dimensions that locally manipulate “eye color” or “bed appearance” with minimal side effects, far outperforming previous W-based controls.
+% In short, StyleGAN2’s architecture inherently embeds disentangled controls at the channel level, making S a powerful latent for fine-grained editing.
+
+The disentangled latent structure of StyleGAN2 enables rich image manipulation. 
+A common paradigm is latent traversal: given a latent code w, one perturbs it along a 
+semantic direction and observes the image change. 
+This can be simple as linear arithmetic like how InterfaceGAN uses $z_{edit} = z + \alpha n$ for single attribute manipulation.
+More advanced controllers have been developed. StyleFlow (Abdal et al., 2021) 
+models latent editing as a continuous conditional flow: it learns a bijective mapping 
+in latent space conditioned on attribute values (age, pose, gender, etc.), 
+enabling smooth attribute-conditioned sampling and editing \citep{Abdal_2021}.
+In StyleFlow, one can fix most aspects of the face and continuously change a specified attribute like gradually make the person
+older with high fidelity.
+Similarly, StyleCLIP leverages CLIP text embeddings 
+to find latent directions: it either optimizes a latent to match a text prompt 
+or trains a mapper network to translate text into a direction in W or S. 
+This yields a flexible text-based interface for latent edits (“smile”, “pikachu”, “gothic”) without requiring explicit labeled data. \citep{patashnik2021stylecliptextdrivenmanipulationstylegan}.
+
+For image editing tasks, one often needs to map a real photo into StyleGAN2's latent space. 
+GAN inversion methods seek a latent code (in $W$, $W^+$, or even feature space $F$) that reproduces the input under the generator. 
+According to \citet{liu2023delvingstyleganinversionimage}, GAN-Inversion methods suffer from fidelity-editability trade-off where 
+optimizing in $W^+$ (high capacity) yields near-perfect reconstruction, 
+but the resulting $w^+$ may lie outside the “safe” distribution, making edits unpredictable.
+Conversely, constraining to W yields more stable edits but higher reconstruction error. 
+Modern techniques address this: encoder-based methods like pixel2Style2pixel (pSp) \citep{richardson2021encodingstylestyleganencoder}
+or encoder4Editing (e4e) \citep{tov2021designingencoderstyleganimage} quickly predict an approximate $W^+$ code; then post-processing (latent optimization or a “pivotal tuning”) refines it.
+For example, pSp's encoder directly outputs 18 layer-specific style vectors into $W^+$, inverting a real face in one forward pass.
+Such hybrid inversion plus fine-tuning allows one to start with an interpretable latent in 
+$W$/$W^+$ and then apply the semantic edits learned for synthetic images.
+
+Ultimately, StyleGAN2's latent space serves as a controllable image model. 
+One can generate images with specified attributes by sampling $z$ and then steering $w = M(z)$ in desired directions \citep{patashnik2021stylecliptextdrivenmanipulationstylegan}.
+For instance, adding a “smile” direction to w yields smiling faces.
+More generally, the latent allows fine-grained tuning: by selecting $w^+$ values per layer, 
+one can combine styles from different images or enforce multi-attribute conditions. 
+StyleGAN2's latent space, especially $W$ and $S$ , provides a semantically meaningful coordinate system. 
+Its evolution from earlier GAN latents (simple $Z$) to this multi-space structure underpins 
+the state-of-the-art in GAN-based image editing and disentangled generation.

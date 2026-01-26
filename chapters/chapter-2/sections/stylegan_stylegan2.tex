@@ -1,0 +1,85 @@
+\section{StyleGAN and StyleGAN2}
+
+Early GANs suffered from instability and mode collapse, which \citet{karras2018progressivegrowinggansimproved} addressed by 
+Progressive GANs (PGGAN): training begins at low resolution and gradually adds 
+layers as resolution increases \citep{Melnik_2024}.
+Building on this, StyleGAN \citet{karras2019stylebasedgeneratorarchitecturegenerative}
+proposed a novel style-based generator architecture that achieved state-of-the-art image quality and disentangled latent factors.
+StyleGAN is a variant of GAN that builds on its framework by radically redesigning the generator.
+
+Instead of feeding the latent code $\mathbf{z}$ directly into the generator, 
+StyleGAN first maps $\mathbf{z}\sim\mathcal{N}(0,I)$ to an intermediate latent $\mathbf{w}=f(\mathbf{z})$ using an 8-layer fully-connected network \citep{karras2019stylebasedgeneratorarchitecturegenerative}.
+This $\mathbf{w}$ lives in a new “style” space $\mathcal{W}$ that is learned to be less entangled than the original latent space. 
+Learned affine transforms then convert $\mathbf{w}$ into per-layer style parameters $(y_s,y_b)$ that modulate each convolution via Adaptive Instance Normalization (AdaIN) \citep{karras2019stylebasedgeneratorarchitecturegenerative,karras2020analyzingimprovingimagequality}.
+Concretely, for each feature map $x_i$ in a convolutional layer, StyleGAN applies:\[
+\text{AdaIN}(x_i, y) = y_{s,i} \left( \frac{x_i - \mu(x_i)}{\sigma(x_i)} \right) + y_{b,i}
+\], where $y_s$ and $y_b$ (scalars for channel $i$) are derived from $\mathbf{w}$.
+ In practice, StyleGAN’s mapping network $f$ (an eight-layer MLP) produces $\mathbf{w}$, and then each convolutional layer is modulated by the corresponding $(y_s,y_b)$ pair.
+ This allows scale-specific control of features: coarse spatial styles 
+ (e.g. pose or overall shape) are set by early layers, while fine-grained details (e.g. color, texture) are set by later layers \cite{Melnik_2024,karras2019stylebasedgeneratorarchitecturegenerative}.
+Notably, the mapping network and style modulation enable style-mixing: two latent codes can be injected at different depths, blending coarse features from one code with fine details from another \citep{Melnik_2024}.
+
+Importantly, StyleGAN replaces the standard random input with a learned constant 4x4x512 tensor, and all variation comes from the style vectors and added noise. 
+At each convolutional layer, StyleGAN also injects a random noise map (one per pixel) which is added to the features with learned per-channel weights.
+This stochastic noise produces high-frequency variation (e.g. hair wisps, freckles) without affecting global attributes. 
+Together, these design choices yield unsupervised disentanglement of high-level attributes from stochastic detail: \citet{karras2019stylebasedgeneratorarchitecturegenerative} observe that their style-based generator 
+“leads to an automatically learned, unsupervised separation of high-level attributes (e.g., pose and identity) and stochastic variation in the generated images”.
+In experiments, StyleGAN achieves state-of-the-art image fidelity (low Fréchet Inception Distance) and more linear, less entangled latent factors than conventional GANs.
+
+
+The architectural differences from a standard GAN can be summarized as:
+
+\begin{itemize}
+  \item Intermediate latent space and mapping network: StyleGAN learns a mapping $f: \mathbf{z}\to \mathbf{w}$ (eight-layer MLP) so that $\mathbf{w}$ in space $\mathcal{W}$ is disentangled
+  \item Style modulation via AdaIN: Style vectors from $\mathbf{w}$ provide per-layer \\ scale/bias that modulate each convolution by AdaIN, as in the formula above.
+  \item Noise injection: Learned Gaussian noise is added to each layer to control stochastic details
+  \item Learned constant input: The generator begins from a fixed learned 4x4 tensor instead of random noise
+  \item Progressive growing: StyleGAN adopts the progressive training strategy from ProGAN [Karras et al., 2018], starting at 4x4 resolution and gradually adding layers to reach high resolution \citep{karras2018progressivegrowinggansimproved}.
+\end{itemize}
+
+
+
+StyleGAN2 \citet{karras2020analyzingimprovingimagequality} builds directly on StyleGAN but redesigns the generator to eliminate artifacts and boost quality.
+The key insight is that the original AdaIN normalization can destroy meaningful signal: normalizing each feature map breaks global correlations needed for coherent details.
+Therefore, StyleGAN2 “bakes” the style modulation into the convolution weights and replaces the per-feature normalization with a weight demodulation operation.
+In practice, this works as follows: let $w_{ijk}$ be the convolution weight connecting input channel $i$ to output channel $j$ (at spatial position $k$).
+Given a style scale $s_i$ (from $\mathbf{w}$) for channel $i$, StyleGAN2 first multiplies $w_{ijk}$ by $s_i$ (modulation), yielding $w'_{ijk}=s_i w_{ijk}$.
+It then computes the output standard deviation $\sigma_j$ of the convolution and demodulates by dividing by $\sigma_j$:
+\[
+w''_{i,s,j,k} = \frac{w'_{ijk}}{\sqrt{\sum_{i'} (w'_{ijk})^2 + \epsilon}}
+\]. This eliminates the need for explicit instance normalization after the convolution. 
+The result is that each convolutional layer can apply the style $s_i$ directly to its weights, 
+with the demodulation automatically preserving unit variance. This modification removes the “blob” artifacts common in StyleGAN outputs and leads to crisper, more natural images.
+
+StyleGAN2 also revamps the training scheme. The progressive growing paradigm is replaced with a fixed architecture: the generator is trained 
+at full resolution from the start using skip connections and residual blocks that connect multi-scale features (as in MSG-GAN or U-Net architectures).
+By preserving multi-scale signals through the network rather than gradually adding layers, StyleGAN2 achieves stable training without the overhead of layer-by-layer growth.
+Importantly, StyleGAN2 retains the style mapping network and noise injections, but applies them within this revised generator. 
+Additionally, \citet{karras2020analyzingimprovingimagequality} introduce a path length regularization on the mapping network, which encourages equal-distance moves in $\mathcal{W}$ to produce equal perceptual changes in the image.
+This regularizer makes the latent-to-image mapping smoother and more invertible, further improving disentanglement and editability.
+
+The architectural improvements in StyleGAN2 can be summarized as:
+
+\begin{itemize}
+    \item Weight demodulation instead of AdaIN: Styles modulate convolution \\weights and are normalized in-weight, removing all explicit feature-map normalization.
+    \item No instance normalization layers: By design, the generator no longer uses AdaIN or other instance/batch norms; all normalization is implicit in weight demodulation
+    \item Elimination of progressive growing: The network is trained at fixed full resolution, using skip/residual connections to preserve stability
+    \item Path length regularization: A regularizer on the mapping network encourages a smooth, linearized latent space.
+\end{itemize}
+
+These changes yield a substantial quality gain. 
+For example, \citet{karras2019stylebasedgeneratorarchitecturegenerative} report that fully updated StyleGAN2 
+(no progressive growing, weight demodulation, path regularization) achieves a Fréchet Inception Distance of 
+about 3.3 on FFHQ, compared to ~4.4 for the original StyleGAN baseline.
+
+While StyleGAN and StyleGAN2 achieve unprecedented image realism, they have known limitations. 
+First, the generated images and editing capabilities are confined to the training distribution. 
+StyleGAN's latent control only applies to images the network can produce; arbitrary real-world 
+photos must first be inverted into $W$ (GAN inversion) before editing \citep{bermano2022stateoftheartarchitecturemethodsapplications}.
+Even then, inversion may not perfectly capture identity. 
+Second, the models excel on structured domains like faces or bedrooms but struggle with unstructured or complex scenes. 
+As \citet{bermano2022stateoftheartarchitecturemethodsapplications} observed, StyleGAN “struggles with domains that do not exhibit strong structure”.
+Third, bias is a concern: like all data-driven GANs, 
+StyleGAN can replicate demographic biases in the training set, raising fairness issues. 
+Finally, the architecture is computationally heavy and complex; 
+training StyleGAN2 on high-resolution data demands extensive GPU resources and careful tuning.

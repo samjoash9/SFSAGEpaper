@@ -1,0 +1,116 @@
+\section{GAN Inversion}
+
+GAN inversion refers to finding a latent code in a pretrained GAN (here StyleGAN2) that reproduces a given real image when passed through the generator. In practice, one inverts an image $x$ by solving for a style code $w$ such that the StyleGAN2 generator 
+$G$ outputs an image $G(w) \approx x$ \citep{tov2021designingencoderstyleganimage}.
+This can be done via optimization (iteratively adjusting 
+$w$ for each image, which is slow) or via a learned encoder (a neural network that predicts $w$ in one forward pass) \citep{alaluf2021restyleresidualbasedstyleganencoder,tov2021designingencoderstyleganimage}.
+StyleGAN2 uses a mapping network from a base Gaussian $z$ into an intermediate latent space $W$, which is more disentangled.
+Many inversion methods actually use an extended latent space $W^+$  (one 512-D style vector per layer) for greater expressiveness \citep{richardson2021encodingstylestyleganencoder,tov2021designingencoderstyleganimage,bobkov2024devildetailsstylefeatureeditordetailrich}.
+Once an image is inverted to a latent code, one can edit the image by manipulating that code (e.g. adding learned attribute directions or swapping style layers) and generating the edited image via $G$.
+High-quality inversion thus requires balancing reconstruction fidelity (low distortion between $x$ and $G(w)$) with with editability (the code lies in a region where semantic edits are meaningful).
+
+How GAN inversion works \citep{richardson2021encodingstylestyleganencoder,alaluf2021restyleresidualbasedstyleganencoder,tov2021designingencoderstyleganimage}:
+\begin{itemize}
+    \item Pretrained StyleGAN2: Use a generator $G$ trained on a target domain. Fix its weights.
+    \item Latent spaces: Identify the latent space to invert into (typically $W$ or extended $W^+$ sometimes an additional feature space $F$).
+    \item Encoder or optimization: For encoder-based inversion, train a feed-for\-ward network $E$ to map images to latents. For optimization-based inversion, for each image $x$ optimize $W$ by minimizing a loss $\|x-G(w)\|$. Encoder methods are much faster (one pass) but historically had worse fidelity than optimization.
+    \item Architecture of encoders: Typically, an encoder is a convolutional backbone (often ResNet) that produces latent parameters.
+    For example, pixel2\-style2pixel (pSp) uses a ResNet + feature pyramid, producing style vectors via map2style blocks for each scale.
+    Encoder4Editing (e4e) is similar but outputs one base style plus per-layer offsets.
+    ReStyle applies such encoders iteratively, and StyleFeatureEditor uses a two-branch encoder for both $W^+$ and feature-latents.
+    \item Loss functions: Encoders are trained to minimize a combination of losses on reconstruction. Common losses are pixel-wise L2, perceptual (LPIPS) loss, and often an identity or feature loss to preserve semantics (e.g. using ArcFace or self-supervised features).Many methods also add regularization: for example, e4e adds L2 penalties on offsets to keep the final code near $W$, and some use adversarial (latent discriminator) loss to keep codes within the true latent distribution.
+    \item Inference and editing: At test time, given image $x$,  the encoder predicts a latent code (or code+offsets or code+features). This code is fed into the fixed generator $G$  to reconstruct $x$.  For editing, one modifies the latent (e.g. by style mixing or adding semantic direction vectors) and uses $G$ to synthesize the edited image.
+\end{itemize}
+
+\subsection{pixel2style2pixel (pSp)}
+pSp is an early StyleGAN2 encoder (CVPR 2021) that maps an image to the extended latent space $W^+$. It uses a ResNet-50 backbone with a feature pyramid producing three scales of feature maps. Each scale is fed through small map2style networks to generate 512-D style vectors corresponding to StyleGAN's layers.
+The output is a full $W^+$ The encoder is trained with a weighted sum of losses: pixel L2, LPIPS perceptual loss, and an identity loss (ArcFace for faces, or a self-supervised ResNet for other domains). 
+A small regularization term on the styles can also be used.
+By design, pSp prioritizes reconstruction fidelity. It “directly maps a real image into the $W^+$ latent space with no optimization required”. 
+In experiments it achieves low LPIPS and MSE reconstruction error. 
+Because it predicts full $W^+$, pSp can accurately capture fine details of the image. After encoding, image editing is done by standard StyleGAN manipulations (e.g. adding latent offsets or style-mixing). For example, pSp naturally supports style-mixing for multi-modal synthesis: one can replace selected style vectors with those from a random code to generate variations.
+
+pSp is fast (single forward pass) and yields high-quality reconstructions. It has been shown to preserve identity and details (e.g. hairstyle, lighting) better than many earlier methods.
+It also generalizes to various image-to-image tasks without retraining (e.g. frontalization, super-resolution) because of the rich StyleGAN latent space.
+
+However , since  pSp uses full $W^+$,  the encoded latents can lie far from the original distribution learned in $W$. 
+This can degrade “editability”: edits in regions of $W^+$ far from the data manifold may produce unrealistic results. 
+pSp's very high reconstruction fidelity sometimes comes at the cost of less coherent edits, compared to encoding into $W$ or constrained spaces.
+\citep{richardson2021encodingstylestyleganencoder}
+
+\subsection{Encoder4Editing (e4e)}
+
+Encoder4Editing (e4e, ICCV 2021) extends pSp by explicitly addressing the reconstruction editability trade-off. The key idea is to keep the inverted latent closer to the original $W$
+distribution even while allowing high-fidelity reconstruction.  Architecturally, e4e still uses a ResNet+feature pyramid encoder, but instead of predicting all style vectors independently, it predicts one base style code $w_0$ and a small offset vector $o_i$ or each of StyleGAN's 18 layers.
+The final style for layer $i$ is $w_0 + o_i$.During training, two principles are enforced: 
+
+\begin{enumerate}
+    \item Progressive training: initially predict only $w_0$ then gradually allow one layer's offset at a time, progressing from coarse to fine layers.
+    \item Offset regularization: penalize the magnitude of the offsets (via L2) to keep $w_0 + o_i$ close to $w_0$ and thus close to the learned $W$ manifold.  A small latent discriminator (GAN loss in latent space) is also trained to distinguish real $W$ samples from the encoder's outputs. 
+\end{enumerate}
+
+During training e4e uses the same image-space losses as pSp (L2, LPIPS, identity) and adds the above editability losses.
+The result is an encoder that strikes a balance: it produces reconstructions nearly as good as pSp, but the codes are “closer to $W$" so that semantic edits transfer more reliably.
+e4e still outputs an extended style code, but with built-in bias towards $W$. In practice one can edit e4e codes using the same methods (adding latent directions, style mixing), and edits tend to be more robust. For faces, e4e also incorporates a cosine identity loss (ArcFace or general ResNet) to preserve identity under reconstruction.
+
+e4e greatly improves editability. It was shown to maintain coherent attribute manipulations (age, expression, pose) on real images better than pSp, with only a minor increase in reconstruction error.
+ts inference speed is still one forward pass (plus negligible overhead from the latent discriminator at training time). It generalizes to multiple domains (faces, cars, etc.) by using a domain-agnostic feature extractor for identity.
+
+To achieve editability, e4e accepts a small drop in reconstruction fidelity. Very fine details may be slightly lost compared to pSp. Also, the progressive training and latent GAN add complexity, and tuning the trade-off weights requires care. 
+ The notion of “proximity to $W$ " is somewhat loosely defined , so extremely out-of-distribution images (e.g. non-human faces) may still not be perfectly encoded.
+\cite{tov2021designingencoderstyleganimage}
+
+\subsection{ReStyle}
+
+ReStyle (ICCV 2021) focuses on improving inversion accuracy by iterative refinement. Instead of a single encoder pass, ReStyle's encoder is applied multiple times in a feedback loop. Starting from an initial latent (the average 
+$w$ vector), ReStyle repeatedly concatenates the original image with the generator's current reconstruction and feeds them into the encoder. At each iteration $t$, the encoder predicts a residual $\Delta w^{(t)}$ to add to the current latent.
+\[
+\text{At step t,} w^{(t)} = w^{(t-1)} + E(x,G(w^{(t-1)}))
+\],
+
+with $w^{(0)}$,  set to the average latent, and $G(w)$ , the current output image. 
+ The encoder is trained to minimize reconstruction loss at each step (summing L2+LPIPS over all iterations).
+ ReStyle can be applied on top of any base encoder (e.g. pSp or e4e). In implementation, the authors actually simplify those encoders by using only the final feature map (no pyramid). Each iteration uses a fresh forward pass through the same network (weights are shared across steps).
+The training, therefore, unrolls a small multi-step network with losses on each reconstructed image.
+
+ReStyle yields a more accurate latent code after its iterations, meaning $G(w)$ more closely matches the input. 
+This generally improves any downstream editing (since the base reconstruction is better). 
+In other words, it aims to match the quality of per-image optimization (but much faster). 
+The final code is in $W^+$ and can be edited normally.
+
+
+ReStyle significantly improves reconstruction quality compared to standard feed-forward encoders. 
+It achieves near-optimization accuracy with only a small inference-time cost (typically 3-5x forward passes).
+ Because it uses the same encoder architecture at each step, it avoids complex modifications. It can even be viewed as a learned optimization in latent space.
+
+The iterative loop means inference is slower (several passes). 
+Although small (e.g. 5 steps), it is no longer a single-shot encoder.
+Also, ReStyle does not explicitly enforce editability constraints - it focuses on fidelity. 
+It inherits the latent space choice of the base encoder: if initialized in $W^+$
+the result can still lie outside the original $W$ distribution. Finally, training is more complex (unrolling multiple steps with deep supervision) and may be sensitive to number of iterations. \citep{alaluf2021restyleresidualbasedstyleganencoder}
+
+\subsection{StyleFeatureEditor}
+
+
+StyleFeatureEditor (SFE) introduces a new latent representation combining StyleGAN's usual style codes, $w or w_i$ , with a feature tensor $F_k$  from an intermediate generator layer. Intuitively, the feature tensor
+$F_k$ , high-dimensional spatial features , captures fine detail that $W^+$ alone may miss. 
+ The method has two networks: an inverter $I$ and a feature editor $H$.  The inverter $I$ takes an image $X$ and predicts both a style code
+ $w \in W^+$ and a feature map $F_k$. 
+ Specifically , $I$ first maps $X$ to $w$ via linear layers, and also to an intermediate feature $F_{pred}$ . Then it fuses $F_{pred}$ with the actual generator’s feature.
+ to produce the final inversion feature $F_k$.
+
+Crucially, StyleFeatureEditor trains a separate editor network $H(F, \Delta)$ that adjusts the feature tensor for editing. 
+Given an editing direction $d$ in n latent space, one computes the change $\Delta  = F_k(w+d) - F_k(w)$ by sampling from a pretrained encoder. 
+Then $H$ is trained to take the inverted feature $F_k$ and $\Delta$ and output the edited feature $F_k' = H(F_k, \Delta)$. In inference, for a desired edit 
+$d$, one computes $w' = w+d$, uses $H$ to updated $F \Rightarrow F_k'$ and generates the edited image from $w', F_k'$.
+
+StyleFeatureEditor undergoes 2 phase training: 
+
+\begin{enumerate}
+    \item Inverter $I$ is trained on real images with standard losses (L2+LPIPS+iden\-tity, plus latent regularization and adversarial loss).
+    \item Editor $H$ is  trained on synthetic pairs: for each real $X$, a pretrained $W^+$ encoder produces $w$, an edit $d$ is sampled, yielding, $X_E'$ by adjusting $H$(inverter frozen).
+\end{enumerate} 
+
+StyleFeatureEditor achieves extremely high reconstruction quality and preserves detail even under editing. In experiments it produces nearly indistinguishable inverted images, and crucially it “preserves most” of those fine details when editing.
+By operating directly on feature maps, it can maintain textures and fine structure that pure latent edits often lose. It is capable of editing challenging out-of-domain examples and does not rely solely on $W$ or $W^+$ for content.
+\citep{bobkov2024devildetailsstylefeatureeditordetailrich}

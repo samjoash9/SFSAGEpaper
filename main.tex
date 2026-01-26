@@ -1,0 +1,147 @@
+% ==========================================================================================================
+% DOCUMENT SETUP
+
+\documentclass[12pt]{report} % 12pt main font - Base Format Report/Thesis
+\usepackage[round]{natbib} % Bib Library for APA citation format
+\usepackage{enumitem} % Package for bullet/numbered lists
+\usepackage{amsmath} % Math formatting
+\usepackage{amssymb} % Math symbols
+\usepackage{graphicx} % For graphics/images inclusion in file
+\usepackage{setspace} % Controlling line spacing - Requried Double Spaced
+\usepackage{fontspec} % Font customization - Use font Candara
+\usepackage{ragged2e} % Text alignment options - Justify
+\usepackage{titlesec} % Customize Section, Subsection format
+\usepackage{hyperref} % Enable hyperlink
+
+\usepackage[letterpaper, left=1.5in, right=1in, top=1in, bottom=1in]{geometry} % set paper size 8.5 x 11 - Margin as stated by STUDENT CAPSTONE/THESIS GUIDELINES 
+
+\usepackage[english]{babel} % English Language hypenation - For latex h overflow
+\hyphenpenalty=1000 % Param babel
+\tolerance=1000 % Param babel
+
+% For Continous Equations counting as stated in the STUDENT CAPSTONE/THESIS GUIDELINES 
+\usepackage{chngcntr}
+\counterwithout{equation}{chapter}
+
+% Header control - Sets Headers as stated in the STUDENT CAPSTONE/THESIS GUIDELINES 
+\usepackage{fancyhdr} % Format for preliminary Pages
+\fancypagestyle{plain}{ 
+  \fancyhf{} % Clear all header and footer content
+  \fancyhead[R]{\thepage} % Page number in the top right
+  \renewcommand{\headrulewidth}{0pt} % No header line
+}
+
+\pagestyle{fancy} % Format for all other pages
+\fancyhf{} % Clear default content
+\fancyhead[R]{\thepage} % page number top right
+\renewcommand{\headrulewidth}{0pt}
+
+% Set font to Candara as stated in the STUDENT CAPSTONE/THESIS GUIDELINES 
+\setmainfont{Candara}[Path=page/, Extension=.ttf,
+    UprightFont = *,
+    BoldFont = *b,
+    ItalicFont = *i,
+    BoldItalicFont = *z
+]
+
+% Figures Setup - Follows "Figure x (Bold) Desc (normal) 
+\usepackage[labelfont=bf,labelsep=space]{caption}
+\captionsetup[figure]{justification=centering}
+
+% Set Line Spacing
+\doublespacing
+
+% Set Document Alignment
+\justifying
+
+% Set Paragraph indentation: 0.25 inch (7 spaces)
+\setlength{\parindent}{0.25in}
+\setlength{\parskip}{0pt}
+
+% CHAPTER Headings — centered, bold, uppercase, 14pt, starts at top
+\titleformat{\chapter}[block]
+  {\normalfont\bfseries\centering\fontsize{14}{16}\selectfont} % Format: bold, centered, 14pt
+  {CHAPTER \thechapter} % Label "Chapter X"
+  {0.5em}                  % Space between label and title text
+  {\MakeUppercase}       % Make title uppercase
+\titlespacing*{\chapter}{0pt}{0pt}{36pt} % No vertical space before, Double Space After
+
+% SECTION Headings — bold, 13pt, capitalized lowercase, left-aligned
+\titleformat{\section}
+  {\normalfont\bfseries\fontsize{13}{15}\selectfont}
+  {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{24pt}{12pt}
+
+% SUBSECTION Headings — 12pt, bold, only first word capitalized
+\titleformat{\subsection}
+  {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+  {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+
+% ==========================================================================================================
+% DOCUMENT CONTENT
+
+
+% Title Page
+% \title{FeatureSAGE: Stable Attribute Group Editing With 
+% Integrated StyleFeatureEditing Encoder for Enhanced Few-shot Image Generation}
+% \author{Joshua Libando\\Sam Joash Antonio}
+
+\input{templates}
+
+% Page Style
+\doublespacing
+
+\begin{document}
+
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\pagenumbering{roman} % Roman numerals for front matter
+
+
+% Title Page
+% \maketitle
+\makethesistitlepage
+  {FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditing Encoder for Enhanced Few-shot Image Generation} 
+  {Thesis Proposal}
+  {Joshua Libando\\Sam Joash V. Antonio}
+  {Computer Science}
+  {Computing and Information Science (CCIS)}
+  {Caraga State University – Main Campus}
+  {Computer Science (BSCS)}
+
+
+
+% Preliminary Pages
+% Approval Sheet
+
+% \include{chapters/preliminary-chapters/approval_sheet}
+
+% Dedication ==============================================================================================
+% \include{chapters/preliminary-chapters/dedication}
+
+% Acknowledgments =========================================================================================
+% \include{chapters/preliminary-chapters/acknowledgement}
+
+
+% Main Content
+\tableofcontents
+\listoffigures
+% \listoftables
+
+% Switch to Arabic numerals for chapters
+\clearpage
+\pagenumbering{arabic}
+
+\include{chapters/chapter-1/introduction}
+\include{chapters/chapter-2/review_of_related_literature}
+\include{chapters/chapter-3/methodology}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+
+% \include{appendix}
+% \include{bionote}
+
+\end{document}

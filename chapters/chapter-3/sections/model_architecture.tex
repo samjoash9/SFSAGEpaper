@@ -1,0 +1,196 @@
+\section{Model Architecture}
+
+This study proposes a modified SAGE framework named \textbf{FeatureSAGE}, which integrates several modules to enhance few-shot image generation. The architecture combines a pretrained StyleGAN2 backbone, a novel StyleFeatureEditor Inverter and Feature Editor, and SAGE's attribute group editing mechanism. The design aims to enable fine-grained, disentangled, and class-consistent image synthesis from limited input data. A modular overview is as follows:
+
+\begin{enumerate}
+    \item \textbf{StyleGAN2} : Similar to the SAGE framework, the synthesis module of a pretrained StyleGAN2 will be used to generate images from the inverted latent space codes output of the GAN inverter (StyleFeatureEditor). Additionally, with the integration of the Feature Editor of SFE, we will be utilizing the feature tensor together with the latent codes to synthesize the resulting image.
+    
+    \item \textbf{StyleFeatureEditor Encoder (SFE)} : SFE by \citet{bobkov2024devildetailsstylefeatureeditordetailrich} , is a novel method that enables editing in both $w$-latents and $F$-latents. This technique not only allows for the reconstruction of finer image details but also ensures their preservation during editing". In the FeatureSAGE framework it is to replace the GAN Inversion module $I(\cdot)$ of the Original SAGE framework. According to the observations of \citet{ding2023stableattributegroupediting}, when reconstructing from the experimented inversion methods (pSp , ReStyle, HyperStyle) , there is an observed loss of local details and thus the accuracy of the reconstructed images is lower by over 5\% compared to the stadard data. And as noted by \citet{ding2023stableattributegroupediting} "If we obtain a better inversion method with better reconstruction ability and editability, SAGE will be endowed with a larger potential to further improve downstream classifications with generative augmentation." Thus, with this in mind, we propose to use SFE as the GAN Inverter $I(\cdot)$ model for this study together with its Feature Editor $H(\cdot)$ for improved editability and reconstruction.
+\end{enumerate}
+
+% ======================================================================================================
+
+\subsection{Framework}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/feature_sage_framework.png}
+    \caption{\textit{FeatureSAGE framework}}
+    \label{fig:feature_sage_framework}
+\end{figure}
+
+\textit{Figure~\ref{fig:feature_sage_framework} shows the overview of the FeatureSAGE framework.}
+The training set for seen categories is denoted as $D_{train}$ = $\{x_i^{c_s}\}^S$, which consists of S seen categories. While the testing set for unseen categories is denoted as $D_{test}$ = $\{x_i^{c_u}\}^U$ consists of U unseen categories.
+
+To enable image editing, the latent codes of the images should first be obtained. In this study, we will use the Inverter $I(\cdot)$ of StyleFeatureEditor Encoder instead of the base SAGE pSp encoder. This encodes the image $x_i$ to $W^+$ space of StyleGAN2 and to a Feature Code $F_k$ which is used to improve reconstruction.
+
+\[
+(w_i,F_{ki}) = SFE(x_i)
+\]
+
+where $w_i \in \mathbb{R}^{18 \times 512}$ is the corresponding latent vector of $x_i$ in the $W^+$ space \citep{AGE} and $F_{ki} \in \mathbb{R}^{512 \times 64 \times 64}$ is the feature map extracted from the original input image $x_i$ \citep{liu2023delvingstyleganinversionimage}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/modified_attribute_block.png}
+    \caption{\textit{Modified Attribute Factorization Block, Derived from \citep{ding2023stableattributegroupediting}}}
+    \label{fig:attribute_factorization_block}
+\end{figure}
+
+In our modified Attribute Factorization block (Fig.~\ref{fig:attribute_factorization_block}), we retain the same two‐step decomposition as in SAGE—i.e.\ we compute the residual
+\[
+\Delta w_i^{ir} \;=\; w_i^{C_s} - e^{C_s},
+\]
+and factorize it via the learned dictionary $A$ and MLP‐predicted coefficients $n_i$ so that
+\[
+\Delta w_i^{ir} \;=\; A\,n_i.
+\]
+
+The key enhancement in FeatureSAGE is that, instead of editing only the latent code, we will also edit the corresponding intermediate feature map $F_{k\,i}\in\mathbb R^{C\times H\times W}$ extracted by the StyleFeatureEditor encoder. Concretely, we pass the pair $\bigl(F_{k\,i},\,\Delta w_i^{ir}\bigr)$ into our Feature Editor module
+\[
+F'_{k\,i} \;=\; H\bigl(F_{k\,i},\,\Delta w_i^{ir}\bigr)\,,
+\]
+which learns to translate the low–resolution feature map according to the desired attribute shift while preserving fine‐grained details. The edited feature $F'_{k\,i}$ is then used—together with the edited latent $\hat W_i^{C_s}=e^{C_s}+\Delta w_i^{ir}$—to synthesize the final image. By operating jointly on $w$ and $F$, this block ensures that semantic edits (e.g.\ adding a smile or changing hair color) are reflected coherently at both the global (latent) and local (feature) levels.
+
+\textbf{Category Relevant Attributes} are attributes in the latent space that can cause shifts or changes to the category or class of an image if shifted or moved in a direction. This is also called the class embedding in the $W^+$ space. According to \citet{ding2023stableattributegroupediting}, all samples from the same category can be regarded as moving the same class embedding along different category-irrelevant attribute directions in $W^+$:
+
+\[
+W_i^{C_S} = e^{C_S} + \Delta{W_i^{ir}},
+\]
+where $W_i^{C_S}$ is a sample of $C_S$ in the latent space, $e^{C_S}$ is the class embedding of $C_S$ and $\Delta{W_i^{ir}}$ is the direction for the category-irrelevant editing.
+
+\textbf{Class Embedding} is a core latent representation that captures the relevant (category-defining) attributes of a class. In StyleGAN latent space, it is a vector that represents the identity or semantic center of a class (e.g. dog , cat , sunflower). According to \citet{ding2023stableattributegroupediting, AGE}, "class embedding should encode the common attributes among all samples from one specific category." To get our representation for the class embedding $e^{C_S}$, we use the mean latent vector $\overline{W}^{C_S} \in W^+ $ of all samples in a category $C_S$:
+\[
+e^{C_S} = \frac{1}{N_S} \sum_{i=1}^{N_S} W_i^{C_S},
+\]
+where the number of samples from the category $C_S$ is denoted by $N_S$. We define $B =  [e^{C1}, e^{C2}, e^{C3}....e^{C_S}]$ as the dictionary of category-relevant attributes of S seen categories.
+
+\textbf{Category-irrelevant Attributes} are features that influence how an object appears but are not essential to its identity or class membership. Example is that a cat is still a cat even if it faces left or right , the color changes , the background changes , texture, expression, etc. They are attributes that can change the appearance but not the class of the object. According to \citet{ding2023stableattributegroupediting}, we define category-irrelevant editing as $edit_{ir}(\cdot)$ which does not change the category given a latent code $w^{C_S}$ of seen category $C_S$:
+\[
+edit_{ir}(G(W_i^{C_S})) = G(W_i^{C_S} + \alpha \Delta W^{ir} , H(F_{ki, \Delta W^{ir}})) = \hat{X}_i^{C_S},
+\]
+Category-irrelevant directions are consistent across both known and unknown categories. The same category-irrelevant directions are observed across all known and unknown categories. Given a latent code $W_i^{C_S}$ and its class embedding $e^{C_S}$, category-irrelevant direction sample $\Delta w_i^{ir}$ can be obtained by:
+\[
+\Delta W_i^{ir} = W_i^{C_S} - e^{C_S}.
+\]
+
+According to \citet{ding2023stableattributegroupediting} , a global dictionary $A \in \mathbb{R}^{18 \times 512 \times l}$ and a sparse representation $n_i \in \mathbb{R}^{18 \times l}$ are learned according to $\Delta W_i^{ir}$ using a Sparse Dictionary Learning(SDL) to learn the globally shared category-irrelevant directions. The SDL is as follows:
+\[
+\min_n \| n_i \|_0 , \ \ s.t. \Delta W_i^{ir} = An_i
+\]
+where $A$ contains all the directions of the category-irrelevant attributes, and $\|\cdot\|_0$ is the $L_0$ constraint that encourages each element in $A$ to be semantically meaningful.
+
+In practice, according to \citet{ding2023stableattributegroupediting}, it is optimized via an Encoder-Decoder architecture. From $\Delta W_i^{ir}$, we can obtain $n_i$ with a Multi-Layer Perceptron(MLP).
+\[
+n_i = MLP(\Delta W_i^{ir})
+\]
+
+% Since the L₀ norm is hard to work with because it isn’t differentiable, and previous research shows that the L₁ norm is the best smooth approximation of it \cite{K-SVDAnalgorithmfordesigningovercompletedictionariesforsparserepresentation}, L₁ norm will be used instead. To help guide this approximation, we will apply a Sigmoid function that encourages sparsity.
+
+% \[
+% L_{sparse} = \| \sigma (\theta_0 n_i - \theta_1) \|_1,
+% \]
+
+% where $\sigma (\cdot)$ denotes he sigmoid function. $\theta_0 \ and \ \theta_1$ are
+% hyper-parameters to control the sparsity. Since the output
+% range from the MLP is very large and unstable, \citet{ding2023stableattributegroupediting} use Sigmoid activation as a trick to compress the outputs to
+% [0, 1]. It better encourages the sparsity of $n_i$.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/class_embedding_mapping_block.png}
+    \caption{\textit{Class Embedding Block , Adapted from \citep{ding2023stableattributegroupediting}}}
+    \label{fig:class_embedding_block}
+\end{figure}
+
+ Compared to the Attribute Group Editing (AGE) by \citet{AGE}, which randomly samples editing directions from A, Stable Attribute Group Editing (SAGE) uses class embedding mapping. The class‐embedding mapping block (Figure~\ref{fig:class_embedding_block}) finds the most important directions in the latent code space for each cohort, identifying which latent directions have the greatest effect on the target attribute group. These “top” directions are then used to weight and steer the subsequent edits. This part of the framework remains unchanged from the SAGE framework.
+
+ Specifically , it takes a set of class embedding of $S$ seen categories, $B$. As stated before , $B$ is the dictionary of category-relevant attributes but since they are based on average of latent codes , it will inevitably contain a small amount of interference from category-irrelevant attributes. 
+
+ To identify the most important, meaningful directions in B and remove the unwanted noise, we apply singular value decomposition (SVD) \citep{zhang2015singularvaluedecompositionapplications}.
+ We define the filtered $B$ class embeddings as:
+
+\[
+B = U_B \sum V_B^*
+\]
+
+Where $B$ is the matrix of category-relevant class embeddings, $U_B$ is the matrix of left singular vectors of $B$ (an $m \times m$ orthogonal matrix whose columns are the left singular vectors of $B$) , $\sum$ is a diagonal $m \times n$ matrix containing the singular values of $B$ in descending order (denotes the importance/energy of each direction) and $V_B^*$ is the Conjugate transpose (Hermitian transpose) of the right singular vectors matrix.
+
+According to \citet{ding2023stableattributegroupediting}, the top-$t_B$ directions in $U_B$ are selected as the final category-relevant attribute dictionary $B_f \in \mathbb{R}^{18 \times 512 \times t_B}$.
+
+The class embedding of $c_u$ can now be estimated by the average projection from $W_i^{C_u}$ to $B_f$ using the formula:
+
+\[
+\hat{e}^{C_u} = \frac{1}{N_u} \sum_{i=1}^{N_u} B_fB_f^TW_i^{C_u},
+\]
+given $N_u$ latent codes of $\{ w_i^{C_u}\}_{i=1}^{N_u}$ unseen categories $C_u$. $\hat{e}^{C_u}$ encodes the category-relevant attributes and removes the most category-irrelevant attributes.
+
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/adaptive_editing.png}
+    \caption{\textit{Modified Adaptive Editing Block, Adapted from \citep{ding2023stableattributegroupediting}}}
+    \label{fig:adaptive_editing_block}
+\end{figure}
+
+Figure~\ref{fig:adaptive_editing_block} shows the modified adaptive editing block of FeatureSAGE.
+Category-irrelevant qualities typically have similar distributions in closely related categories but differ dramatically in more distant ones.  Editing photos in a category-aware manner helps to preserve category-specific properties. Therefore we use adaptive editing to achieve this. Given a class $e^{C_u}$ of unseen category $C_u$, the top-$t_C$ seen categories $C_u = [C_{S_1},C_{S_2}....C_{S_{t_C}}]$ are first selected according to
+the distances between their class embeddings \citep{ding2023stableattributegroupediting}.
+
+To find the attribute-irrelevant editing directions that best fit the unseen category $C_u$, we first back project $\Delta W^{ir}$ into the representation $\hat{n}$:
+
+\[
+\hat{n} = A^{-1} \Delta W_i^{ir}
+\]
+where $A^{-1}$ is the pseudo-inverse matrix of A. Afterward, we count the mean of the absolute value of $|n|$ across the the similar seen categories $C_u$ \citep{ding2023stableattributegroupediting}:
+\[
+\overline{|n|}^{C_u} = \frac{1}{t_C} \sum_{t=1}^{t_C} \frac{1}{N_{S_t}} \sum_{i=1}^{N_{S_t}}|\hat{n}_i^{C_{S_t}},
+\]
+where $\overline{|n|}^{C_u}$ captures how frequently or strongly certain directions appear across the set $C_u$, effectively measuring their commonality. For each layer in the $W^+$ space, we identify the top-$t_A$ directions from the set $A$ by selecting those with the highest values in $\overline{|n|}^{C_u}$ , meaning they are the most consistently present or prominent across $C_u$. The adaptive category-irrelevant dictionary for $C_u$ is $A_{C_u} \in \mathbb{R}^{18 \times 512 \times t_A}$.
+
+Assuming that the sparse representation $n$ of different categories obeys a Gaussian distribution, we estimate the distribution $\mathcal{N}(\mu_{C_u}, \sum_{C_u})$ by counting the $\hat{n}_i$ of all samples in $C_u$ to automatically generate diverse images. Sampling an arbitrary $\tilde{n}_j$ from   $\mathcal{N}(\mu_{C_u}, \sum_{C_u})$ and applying editing to the estimated class embedding, we can generate image $X_j^{C_u}$ by:
+
+\[
+X_j^{C_u} = G(\hat{e}^{C_u} + \alpha A_{C_u} \tilde{n}_j , H(F_{ki}, \alpha A_{C_u} \tilde{n}_j))
+\]
+
+where the intensity of manipulation is denoted by $\alpha$ to control diversity in the generated image.
+
+% ======================================================================================================
+\subsection{Training Strategy}
+In the training stage, we first need to train a StlyeGAN2 with images from the seen categories . Similarly, the StyleFeatureEditor Inverter and Feature Editor are also trained. To train the FeatureSAGE framework to effectively generate images in a few-shot environment and ensure generalizability, we will adopt a systematic training strategy involving loss optimization, regularization, and evaluation monitoring. Below are the key components of our training pipeline.
+
+\subsubsection{Loss Functions}
+The following are the loss functions applied to the FeatureSAGE framework:
+\begin{itemize}
+    \item Sparsity Loss ($L_{sparse}$) : The sparsity loss encourages the learned attribute code to be sparse, so that only a few dictionary directions are active for any image. Concretely, if $n_i$ is the code vector output by an MLP (encoding the differences between an image and the class mean), we  approximate an $L_0$ penalty by using a sigmoid and $L_1$ norm defined as :
+    \[
+    L_{sparse} = \| \sigma (\theta_0 n_i - \theta_1) \|_1,
+    \]
+    where $\sigma (\cdot)$ denotes he sigmoid function. $\theta_0 \ and \ \theta_1$ are
+    hyper-parameters to control the sparsity. Since the output
+    range from the MLP is very large and unstable, \citet{ding2023stableattributegroupediting} use Sigmoid activation as a trick to compress the outputs to
+    [0, 1]. This pushes each entry of $n_i$ toward 0 or 1, so that only a few entries are nonzero. In effect, each image edit uses a sparse combination of attribute directions.  By penalizing nonzero entries in the code, $L_{\text{sparse}}$ forces each edited image to be produced from only a few directions. This yields disentangled, semantically meaningful edits (each direction corresponds to one attribute)
+    \item Reconstruction Loss ($L_{rec}$) : The $L_2$ reconstruction loss ensures that the edited image stays close to the original input. If $e^{C_s}$ is the class-center latent for category $c$ and $A n_i$ is the attribute offset, then the generated image is $G(e^{C_s} + A n_i)$ (where $G$ is the StyleGAN generator). $L_{\text{rec}}$ penalizes the difference between this edited image and the original real image $x_i^c$.
+    \[
+    L_{rec} = \|G(e^{C_s} + An_i) - x_i^{C_s}\|_2
+    \]
+    This formula anchors the editing process: it pulls the output back toward the input image, so that only the intended (irrelevant) attributes change. In other words, it prevents “over-editing.” If an edit drastically alters the image, $L_{\text{rec}}$ grows large, forcing the network to adjust $A n_i$ so the change remains subtle.  Overall, it keeps the edited image faithful to the input. This stabilizes training by ensuring that edits do not introduce artifacts or destroy content; it effectively acts like a latent-space autoencoder reconstruction loss.
+    
+    \item Orthogonality Loss ($L_{orth}$) :The orthogonality loss enforces that the learned “irrelevant” directions do not affect category-relevant features. Let $A$ be the matrix of category-irrelevant directions and let $B$ be a basis (or embedding matrix) for category-relevant attributes. This guarantees that editing along “irrelevant” directions does not leak into the “relevant” subspace. This preserves class identity and semantic consistency: only style or pose may change, not the object’s class. It is defined as :
+    \[
+    L_{orth} = \| B^TA \|_F^2,
+    \]
+    where $\|\cdot\|_F^2$ denotes the Frobenius Norm. 
+\end{itemize}
+
+The overall loss function is defined as :
+
+\[
+L = L_{rec} + \lambda_1{L_{orth}} + \lambda_2{L_{sparse}},  
+\]
+where $\lambda_1$ and $\lambda_2$ are weights for $L_{orth}$ and $L_{sparse}$ \citep{ding2023stableattributegroupediting}.
+
+\subsubsection{Optimization Algorithm}
+Training will be done using the Adam Optimizer with the same configuration as defined by \citet{ding2023stableattributegroupediting} , a fixed learning rate of $1 \times 10^{-4}$ with hyperparameters of $\lambda_1 = 5 \times 10^{-4}$, $\lambda_2 = 5 \times 10^{-3} , \theta_0 = 5 \times 10^{-1} \  \text{and} \ \theta_1 = -1$.

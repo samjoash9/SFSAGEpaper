@@ -1,0 +1,86 @@
+\section{Background of the Study}
+
+Generative Adversarial Networks (GANs) have
+become a foundational framework for high-fidelity image generation. 
+In a GAN, a generator and a discriminator are trained in a minimax game: 
+the generator learns to produce synthetic images that fool the discriminator 
+into classifying them as real, while the discriminator learns to distinguish generated images from real ones \citep{GAN}.
+This adversarial process has enabled GANs to achieve remarkable realism in generated images (e.g. faces, animals) across many domains.
+In particular, the StyleGAN family of architectures \citep{karras2020analyzingimprovingimagequality} 
+introduced a novel style-based generator that has set new standards for image quality.
+StyleGAN maps an input latent code $z$ through a learned mapping network into an intermediate latent w in a space called $W$. 
+Each layer of the generator is then modulated by w via adaptive instance normalization (AdaIN), 
+and stochastic noise inputs add fine detail. This style-based design yields an intermediate
+latent space W that is significantly more disentangled than the original input space Z.
+As a result, controlled manipulation of individual semantic attributes (e.g. hair color, pose) 
+is possible by adjusting w or the per-layer style codes. Subsequent improvements (StyleGAN2, StyleGAN3) 
+refined the architecture and training, further boosting image fidelity and easing inversion (mapping real images back to latent codes).
+
+
+StyleGAN's latent representations come in several forms. The basic mapping from $Z$ to $W$ produces a single 512-D style code $w$ per image.
+An extended latent space $W^+$ is also used, where a separate w vector is specified for each of the 18 synthesis layers.
+An even higher-dimensional feature space $F$ can be formed by concatenating intermediate style and feature tensors 
+(sometimes denoted $F_k$), capturing spatial details in the generator. 
+Recent work has highlighted a trade-off across these spaces: moving from $W$ to $W^+$ to $F$ increases reconstruction 
+fidelity but reduces editability \citep{liu2023delvingstyleganinversionimage} .
+In other words, encoding an image in the low-dimensional $W$ space yields highly edit-friendly representations but may lose fine 
+detail, whereas the high-dimensional $W^+$ or $F$ spaces can reconstruct details at the cost of some entanglement and overfitting.
+StyleGAN2 in particular has shown that inversion in $W^+$ benefits from regularization (e.g. path-length regularization) 
+to improve reconstructability and make projected images easier to attribute to latent codes \citep{karras2020analyzingimprovingimagequality}.
+
+To edit real images with a GAN, one must first perform GAN inversion: find a latent code that generates (nearly) the given image. 
+This is a well-studied but challenging problem \citep{bobkov2024devildetailsstylefeatureeditordetailrich,richardson2021encodingstylestyleganencoder}.
+Early inversion methods used optimization (iteratively updating $z$ to minimize reconstruction error), which can achieve high fidelity but is slow and may produce out-of-distribution latents. 
+Encoder-based methods train a neural network to predict the latent directly, enabling real-time inversion at the expense of some quality. 
+For StyleGAN, \citet{richardson2021encodingstylestyleganencoder}, proposed Pixel2Style2Pixel (pSp): 
+a feed-forward encoder that maps any input image to a sequence of style vectors in $W^+$ (one $w$ per layer).
+The pSp encoder can invert faces (or other images) into $W^+$ accurately without test-time optimization, greatly simplifying downstream editing.
+Generally, as noted by \citet{richardson2021encodingstylestyleganencoder}, “inversion methods either directly optimize the latent vector to minimize the error for the given image”.
+Encoder approaches like pSp offer fast inference, while optimization-based methods remain stronger on pure reconstruction quality. In either 
+case, the goal of GAN inversion is to find an internal representation that contains as much image detail as possible and still allows semantic edits \citep{bobkov2024devildetailsstylefeatureeditordetailrich}.
+
+Once a real image is embedded in StyleGAN’s latent space, attribute editing becomes possible. It has been observed that semantic attributes (e.g. “smile,” “age,” “eyeglasses”) correspond to linear directions or subspaces in the latent space.
+For example, \citet{shen2020interpretinglatentspacegans} showed that well-trained StyleGAN latent codes encode a disentangled representation under linear transformations.
+In practice, one can move the latent $w$ of an image along a learned direction $\Delta w$ to change a particular attribute (e.g. $w$ + $\alpha\Delta w$) \citep{AGE}.
+Many works have exploited this: e.g. Linear SVM or PCA over latent codes can find directions for “smile” vs “no smile,” or for pose changes
+This allows controlled editing via vector arithmetic. Importantly, style-based latents like $W$ and $W^+$ are far less entangled than raw $Z$, so edits tend to be more semantically meaningful \citep{karras2020analyzingimprovingimagequality,shen2020interpretinglatentspacegans}.
+Still, some entanglement remains changing one attribute may inadvertently affect others. Recent methods (e.g. using subspace projection or network-based attribute classifiers) seek to further disentangle attributes. Moreover, higher-dimensional latent spaces (like $W^+$ or $F$) 
+can encode finer identity details, enabling extremely high-quality reconstructions. \citet{bobkov2024devildetailsstylefeatureeditordetailrich} leverage this by introducing a StyleFeatureEditor: an encoder that predicts both a $W^+$ code w and an intermediate feature tensor $F_k$.
+By editing in both $w$ and $F_k$, they reconstruct and preserve finer image details even under heavy edits. 
+In summary, StyleGAN latent spaces provide a powerful substrate for attribute editing, 
+but the choice of $W$ vs $W^+$ vs $F$ presents a trade-off between edit stability and detail, and sophisticated encoders are needed to balance both.
+
+A parallel line of research addresses few-shot image generation and editing. 
+Unlike standard GAN training (which requires large datasets), 
+few-shot generation aims to adapt a model to a new category or attributes given only a handful of examples. 
+Meta-learning approaches have been applied here: for instance, the FIGR model \citet{clouâtre2019figrfewshotimagegeneration} meta-trains a GAN with the Reptile algorithm so it can generate new classes from as few as 4 examples.
+Other works like FUNIT \citep{liu2019fewshotunsupervisedimagetoimagetranslation} tackle few-shot domain translation, using image encoders to condition style 
+generation on a few references. However, generating realistic variation from very limited data remains challenging.
+In particular, attribute group editing has emerged as a promising strategy for few-shot GANs. 
+The idea is to collect many examples of known categories to learn generic attribute directions, 
+then apply those directions to few-shot target categories. 
+AGE learns a dictionary of “category-irrelevant” attribute vectors (e.g. pose, color) 
+from seen classes and “category-relevant” class embeddings (mean latent per class) \citep{AGE}.
+At inference, given one or a few examples of an unseen category, AGE embeds them into $W^+$ (using pSp) and manipulates those latents by combining the learned attribute directions.
+Similarly,\citet{zhang2024tagetrustworthyattributegroup} propose a Transformer-style approach with modules for learning discrete attribute codebooks and prompt-driven editing to handle diverse unseen classes.
+These methods show that by factorizing and reusing attribute vectors, a pre-trained GAN can generate plausible images of new categories without full retraining \citep{AGE}.
+Nonetheless, they often assume large amounts of labeled data for the seen categories and focus on one attribute at a time or on broad class attributes (like “breed of dog” vs “background color of bird”), rather than coordinated multi-attribute control.
+
+Despite these advances, important gaps remain. Most GAN inversion and editing methods have focused on single-attribute manipulations or on scenarios with abundant data.
+Achieving stable, coordinated multi-attribute edits is still difficult, especially under few-shot conditions.
+For example, existing StyleGAN inversion methods either excel at reconstruction but produce entangled edits, or vice versa \citep{liu2023delvingstyleganinversionimage,richardson2021encodingstylestyleganencoder}.
+Moreover, according to \citet{ding2023stableattributegroupediting} , "class-inconsistency" is a common-problem GAN-generated
+images for downstream classification. Class inconsistency happens when the generative model corrupts some minor but critical information versus real pictures of a certain category \citep{ding2023stableattributegroupediting}.
+Few-shot models like AGE and TAGE demonstrate that group editing is possible, but they often do not explicitly ensure fidelity or 
+identity preservation when combining many edits. Moreover, generation quality in few-shot setups can degrade due to mode collapse or 
+identity drift. In face editing, for instance, we desire that an edited face remains clearly the same person (high identity similarity)
+while attributes like expression or hair style change.
+Conventional metrics like Fréchet Inception Distance (FID) and LPIPS capture distribution quality and perceptual similarity \citep{karras2020analyzingimprovingimagequality,zhang2018unreasonableeffectivenessdeepfeatures}.
+Naive Augmentation Score (NAS), which evaluates how synthetic images improve a downstream classifier, has also been used as an application-oriented metric \citep{ravuri2019classificationaccuracyscoreconditional}. 
+
+We propose that for an improved and stable group-wise attribute editing under few-shot conditions requires an integrated approach. 
+FeatureSAGE is designed to address this by combining replacing the standard pSp encoder of SAGE with StyleGANEditor Inverter and Feature Editor.
+The integrated encoder (inspired by StyleFeatureEditor) jointly predicts a $W^+$ latent $w$ and a feature tensor $F$, aiming for high-fidelity inversion as well as explicit control of feature-level detail.
+This architecture is intended to preserve identity and image realism (as measured by identity similarity and low FID/LPIPS) while achieving disentangled, controlled modifications of target attributes.
+In summary, the background works on GANs, StyleGAN latent editing, and few-shot group editing together motivate FeatureSAGE’s goal: to provide stable, coordinated multi-attribute control in the latent space of a pre-trained GAN, 
+even with only limited example images, without sacrificing image quality or attribute disentanglement.

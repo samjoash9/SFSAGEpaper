@@ -1,0 +1,90 @@
+\section{Research Design}
+
+This paper, "FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditing Encoder for Enhanced Few-Shot Image Generation," uses a quantitative approach with an experimental research design to test improvements to the current SAGE framework. In particular, the paper alters the GAN inversion module of SAGE by substituting the Pixel2Style2Pixel (pSp) encoder with the StyleFeatureEditor (SFE) and adding its integrated Feature Editor module for enhanced latent inversion and editing functionality. The research will employ a quantitative approach using existing automated measures for objective testing. Reconstruction quality will be measured via Fréchet Inception Distance (FID) and Learned Perceptual Image Patch Similarity (LPIPS), and attribute editing performance will be measured through Naive Augmentation Score (NAS), Attribute Consistency Score, and Mutual Information Gap (MIG), which measures latent disentanglement. Multiple tests will be carried out in various visual domains via the use of held-out test sets to provide statistical robustness. 
+
+
+% =============================================================================
+\subsection{Experimental Setup}
+
+The experimental setup is designed to evaluate the effectiveness of the proposed FeatureSAGE framework in comparison to the existing SAGE method. The evaluation follows a quantitative, experimental research design that involves controlled changes to a single independent variable and the measurement of multiple dependent variables using standardized metrics.
+
+\begin{itemize}
+    \item \textbf{Independent Variable}
+    \begin{itemize}
+        \item GAN Inversion Method: The primary manipulation involves substituting the original Pixel2Style2Pixel (pSp) encoder used in SAGE with the proposed StyleFeatureEditor (SFE) encoder, which includes an integrated feature editing module for enhanced semantic attribute control.
+    \end{itemize}
+    \item \textbf{Dependent Variable}
+    To objectively evaluate the effectiveness of the GAN inversion and editing pipeline, the following metrics are employed:
+    \begin{itemize}
+        \item Reconstruction Quality
+        \begin{enumerate}
+            \item Fréchet Inception Distance (FID): Measures distribution-level similarity between generated and real images.
+            \item Learned Perceptual Image Patch Similarity (LPIPS): Measures perceptual similarity between original and reconstructed images based on deep features.
+        \end{enumerate}
+        \item Attribute Editing Reliability \& Disentanglement
+        \begin{enumerate}
+            \item Naive Augmentation Score (NAS): Evaluates the reliability of attribute manipulation after augmentation.
+            % \item Attribute Consistency Score: Assesses whether the edited attributes remain consistent across image variations.
+            \item Mutual Information Gap (MIG): Measures latent space disentanglement between attributes.
+        \end{enumerate}
+        \item Downstream Utility
+        \begin{enumerate}
+            \item Few-Shot Classification Accuracy: Assesses how well the generated images retain semantically meaningful content usable for classification.
+        \end{enumerate}
+    \end{itemize}
+    \item \textbf{Controlled Variables}
+    \begin{enumerate}
+        \item Generator Architecture : A fixed, pretrained StyleGAN2 generator will be used in both configurations for consistent image synthesis capabilities.
+        \item Training Dataset : Both configurations will use the same datasets (Animal Faces HQ, VGGFace2, NABirds , and 102 Flower) with the same preprocessing and data-splitting.
+        \item Evaluation Protocol : Will use the sample unseen categories from the train-test spliting data for few-shot testing in both configurations. Evaluation is conducted using identical random seeds, few-shot sample counts (e.g., 1-shot, 5-shot), and query sets.
+        \item Loss Functions : Reconstruction and editing losses (e.g., pixel loss, perceptual loss, identity loss) will be applied consistently across both systems.
+        \item Optimization Settings : Both models will use the same Optimizer type, Learning rate , Batch size and Training epochs 
+        \item Evaluation Metrics : All quantitative metrics (FID, LPIPS, NAS, Attribute Consistency, MIG, few-shot accuracy) will be computed using the same implementation and parameters for consistency.
+        \item Hardware \& Software Environment : All experiments will be conducted using the same hardware and PyTorch environment to avoid performance inconsistencies.
+    \end{enumerate}
+    \item \textbf{Experimental Conditions}
+    
+    Two experimental configurations are used:
+    \begin{itemize}
+        \item SAGE (Baseline): Employs the original pSp encoder with StyleGAN2.
+        \item FeatureSAGE (Proposed): Replaces the pSp encoder with the StyleFeatureEditor (SFE) encoder.
+    \end{itemize}
+
+    \item \textbf{Hardware specifications}:
+    The machine learning experiments in this thesis will utilize the University's supercomputing resources, which provide high-performance CPUs, GPUs, and memory suitable for deep learning and large-scale data processing.
+
+    % Listed below are the hardware specifications of the device that will be used for training:
+    % \begin{itemize}
+    %     \item GPU : 
+    %     \item CPU :
+    %     \item RAM : 
+    % \end{itemize}
+\end{itemize}
+
+% =========================================================================================
+\subsection{Workflow Diagram}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/overview_workflow.png}
+    \caption{\textit{Overview of Workflow Diagram of FeatureSAGE}}
+    \label{fig:overview_workflow}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[height=0.8\linewidth]{figures/workflow_diagram.png}
+    \caption{\textit{Detailed Workflow Diagram of FeatureSAGE}}
+    \label{fig:workflow_diagram}
+\end{figure}
+
+Figure~\ref{fig:overview_workflow} and Figure~\ref{fig:workflow_diagram} show the workflow diagram of FeatureSAGE. For FeatureSAGE consists of the following steps:
+
+\begin{enumerate}
+    \item Input and image to the model
+    \item The Inverter of the StyleFeatureEditor (SFE) $I (\cdot)$ inverts the image into latent space and feature tensor representation $(W,F)$
+    \item When the mode of the model is for training then proceed with the process, else freeze the loss function calculations
+    \item Inside the modified SAGE block, calculate the direction of the irrelevant attributes(e.g Pose, lighting, background, color tone, style, texture, camera angle, hair style) and move latent and feature space to that direction. This changes the output image without changing the class of the image, a dog stays a dog even after edits. Output the edited latent and feature space $(\hat{W}, \hat{F_k})$. 
+    \item $(\hat{W}, \hat{F_k})$ are then used as input to the StyleGAN2 synthesis network to generate novel images.
+    \item If mode is for training, then it will calculate and apply loss, else end for inference.
+\end{enumerate}

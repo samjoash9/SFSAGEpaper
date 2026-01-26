@@ -1,0 +1,64 @@
+\section{Few-Shot Image Generation in GANs}
+
+Few-shot image generation (FSIG) extends few-shot learning to generative modeling: 
+the goal is to synthesize novel images for a new category given only a handful of training examples. 
+This contrasts with few-shot classification, where techniques like transfer learning have proven effective \citep{chowdhury2021fewshotimageclassificationjust}.
+In FSIG, however, naively fine-tuning a powerful generative model on few examples leads to overfitting and mode collapse.
+According to \citet{zhao2023closerlookfewshotimage}, modern GANs “tend to replicate the training samples” when adapted to only 10 target images.
+As a result, FSIG methods typically transfer rich prior knowledge from a large source domain and then adapt carefully to the new domain. 
+This is often framed as a style-transfer or domain-adaptation problem: 
+a generator pretrained on a large dataset ,like FFHQ faces, is fine-tuned on a small target set without access to the source data \citep{cao2024fewshotimagegenerationconditional,zhao2023closerlookfewshotimage}.
+The key challenge is preserving the source model’s diversity and high-fidelity output while learning the new style from very limited data.
+
+Generative Adversarial Networks (GANs) have been the dominant framework for FSIG. 
+The standard paradigm is to take a GAN (often StyleGAN or BigGAN) pretrained on a 
+large source dataset and adapt it to the new class. Early approaches simply fine-tuned all weights on the few-shot 
+target (TGAN) \citep{zhao2023closerlookfewshotimage}, but this quickly overfits (the generator memorizes the few examples). Numerous strategies have been proposed to prevent collapse and preserve diversity during adaptation.
+or instance, FreezeD freezes some high-resolution layers of the discriminator, ADA (adaptive data augmentation) introduces random augmentations during training, and EWC applies an Elastic Weight Consolidation penalty on important weights \citep{mo2020freezediscriminatorsimplebaseline}.
+Another approach Cross-domain Correspondence (CDC) preserves the relative distances between different source-domain samples in the target embedding space \citep{ojha2021fewshotimagegenerationcrossdomain}.
+In practice, Zhao et al. (2022) found that most of these GAN-adaptation methods converge to similar image quality after many iterations – the real difference is how slowly they lose diversity during training \citep{zhao2023closerlookfewshotimage}.
+In other words, diversity degradation (mode collapse) is the main bottleneck: methods that slow down this collapse (e.g. by freezing parameters or using strong regularization) tend to perform better overall.
+
+Building on this insight, Zhao et al. propose a contrastive learning scheme to retain diversity. 
+Their Dual Contrastive Learning (DCL) maximizes mutual information between the source and target generators: 
+the idea is that the same latent input z should map to semantically corresponding images before and after adaptation.
+Concretely, they use a contrastive loss on multi-level features of the generator and discriminator to enforce that 
+source and target outputs remain similar in high-level content. This preserves the source generator's 
+rich variation in the adapted model, yielding state-of-the-art results on several datasets \citep{zhao2023closerlookfewshotimage}.
+Similarly, Hong et al. (2020) introduce DeltaGAN, which decomposes generation into a reconstruction sub-network 
+(that computes an intra-class “delta” transformation between two samples of the same category) and a generation sub-network 
+(that applies a sample-specific delta to a base image) \citep{hong2022deltagandiversefewshotimage}.
+DeltaGAN’s adversarial “delta matching” encourages high diversity by learning many distinct transformations from the limited examples.
+
+GAN-based FSIG methods share a transfer-learning theme: 
+leverage a pretrained model's knowledge and carefully regularize the adaptation. 
+Typical training strategies include fine-tuning, parameter freezing, data augmentation, and contrastive or distance-preserving losses. 
+Their success is usually measured by metrics like Fréchet Inception Distance (FID) or LPIPS (perceptual diversity).
+
+Across these models, several common training strategies emerge. Transfer Learning is most common: one typically starts from a pretrained generative model (GAN, VAE, or diffusion) 
+and updates it using the few target images. Pure fine-tuning (e.g. updating all weights) generally overfits, so many methods constrain the update. 
+Examples include freezing layers (FreezeD) or parameters (like BatchNorm scaling), domain-regularization, and data augmentation (ADA) to simulate more data \citep{zhao2023closerlookfewshotimage}.
+Meta-Learning is another strategy: the model is trained on many simulated few-shot tasks so that it can adapt quickly. 
+As noted, meta-learned GANs/VAEs (e.g. using MAML/Reptile) have been attempted, 
+but often still need per-task fine-tuning and can struggle to generate sharp images \citep{hong2022deltagandiversefewshotimage}.
+Contrastive/Distance Losses have become popular: enforcing that the adapted generator preserves relationships (distances or class labels) from the source domain helps maintain diversity.
+Finally, data augmentation and synthesis can create pseudo-examples: e.g. methods like AdaGAN or mixing source images into the target fine-tuning process.
+
+Evaluation strategies are also noteworthy. 
+FSIG is evaluated on cross-domain tasks such as generating artistic or cartoon versions of FFHQ faces, 
+or adapting LSUN Church to “Haunted House” style, or similar sketch-to-photo tasks. Metrics include FID 
+for quality (when enough data exists) and LPIPS or recall for diversity. \citet{zhao2023closerlookfewshotimage} emphasize that with only 10 real 
+images, FID is unstable, so they instead use intra-LPIPS (average pairwise LPIPS of generated set) to quantify diversity .
+
+Despite these advances, few-shot image generation remains challenging. Surveys note that learning from very few or zero examples is still “a serious challenge” \citep{song2022comprehensivesurveyfewshotlearning}.
+Key open issues include: catastrophic forgetting (the model loses the source distribution entirely), 
+mode collapse (outputs lack diversity), and evaluation (how to measure quality/diversity with tiny real sample sets). 
+Overfitting to the few examples is ubiquitous: even with strong regularization, generators tend to memorize salient features. 
+Furthermore, different generative families have trade-offs – GANs are fast and high-quality but brittle, VAEs are stable but blurrier, 
+and diffusion models are powerful but computationally heavy. A brief comparison: GANs excel at sharp images but require careful balancing of 
+losses; VAEs naturally encourage covering the whole distribution (which aids diversity) at the cost of some sharpness; 
+diffusion models sample iteratively and often capture fine detail, but naively adapting them can be even more parameter-sensitive than GANs \citep{cao2024fewshotimagegenerationconditional}.
+
+
+
+
