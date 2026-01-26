@@ -1,4 +1,6 @@
 \babel@toc {english}{}\relax 
+\contentsline {chapter}{Approval Sheet}{i}{chapter*.1}%
+\contentsline {chapter}{Dedication}{ii}{chapter*.2}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background of the Study}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Statement of the Problem}{5}{section.1.2}%
@@ -30,8 +32,8 @@
 \contentsline {section}{\numberline {3.3}Model Architecture}{46}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Framework}{47}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Training Strategy}{53}{subsection.3.3.2}%
-\contentsline {subsubsection}{Loss Functions}{54}{subsubsection*.15}%
-\contentsline {subsubsection}{Optimization Algorithm}{55}{subsubsection*.16}%
+\contentsline {subsubsection}{Loss Functions}{54}{subsubsection*.17}%
+\contentsline {subsubsection}{Optimization Algorithm}{55}{subsubsection*.18}%
 \contentsline {section}{\numberline {3.4}Evaluation Protocol}{56}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}Evaluation Metrics}{56}{subsection.3.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Baselines for Comparison}{60}{subsection.3.4.2}%

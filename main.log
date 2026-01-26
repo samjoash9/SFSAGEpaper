@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (MiKTeX 25.12) (format=lualatex 2026.1.26)  26 JAN 2026 14:06
+This is LuaHBTeX, Version 1.24.0 (MiKTeX 25.12) (format=lualatex 2026.1.26)  26 JAN 2026 17:12
  restricted system commands enabled.
 **main.tex
 (./main.tex
@@ -612,7 +612,10 @@ Package caption Info: Standard document class detected.
 \c@continuedfloat=\count326
 Package caption Info: hyperref package is loaded.
 )
-(./templates.tex) (./main.aux (./chapters/chapter-1/introduction.aux)
+(./templates.tex) (./main.aux
+(./chapters/preliminary-chapters/approval_sheet.aux)
+(./chapters/preliminary-chapters/dedication.aux)
+(./chapters/chapter-1/introduction.aux)
 (./chapters/chapter-2/review_of_related_literature.aux)
 (./chapters/chapter-3/methodology.aux))
 \openout1 = main.aux
@@ -767,29 +770,46 @@ Package caption Info: End \AtBeginDocument code.
 [1
 
 {C:/Users/JOASH/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-(./main.toc
-LaTeX Font Info:    Trying to load font information for U+msa on input line 3.
+\openout2 = chapters/preliminary-chapters/approval_sheet.aux
+
+(./chapters/preliminary-chapters/approval_sheet.tex
+LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
+
 
 (C:/Users/JOASH/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 3.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
+
 
 (C:/Users/JOASH/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
+))
 warning  (pdf backend): ignoring duplicate destination with the name 'page.i'
 [1
+
+
+]
+\openout2 = chapters/preliminary-chapters/dedication.aux
+ (./chapters/preliminary-chapters/dedication.tex) [2
+
+
+
+
+] (./main.toc [3
+
+
 
 ])
 \tf@toc=\write4
 
 \openout4 = main.toc
- [2] (./main.lof)
+
+[4] (./main.lof)
 \tf@lof=\write5
 
 \openout5 = main.lof
- [3
+ [5
 
 ]
 \openout2 = chapters/chapter-1/introduction.aux
@@ -809,7 +829,7 @@ Chapter 1.
 (./chapters/chapter-2/review_of_related_literature.tex
 Chapter 2.
 (./chapters/chapter-2/sections/generate_adversarial_networks.tex
-<figures/gan_framework.png, id=370, 959.585pt x 311.1625pt>
+<figures/gan_framework.png, id=388, 959.585pt x 311.1625pt>
 File: figures/gan_framework.png Graphic file (type png)
 <use figures/gan_framework.png>
 Package luatex.def Info: figures/gan_framework.png  used on input line 13.
@@ -824,7 +844,7 @@ ylegan2.tex
 [11] [12] [13] [14]) (./chapters/chapter-2/sections/the_latent_space.tex
 [15] [16] [17]) [18] (./chapters/chapter-2/sections/attribute_editing.tex
 [19] [20] [21]
-<figures/age_framework.png, id=609, 1576.89125pt x 641.39626pt>
+<figures/age_framework.png, id=627, 1576.89125pt x 641.39626pt>
 File: figures/age_framework.png Graphic file (type png)
 <use figures/age_framework.png>
 Package luatex.def Info: figures/age_framework.png  used on input line 69.
@@ -842,12 +862,12 @@ Chapter 3.
 
 
 ] [38]
-<figures/overview_workflow.png, id=793, 1075.01625pt x 161.60374pt>
+<figures/overview_workflow.png, id=811, 1075.01625pt x 161.60374pt>
 File: figures/overview_workflow.png Graphic file (type png)
 <use figures/overview_workflow.png>
 Package luatex.def Info: figures/overview_workflow.png  used on input line 69.
 (luatex.def)             Requested size: 433.62001pt x 65.1853pt.
-<figures/workflow_diagram.png, id=794, 694.595pt x 1347.0325pt>
+<figures/workflow_diagram.png, id=812, 694.595pt x 1347.0325pt>
 File: figures/workflow_diagram.png Graphic file (type png)
 <use figures/workflow_diagram.png>
 Package luatex.def Info: figures/workflow_diagram.png  used on input line 76.
@@ -855,19 +875,19 @@ Package luatex.def Info: figures/workflow_diagram.png  used on input line 76.
  [39])
 (./chapters/chapter-3/sections/data_processing.tex [40<./figures/overview_workfl
 ow.png>]
-<images/afhq_dataset.png, id=818, 1772.12062pt x 253.69781pt>
+<images/afhq_dataset.png, id=836, 1772.12062pt x 253.69781pt>
 File: images/afhq_dataset.png Graphic file (type png)
 <use images/afhq_dataset.png>
 Package luatex.def Info: images/afhq_dataset.png  used on input line 12.
 (luatex.def)             Requested size: 433.62001pt x 62.07715pt.
  [41<./figures/workflow_diagram.png>]
-<images/vgg_faces_dataset.png, id=832, 1772.12062pt x 253.69781pt>
+<images/vgg_faces_dataset.png, id=850, 1772.12062pt x 253.69781pt>
 File: images/vgg_faces_dataset.png Graphic file (type png)
 <use images/vgg_faces_dataset.png>
 Package luatex.def Info: images/vgg_faces_dataset.png  used on input line 22.
 (luatex.def)             Requested size: 433.62001pt x 62.07715pt.
  [42<./images/afhq_dataset.png><./images/vgg_faces_dataset.png>]
-<images/birds_dataset.png, id=847, 1772.12062pt x 253.69781pt>
+<images/birds_dataset.png, id=865, 1772.12062pt x 253.69781pt>
 File: images/birds_dataset.png Graphic file (type png)
 <use images/birds_dataset.png>
 Package luatex.def Info: images/birds_dataset.png  used on input line 32.
@@ -879,20 +899,20 @@ es level an-no-ta-tions, the dataset
  []
 
 [43<./images/birds_dataset.png>]
-<images/flowers_dataset.png, id=862, 1772.12062pt x 253.69781pt>
+<images/flowers_dataset.png, id=880, 1772.12062pt x 253.69781pt>
 File: images/flowers_dataset.png Graphic file (type png)
 <use images/flowers_dataset.png>
 Package luatex.def Info: images/flowers_dataset.png  used on input line 42.
 (luatex.def)             Requested size: 346.89732pt x 49.66249pt.
  [44<./images/flowers_dataset.png>] [45])
 (./chapters/chapter-3/sections/model_architecture.tex [46]
-<figures/feature_sage_framework.png, id=895, 1576.89125pt x 613.29124pt>
+<figures/feature_sage_framework.png, id=914, 1576.89125pt x 613.29124pt>
 File: figures/feature_sage_framework.png Graphic file (type png)
 <use figures/feature_sage_framework.png>
 Package luatex.def Info: figures/feature_sage_framework.png  used on input line
  17.
 (luatex.def)             Requested size: 433.62001pt x 168.64157pt.
-<figures/modified_attribute_block.png, id=901, 888.31876pt x 401.5pt>
+<figures/modified_attribute_block.png, id=920, 888.31876pt x 401.5pt>
 File: figures/modified_attribute_block.png Graphic file (type png)
 <use figures/modified_attribute_block.png>
 Package luatex.def Info: figures/modified_attribute_block.png  used on input li
@@ -906,14 +926,14 @@ t rep-re-sen-ta-tion that cap-tures the rel-e-vant (category-
  []
 
 [49]
-<figures/class_embedding_mapping_block.png, id=937, 824.07875pt x 312.16624pt>
+<figures/class_embedding_mapping_block.png, id=955, 824.07875pt x 312.16624pt>
 File: figures/class_embedding_mapping_block.png Graphic file (type png)
 <use figures/class_embedding_mapping_block.png>
 Package luatex.def Info: figures/class_embedding_mapping_block.png  used on inp
 ut line 101.
 (luatex.def)             Requested size: 433.62001pt x 164.2565pt.
  [50] [51<./figures/class_embedding_mapping_block.png>]
-<figures/adaptive_editing.png, id=961, 1334.9875pt x 373.395pt>
+<figures/adaptive_editing.png, id=979, 1334.9875pt x 373.395pt>
 File: figures/adaptive_editing.png Graphic file (type png)
 <use figures/adaptive_editing.png>
 Package luatex.def Info: figures/adaptive_editing.png  used on input line 132.
@@ -926,6 +946,8 @@ Package luatex.def Info: figures/adaptive_editing.png  used on input line 132.
 
 
 ] [65] [66] [67] [68] [69]) [70] (./main.aux
+(./chapters/preliminary-chapters/approval_sheet.aux)
+(./chapters/preliminary-chapters/dedication.aux)
 (./chapters/chapter-1/introduction.aux)
 (./chapters/chapter-2/review_of_related_literature.aux)
 (./chapters/chapter-3/methodology.aux))
@@ -933,18 +955,22 @@ Package luatex.def Info: figures/adaptive_editing.png  used on input line 132.
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-29>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 610F12C6BD7E8F05C9C49A3CBD3D077D;5852.
+(rerunfilecheck)             Checksum: 9419460F4B12E8C4EB676A3435D4AA83;6065.
 )
 
 Here is how much of LuaTeX's memory you used:
- 17624 strings out of 476081
+ 17713 strings out of 476081
  100000,953878 words of node,token memory allocated
  1155 words of node memory still in use:
    6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 133 attribute, 77 glue_spe
 c, 68 attribute_list, 1 write, 28 pdf_action nodes
-   avail lists: 2:716,3:271,4:25,5:235,6:55,7:6885,8:53,9:444,10:24,11:550
- 39352 multiletter control sequences out of 65536+600000
+   avail lists: 2:703,3:271,4:25,5:228,6:54,7:6885,8:53,9:435,10:24,11:550
+ 39395 multiletter control sequences out of 65536+600000
  50 fonts using 4443543 bytes
  73i,12n,98p,1866b,648s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/users/joash/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmono12-
@@ -961,9 +987,9 @@ s/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/JOASH/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/JOASH/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/JOASH
 /AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (74 pages, 5893654 bytes).
+Output written on main.pdf (76 pages, 5897570 bytes).
 
-PDF statistics: 1271 PDF objects out of 1440 (max. 8388607)
- 230 named destinations out of 1000 (max. 1048576)
- 281 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 1289 PDF objects out of 1440 (max. 8388607)
+ 234 named destinations out of 1000 (max. 1048576)
+ 297 words of extra memory for PDF output out of 10000 (max. 100000000)
 
