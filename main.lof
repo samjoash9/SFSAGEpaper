@@ -1,16 +1,18 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces \textit {Generative Adversarial Networks (GANs) Architecture}}}{9}{figure.caption.6}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces \textit {Attribute Group Editing Framework}}}{22}{figure.caption.7}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces \textit {Generative Adversarial Networks (GANs) Architecture}}}{9}{figure.caption.7}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces \textit {Attribute Group Editing Framework}}}{23}{figure.caption.8}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces \textit {Overview of Workflow Diagram of FeatureSAGE}}}{40}{figure.caption.8}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces \textit {Detailed Workflow Diagram of FeatureSAGE}}}{41}{figure.caption.9}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces \textit {Sample images from AFHQv2. Source \citep {choi2020starganv2diverseimage}}}}{42}{figure.caption.10}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces \textit {Sample images from VGGFace2. Source \citep {Parkhi15}}}}{42}{figure.caption.11}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces \textit {Sample images from NABirds. Source \citep {7298658}}}}{43}{figure.caption.12}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces \textit {Sample images from 102 Flower Dataset. Source \citep {Nilsback08}}}}{44}{figure.caption.13}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces \textit {FeatureSAGE framework}}}{47}{figure.caption.14}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces \textit {Modified Attribute Factorization Block, Derived from \citep {ding2023stableattributegroupediting}}}}{48}{figure.caption.15}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces \textit {Class Embedding Block , Adapted from \citep {ding2023stableattributegroupediting}}}}{51}{figure.caption.16}%
-\contentsline {figure}{\numberline {3.10}{\ignorespaces \textit {Modified Adaptive Editing Block, Adapted from \citep {ding2023stableattributegroupediting}}}}{52}{figure.caption.17}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces \textit {Overview of Workflow Diagram of FeatureSAGE}}}{41}{figure.caption.9}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces \textit {Detailed Workflow Diagram of FeatureSAGE}}}{42}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces \textit {Sample images from AFHQv2. Source \citep {choi2020starganv2diverseimage}}}}{43}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces \textit {Sample images from VGGFace2. Source \citep {Parkhi15}}}}{43}{figure.caption.12}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces \textit {Sample images from NABirds. Source \citep {7298658}}}}{44}{figure.caption.13}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces \textit {Sample images from 102 Flower Dataset. Source \citep {Nilsback08}}}}{45}{figure.caption.14}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces \textit {FeatureSAGE framework}}}{48}{figure.caption.15}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces \textit {Modified Attribute Factorization Block, Derived from \citep {ding2023stableattributegroupediting}}}}{49}{figure.caption.16}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces \textit {Class Embedding Block , Adapted from \citep {ding2023stableattributegroupediting}}}}{52}{figure.caption.17}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces \textit {Modified Adaptive Editing Block, Adapted from \citep {ding2023stableattributegroupediting}}}}{53}{figure.caption.18}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
