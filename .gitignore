@@ -1,14 +1,8 @@
 main.pdf
-
-# LaTeX intermediate files
-*.aux
-*.bbl
-*.blg
-*.lof
-*.log
-*.lot
-*.out
-*.toc
-*.fls
-*.fdb_latexmk
-*.synctex.gz
+main.aux
+main.bbl
+main.blg
+main.lof
+main.log
+main.out
+main.toc
