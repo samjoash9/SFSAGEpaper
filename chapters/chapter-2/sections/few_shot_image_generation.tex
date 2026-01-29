@@ -35,14 +35,7 @@ leverage a pretrained model's knowledge and carefully regularize the adaptation.
 Typical training strategies include fine-tuning, parameter freezing, data augmentation, and contrastive or distance-preserving losses. 
 Their success is usually measured by metrics like Fréchet Inception Distance (FID) or LPIPS (perceptual diversity).
 
-Across these models, several common training strategies emerge. Transfer Learning is most common: one typically starts from a pretrained generative model (GAN, VAE, or diffusion) 
-and updates it using the few target images. Pure fine-tuning (e.g. updating all weights) generally overfits, so many methods constrain the update. 
-Examples include freezing layers (FreezeD) or parameters (like BatchNorm scaling), domain-regularization, and data augmentation (ADA) to simulate more data \citep{zhao2023closerlookfewshotimage}.
-Meta-Learning is another strategy: the model is trained on many simulated few-shot tasks so that it can adapt quickly. 
-As noted, meta-learned GANs/VAEs (e.g. using MAML/Reptile) have been attempted, 
-but often still need per-task fine-tuning and can struggle to generate sharp images \citep{hong2022deltagandiversefewshotimage}.
-Contrastive/Distance Losses have become popular: enforcing that the adapted generator preserves relationships (distances or class labels) from the source domain helps maintain diversity.
-Finally, data augmentation and synthesis can create pseudo-examples: e.g. methods like AdaGAN or mixing source images into the target fine-tuning process.
+Transfer learning is a commonly used training strategy in generative models that starts from a pre-trained model (GAN, VAE, or diffusion) and updates it using a few target images. Pure fine-tuning can often overfit the model, making it difficult to generalize well \citep{zhao2023closerlookfewshotimage}. Meta-learning involves training on simulated few-shot tasks so that it can adapt quickly. Contrastive/Distance Losses are used to enforce that the adapted generator preserves relationships between different domains. Data augmentation and synthesis create pseudo-examples by replacing source images with those in the target fine-tuning process. While some GANs/VAEs may use MAML or Reptile, most often they still need per-task fine-tuning and struggle to generate sharp images \citep{hong2022deltagandiversefewshotimage}. In contrast, meta-learned GANs/VAEs have been attempted but are usually limited by their overfitting problem \citep{hong2022deltagandiversefewshotimage}. Meta-Learning involves training on many simulated few-shot tasks so that it can adapt quickly. Data augmentation and synthesis create pseudo-examples by replacing source images with those in the target fine-tuning process. In this way, humans can better understand how to generate realistic images based on the data they have available.
 
 Evaluation strategies are also noteworthy. 
 FSIG is evaluated on cross-domain tasks such as generating artistic or cartoon versions of FFHQ faces, 

@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (MiKTeX 25.12) (format=lualatex 2026.1.26)  29 JAN 2026 00:49
+This is LuaHBTeX, Version 1.24.0 (MiKTeX 25.12) (format=lualatex 2026.1.26)  29 JAN 2026 21:48
  restricted system commands enabled.
 **main.tex
 (./main.tex
@@ -842,8 +842,8 @@ Chapter 1.
 ] [2] [3] [4])
 (./chapters/chapter-1/sections/statement_of_the_problem.tex [5])
 (./chapters/chapter-1/sections/objective_of_the_study.tex [6])
-(./chapters/chapter-1/sections/significance_of_the_study.tex)
-(./chapters/chapter-1/sections/scope_and_limitations.tex [7])) [8]
+(./chapters/chapter-1/sections/significance_of_the_study.tex [7])
+(./chapters/chapter-1/sections/scope_and_limitations.tex)) [8]
 \openout2 = chapters/chapter-2/review_of_related_literature.aux
 
 (./chapters/chapter-2/review_of_related_literature.tex
@@ -885,12 +885,12 @@ Chapter 3.
 
 
 ] [39]
-<figures/overview_workflow.png, id=835, 1075.01625pt x 161.60374pt>
+<figures/overview_workflow.png, id=837, 1075.01625pt x 161.60374pt>
 File: figures/overview_workflow.png Graphic file (type png)
 <use figures/overview_workflow.png>
 Package luatex.def Info: figures/overview_workflow.png  used on input line 69.
 (luatex.def)             Requested size: 433.62001pt x 65.1853pt.
-<figures/workflow_diagram.png, id=836, 694.595pt x 1347.0325pt>
+<figures/workflow_diagram.png, id=838, 694.595pt x 1347.0325pt>
 File: figures/workflow_diagram.png Graphic file (type png)
 <use figures/workflow_diagram.png>
 Package luatex.def Info: figures/workflow_diagram.png  used on input line 76.
@@ -898,19 +898,19 @@ Package luatex.def Info: figures/workflow_diagram.png  used on input line 76.
  [40])
 (./chapters/chapter-3/sections/data_processing.tex [41<./figures/overview_workfl
 ow.png>]
-<images/afhq_dataset.png, id=860, 1772.12062pt x 253.69781pt>
+<images/afhq_dataset.png, id=862, 1772.12062pt x 253.69781pt>
 File: images/afhq_dataset.png Graphic file (type png)
 <use images/afhq_dataset.png>
 Package luatex.def Info: images/afhq_dataset.png  used on input line 12.
 (luatex.def)             Requested size: 433.62001pt x 62.07715pt.
  [42<./figures/workflow_diagram.png>]
-<images/vgg_faces_dataset.png, id=874, 1772.12062pt x 253.69781pt>
+<images/vgg_faces_dataset.png, id=876, 1772.12062pt x 253.69781pt>
 File: images/vgg_faces_dataset.png Graphic file (type png)
 <use images/vgg_faces_dataset.png>
 Package luatex.def Info: images/vgg_faces_dataset.png  used on input line 22.
 (luatex.def)             Requested size: 433.62001pt x 62.07715pt.
  [43<./images/afhq_dataset.png><./images/vgg_faces_dataset.png>]
-<images/birds_dataset.png, id=890, 1772.12062pt x 253.69781pt>
+<images/birds_dataset.png, id=892, 1772.12062pt x 253.69781pt>
 File: images/birds_dataset.png Graphic file (type png)
 <use images/birds_dataset.png>
 Package luatex.def Info: images/birds_dataset.png  used on input line 32.
@@ -922,20 +922,20 @@ es level an-no-ta-tions, the dataset
  []
 
 [44<./images/birds_dataset.png>]
-<images/flowers_dataset.png, id=905, 1772.12062pt x 253.69781pt>
+<images/flowers_dataset.png, id=907, 1772.12062pt x 253.69781pt>
 File: images/flowers_dataset.png Graphic file (type png)
 <use images/flowers_dataset.png>
 Package luatex.def Info: images/flowers_dataset.png  used on input line 42.
 (luatex.def)             Requested size: 346.89732pt x 49.66249pt.
  [45<./images/flowers_dataset.png>] [46])
 (./chapters/chapter-3/sections/model_architecture.tex [47]
-<figures/feature_sage_framework.png, id=938, 1576.89125pt x 613.29124pt>
+<figures/feature_sage_framework.png, id=940, 1576.89125pt x 613.29124pt>
 File: figures/feature_sage_framework.png Graphic file (type png)
 <use figures/feature_sage_framework.png>
 Package luatex.def Info: figures/feature_sage_framework.png  used on input line
  17.
 (luatex.def)             Requested size: 433.62001pt x 168.64157pt.
-<figures/modified_attribute_block.png, id=944, 888.31876pt x 401.5pt>
+<figures/modified_attribute_block.png, id=946, 888.31876pt x 401.5pt>
 File: figures/modified_attribute_block.png Graphic file (type png)
 <use figures/modified_attribute_block.png>
 Package luatex.def Info: figures/modified_attribute_block.png  used on input li
@@ -949,14 +949,14 @@ t rep-re-sen-ta-tion that cap-tures the rel-e-vant (category-
  []
 
 [50]
-<figures/class_embedding_mapping_block.png, id=979, 824.07875pt x 312.16624pt>
+<figures/class_embedding_mapping_block.png, id=981, 824.07875pt x 312.16624pt>
 File: figures/class_embedding_mapping_block.png Graphic file (type png)
 <use figures/class_embedding_mapping_block.png>
 Package luatex.def Info: figures/class_embedding_mapping_block.png  used on inp
 ut line 101.
 (luatex.def)             Requested size: 433.62001pt x 164.2565pt.
  [51] [52<./figures/class_embedding_mapping_block.png>]
-<figures/adaptive_editing.png, id=1003, 1334.9875pt x 373.395pt>
+<figures/adaptive_editing.png, id=1005, 1334.9875pt x 373.395pt>
 File: figures/adaptive_editing.png Graphic file (type png)
 <use figures/adaptive_editing.png>
 Package luatex.def Info: figures/adaptive_editing.png  used on input line 132.
@@ -1031,9 +1031,9 @@ s/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/JOASH/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/JOASH/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/JOASH
 /AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (81 pages, 5905633 bytes).
+Output written on main.pdf (81 pages, 5907450 bytes).
 
-PDF statistics: 1323 PDF objects out of 1440 (max. 8388607)
+PDF statistics: 1325 PDF objects out of 1440 (max. 8388607)
  243 named destinations out of 1000 (max. 1048576)
  321 words of extra memory for PDF output out of 10000 (max. 100000000)
 
