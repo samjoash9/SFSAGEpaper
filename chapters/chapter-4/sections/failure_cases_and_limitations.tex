@@ -1,0 +1,13 @@
+\section{Failure Cases and Limitations}
+
+During experimentation and evaluation of the FeatureSAGE framework, several limitations and failure cases were observed:
+
+\begin{enumerate}
+    \item \textbf{Dependency on Training Classes.} During both validation and inference, the framework raises an error if the input contains classes that were not present in the training dataset. If the input contains unseen classes, inference or validation cannot proceed, which also affects few-shot scenarios. Consequently, FeatureSAGE’s performance is highly dependent on the diversity and coverage of the training dataset, limiting its generalization to entirely novel classes.
+    
+    \item \textbf{Reliance on Pretrained StyleGAN2.} FeatureSAGE is built upon a pretrained StyleGAN2 generator, which must be fine-tuned on the target dataset to achieve effective inversion and synthesis. This dependency restricts the framework’s applicability to domains where pretrained StyleGAN2 models exist. Moreover, any biases or limitations inherent in the pretrained generator—such as underrepresented classes or latent space artifacts—propagate to the generated outputs, potentially affecting the quality and fairness of attribute edits.
+    
+    \item \textbf{Computational Overhead.} The integration of the StyleFeatureEditor inverter and Feature Editor introduces additional computational requirements compared to the original SAGE framework. While these components improve reconstruction fidelity and editability, they increase GPU memory usage and inference time. This may hinder scalability in large-scale datasets or real-time applications.
+\end{enumerate}
+
+Overall, these limitations highlight avenues for future research, including the incorporation of multi-scale attribute modeling, adaptive editing intensities, and exploration of alternative generative architectures beyond StyleGAN2 to reduce dependency and improve generalization.
