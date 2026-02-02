@@ -3,7 +3,7 @@
 This study proposes a modified SAGE framework named \textbf{FeatureSAGE}, which integrates several modules to enhance few-shot image generation. The architecture combines a pretrained StyleGAN2 backbone, a novel StyleFeatureEditor Inverter and Feature Editor, and SAGE's attribute group editing mechanism. The design aims to enable fine-grained, disentangled, and class-consistent image synthesis from limited input data. A modular overview is as follows:
 
 \begin{enumerate}
-    \item \textbf{StyleGAN2} : Similar to the SAGE framework, the synthesis module of a pretrained StyleGAN2 will be used to generate images from the inverted latent space codes output of the GAN inverter (StyleFeatureEditor). Additionally, with the integration of the Feature Editor of SFE, we will be utilizing the feature tensor together with the latent codes to synthesize the resulting image.
+    \item \textbf{StyleGAN2} : Similar to the SAGE framework, the synthesis module of a pretrained StyleGAN2 is used to generate images from the inverted latent space codes output of the GAN inverter (StyleFeatureEditor). Additionally, with the integration of the Feature Editor of SFE, we utilized the feature tensor together with the latent codes to synthesize the resulting image.
     
     \item \textbf{StyleFeatureEditor Encoder (SFE)} : SFE by \citet{bobkov2024devildetailsstylefeatureeditordetailrich} , is a novel method that enables editing in both $w$-latents and $F$-latents. This technique not only allows for the reconstruction of finer image details but also ensures their preservation during editing". In the FeatureSAGE framework it is to replace the GAN Inversion module $I(\cdot)$ of the Original SAGE framework. According to the observations of \citet{ding2023stableattributegroupediting}, when reconstructing from the experimented inversion methods (pSp , ReStyle, HyperStyle) , there is an observed loss of local details and thus the accuracy of the reconstructed images is lower by over 5\% compared to the stadard data. And as noted by \citet{ding2023stableattributegroupediting} "If we obtain a better inversion method with better reconstruction ability and editability, SAGE will be endowed with a larger potential to further improve downstream classifications with generative augmentation." Thus, with this in mind, we propose to use SFE as the GAN Inverter $I(\cdot)$ model for this study together with its Feature Editor $H(\cdot)$ for improved editability and reconstruction.
 \end{enumerate}
@@ -22,7 +22,7 @@ This study proposes a modified SAGE framework named \textbf{FeatureSAGE}, which 
 \textit{Figure~\ref{fig:feature_sage_framework} shows the overview of the FeatureSAGE framework.}
 The training set for seen categories is denoted as $D_{train}$ = $\{x_i^{c_s}\}^S$, which consists of S seen categories. While the testing set for unseen categories is denoted as $D_{test}$ = $\{x_i^{c_u}\}^U$ consists of U unseen categories.
 
-To enable image editing, the latent codes of the images should first be obtained. In this study, we will use the Inverter $I(\cdot)$ of StyleFeatureEditor Encoder instead of the base SAGE pSp encoder. This encodes the image $x_i$ to $W^+$ space of StyleGAN2 and to a Feature Code $F_k$ which is used to improve reconstruction.
+To enable image editing, the latent codes of the images should first be obtained. In this study, we use the Inverter $I(\cdot)$ of StyleFeatureEditor Encoder instead of the base SAGE pSp encoder. This encodes the image $x_i$ to $W^+$ space of StyleGAN2 and to a Feature Code $F_k$ which is used to improve reconstruction.
 
 \[
 (w_i,F_{ki}) = SFE(x_i)
@@ -46,7 +46,7 @@ and factorize it via the learned dictionary $A$ and MLP‐predicted coefficients
 \Delta w_i^{ir} \;=\; A\,n_i.
 \]
 
-The key enhancement in FeatureSAGE is that, instead of editing only the latent code, we will also edit the corresponding intermediate feature map $F_{k\,i}\in\mathbb R^{C\times H\times W}$ extracted by the StyleFeatureEditor encoder. Concretely, we pass the pair $\bigl(F_{k\,i},\,\Delta w_i^{ir}\bigr)$ into our Feature Editor module
+The key enhancement in FeatureSAGE is that, instead of editing only the latent code, we also edit the corresponding intermediate feature map $F_{k\,i}\in\mathbb R^{C\times H\times W}$ extracted by the StyleFeatureEditor encoder. Concretely, we pass the pair $\bigl(F_{k\,i},\,\Delta w_i^{ir}\bigr)$ into our Feature Editor module
 \[
 F'_{k\,i} \;=\; H\bigl(F_{k\,i},\,\Delta w_i^{ir}\bigr)\,,
 \]
@@ -105,7 +105,7 @@ n_i = MLP(\Delta W_i^{ir})
 
  Compared to the Attribute Group Editing (AGE) by \citet{AGE}, which randomly samples editing directions from A, Stable Attribute Group Editing (SAGE) uses class embedding mapping. The class‐embedding mapping block (Figure~\ref{fig:class_embedding_block}) finds the most important directions in the latent code space for each cohort, identifying which latent directions have the greatest effect on the target attribute group. These “top” directions are then used to weight and steer the subsequent edits. This part of the framework remains unchanged from the SAGE framework.
 
- Specifically , it takes a set of class embedding of $S$ seen categories, $B$. As stated before , $B$ is the dictionary of category-relevant attributes but since they are based on average of latent codes , it will inevitably contain a small amount of interference from category-irrelevant attributes. 
+ Specifically , it takes a set of class embedding of $S$ seen categories, $B$. As stated before , $B$ is the dictionary of category-relevant attributes but since they are based on average of latent codes, it will inevitably contain a small amount of interference from category-irrelevant attributes. 
 
  To identify the most important, meaningful directions in B and remove the unwanted noise, we apply singular value decomposition (SVD) \citep{zhang2015singularvaluedecompositionapplications}.
  We define the filtered $B$ class embeddings as:
@@ -159,7 +159,7 @@ where the intensity of manipulation is denoted by $\alpha$ to control diversity 
 
 % ======================================================================================================
 \subsection{Training Strategy}
-In the training stage, we first need to train a StlyeGAN2 with images from the seen categories . Similarly, the StyleFeatureEditor Inverter and Feature Editor are also trained. To train the FeatureSAGE framework to effectively generate images in a few-shot environment and ensure generalizability, we will adopt a systematic training strategy involving loss optimization, regularization, and evaluation monitoring. Below are the key components of our training pipeline.
+In the training stage, we first need to train a StlyeGAN2 with images from the seen categories . Similarly, the StyleFeatureEditor Inverter and Feature Editor are also trained. To train the FeatureSAGE framework to effectively generate images in a few-shot environment and ensure generalizability, we adopt a systematic training strategy involving loss optimization, regularization, and evaluation monitoring. Below are the key components of our training pipeline.
 
 \subsubsection{Loss Functions}
 The following are the loss functions applied to the FeatureSAGE framework:
@@ -193,4 +193,4 @@ L = L_{rec} + \lambda_1{L_{orth}} + \lambda_2{L_{sparse}},
 where $\lambda_1$ and $\lambda_2$ are weights for $L_{orth}$ and $L_{sparse}$ \citep{ding2023stableattributegroupediting}.
 
 \subsubsection{Optimization Algorithm}
-Training will be done using the Adam Optimizer with the same configuration as defined by \citet{ding2023stableattributegroupediting} , a fixed learning rate of $1 \times 10^{-4}$ with hyperparameters of $\lambda_1 = 5 \times 10^{-4}$, $\lambda_2 = 5 \times 10^{-3} , \theta_0 = 5 \times 10^{-1} \  \text{and} \ \theta_1 = -1$.
+Training is done using the Adam Optimizer with the same configuration as defined by \citet{ding2023stableattributegroupediting} , a fixed learning rate of $1 \times 10^{-4}$ with hyperparameters of $\lambda_1 = 5 \times 10^{-4}$, $\lambda_2 = 5 \times 10^{-3} , \theta_0 = 5 \times 10^{-1} \  \text{and} \ \theta_1 = -1$.

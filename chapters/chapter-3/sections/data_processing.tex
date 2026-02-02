@@ -3,7 +3,7 @@
 
 \subsection{Data Sources}
 
-This research will draw from a range of publicly available datasets with a varied scope of visuals such as human faces and flowers. The datasets are popular for generating and attribute-editing applications because of their quality and well-labeled categories. For the purpose of this research's emphasis on few-shot image synthesis, only a minority of the images from each dataset will be employed. Specifically, a minimal set of representative samples per class will be sampled to replicate the few-shot learning situation. The datasets used will be as follows:
+This research draws from a range of publicly available datasets with a varied scope of visuals such as human faces and flowers. The datasets are popular for generating and attribute-editing applications because of their quality and well-labeled categories. For the purpose of this research's emphasis on few-shot image synthesis, only a minority of the images from each dataset are employed. Specifically, a minimal set of representative samples per class are sampled to replicate the few-shot learning situation. The datasets used are:
 
 \begin{enumerate}
     \item \textbf{AFHQv2 (Animal Faces HQ)}
@@ -50,10 +50,10 @@ This research will draw from a range of publicly available datasets with a varie
 
 \subsection{Data Preprocessing Steps}
 
-For all datasets, we will apply the following preprocessing steps:
+For all datasets, we apply the following preprocessing steps:
 
 \begin{itemize}
-    \item Resizing and Normalization: Images are resized to 256×256 for efficiency (and 512×512 for high-res experiments) and pixel values will be normalized to the range [-1,1] for input to StyleGAN2.
+    \item Resizing and Normalization: Images are resized to 256×256 for efficiency (and 512×512 for high-res experiments) and pixel values are normalized to the range [-1,1] for input to StyleGAN2.
     \item Filtering: We removed any extremely low-quality or mislabeled images.
     \begin{itemize}
         \item For VGGFace2 (face data) we use a face detector, MTCNN (Multi-Task Cascaded Convolutional Networks),  to crop and horizontally align faces so the eyes are leveled.
@@ -61,9 +61,9 @@ For all datasets, we will apply the following preprocessing steps:
     \item Train-Test Splitting : We assess our approach on four standard few‐shot image domains, partitioning each into “seen” classes for model fitting and “unseen” classes for testing:
     \begin{itemize}
       \item \textbf{Flowers.} We assign 85 categories to the training (seen) split and reserve 15 categories for the test (unseen) split.
-      \item \textbf{VGGFaces.} From VGGFaces, we will randomly draw 1,800 identities for training and set aside 600 identities for evaluation.
+      \item \textbf{VGGFaces.} From VGGFaces, we randomly draw 1,800 identities for training and set aside 600 identities for evaluation.
     \end{itemize}
-    \item Augmentation: No data augmentation will be used beyond centering and flipping, since we focus on the evaluation of given domains. All datasets and preprocessing pipelines are documented for reproducibility.
+    \item Augmentation: No data augmentation is used beyond centering and flipping, since we focus on the evaluation of given domains. All datasets and preprocessing pipelines are documented for reproducibility.
 \end{itemize}
 
 
