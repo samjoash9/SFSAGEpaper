@@ -62,6 +62,16 @@ The experimental setup is designed to evaluate the effectiveness of the proposed
 \end{itemize}
 
 % =========================================================================================
+
+\subsection{Few-Shot Setting Experimental Setting}
+
+In this study, the term \emph{few-shot} refers to the number of reference images available per target class (or identity) used to construct class-level latent representations for attribute group editing and downstream evaluation. A \textbf{1-shot} setting utilizes a single reference image per target class, representing an extreme data-scarce scenario, while a \textbf{5-shot} setting uses five reference images per target class to enable more stable aggregation of class-relevant features under limited data conditions.
+
+These few-shot configurations are applied consistently across all datasets and experimental conditions for both the baseline SAGE and the proposed FeatureSAGE framework. By explicitly controlling the number of reference images, the evaluation protocol enables a systematic assessment of FeatureSAGE’s robustness, stability, and generalization capability under varying levels of data availability.
+
+The few-shot constraint is applied during test-time adaptation and evaluation on unseen classes, while the StyleGAN2 generator and attribute directions are learned from large-scale seen-category data.
+
+% =========================================================================================
 \subsection{Workflow Diagram}
 
 \begin{figure}[ht]
