@@ -6,13 +6,13 @@
 This research draws from a range of publicly available datasets with a varied scope of visuals such as human faces and flowers. The datasets are popular for generating and attribute-editing applications because of their quality and well-labeled categories. For the purpose of this research's emphasis on few-shot image synthesis, only a minority of the images from each dataset are employed. Specifically, a minimal set of representative samples per class are sampled to replicate the few-shot learning situation. The datasets used are:
 
 \begin{enumerate}
-    \item \textbf{AFHQv2 (Animal Faces HQ)}
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width=1\linewidth]{images/afhq_dataset.png}
-        \caption{\textit{Sample images from AFHQv2. Source \citep{choi2020starganv2diverseimage}}}
-        \label{fig:AFHQv2}
-    \end{figure}
+    % \item \textbf{AFHQv2 (Animal Faces HQ)}
+    % \begin{figure}[ht]
+    %     \centering
+    %     \includegraphics[width=1\linewidth]{images/afhq_dataset.png}
+    %     \caption{\textit{Sample images from AFHQv2. Source \citep{choi2020starganv2diverseimage}}}
+    %     \label{fig:AFHQv2}
+    % \end{figure}
 
     % Figure~\ref{fig:AFHQv2} depicts representative samples from the AFHQv2 dataset. The dataset is comprised of 15,803 512~\(\times\)~512 resolution high-quality animal face images and is organized in three domains: cat, dog, and wildlife, with each contributing around 5,000. Released initially as the Animal FacesHQ (AFHQ) dataset, it was specifically intended to facilitate challenging image-to-image translation tasks with a diverse set of breeds (no less than eight per domain) and well-aligned facial features. The photos were gathered from openly available sources under permissive licenses like Flickr and Pixabay. Each photo was curated manually to have good quality, and all had their vertical and horizontal alignments such that the eyes are positioned in the middle which maintains consistency throughout the entire dataset. 500 per domain out of the 15,000 photos were kept for testing, with the rest used as training material. The diversity across species and the standardized preparation of the images make AFHQv2 a solid benchmark for testing generative models, particularly in few-shot or attribute-editing contexts \citep{choi2020starganv2diverseimage}.
     
@@ -26,13 +26,13 @@ This research draws from a range of publicly available datasets with a varied sc
 
      Figure~\ref{fig:VGGFace2} shows sample photographs from the VGGFace2 dataset, which is made up of about 3.3 million photographs covering 9,131 identities with large pose, age, illumination, and ethnic diversity. The dataset was created with the aim of enabling robust face recognition studies through the recording of intra-class variation under natural conditions. The dataset comes with metadata for each of its 2,622 base identities in the form of text records with the URLs of the images and respective face detection coordinates. The annotations facilitate the maintenance of consistent face cropping and cropping positions over a series of photographs. The origin of all the photographs is under suitable usage licenses, and the authors supply pretrained models and implementation notes—ranging from face detection pipelines—through the VGG Face Descriptor website. The size and diversity of the dataset make the benchmark popular for testing face-related tasks such as few-shot face synthesis and identity-preserving face editing. The typical processed image size employed in the VGGFace2 pipeline is 224×224 pixels. It is the size of the central crop obtained after a resizing of the bounding box of the face so that the shorter side is 256 pixels \citep{Parkhi15}.
     
-    \item \textbf{NABirds (Birds)}
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width=1\linewidth]{images/birds_dataset.png}
-        \caption{\textit{Sample images from NABirds. Source \citep{7298658}}}
-        \label{fig:NABirds}
-    \end{figure}
+    % \item \textbf{NABirds (Birds)}
+    % \begin{figure}[ht]
+    %     \centering
+    %     \includegraphics[width=1\linewidth]{images/birds_dataset.png}
+    %     \caption{\textit{Sample images from NABirds. Source \citep{7298658}}}
+    %     \label{fig:NABirds}
+    % \end{figure}
 
     % Figure~\ref{fig:NABirds} shows representative samples of the NABirds dataset, which comprises 48,000 annotated photos for 400 frequently seen North American bird species with a minimum of 100 pictures per species, thus well-suited for fine-grained visual categorization. In addition to species level annotations, the dataset has fine-grained labels for various visual subtypes such as males, females, and juveniles, giving a total of over 700 fine-grained categories. The categories are taxonomically arranged, enabling structured learning of the biology. The dataset was annotated with the help of domain experts to ensure accuracy and diversity of the annotations. The NABirds dataset contains images with different resolutions. The documentation for the dataset does not include exact dimensions for each of the images, but it does include a sizes.txt file with the width and height in pixels for each one. For instance, one might find an image with dimensions of 800×600 pixels, while another could be 1024×768 pixels. \citep{7298658}.
     

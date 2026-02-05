@@ -51,12 +51,7 @@ w''_{i,s,j,k} = \frac{w'_{ijk}}{\sqrt{\sum_{i'} (w'_{ijk})^2 + \epsilon}}
 The result is that each convolutional layer can apply the style $s_i$ directly to its weights, 
 with the demodulation automatically preserving unit variance. This modification removes the “blob” artifacts common in StyleGAN outputs and leads to crisper, more natural images.
 
-StyleGAN2 also revamps the training scheme. The progressive growing paradigm is replaced with a fixed architecture: the generator is trained 
-at full resolution from the start using skip connections and residual blocks that connect multi-scale features (as in MSG-GAN or U-Net architectures).
-By preserving multi-scale signals through the network rather than gradually adding layers, StyleGAN2 achieves stable training without the overhead of layer-by-layer growth.
-Importantly, StyleGAN2 retains the style mapping network and noise injections, but applies them within this revised generator. 
-Additionally, \citet{karras2020analyzingimprovingimagequality} introduce a path length regularization on the mapping network, which encourages equal-distance moves in $\mathcal{W}$ to produce equal perceptual changes in the image.
-This regularizer makes the latent-to-image mapping smoother and more invertible, further improving disentanglement and editability.
+Training in StyleGAN2 takes a different path. Instead of slowly increasing complexity, the model uses a set structure right away. Skip connections and residual blocks link features across scales, much like in MSG-GAN or U-Net designs. This setup keeps signal flow strong throughout training. Without needing to add layers over time, stability improves naturally. The approach skips the extra burden of gradual expansion. Yet, key elements remain - style mapping and noise inputs stay part of the process. These are simply embedded into the updated generator framework. Stability meets continuity here. Not every change means replacing what worked. Another finding from \citet{karras2020analyzingimprovingimagequality} shows that applying path length regularization to the mapping network helps balance how shifts in $W$ affect visual output. Because of this adjustment, movements through latent space translate more consistently into noticeable image differences. The result is a smoother connection between codes and images, easier reversal from image back to code, better separation of features, along with improved editing control.
 
 The architectural improvements in StyleGAN2 can be summarized as:
 
@@ -72,14 +67,4 @@ For example, \citet{karras2019stylebasedgeneratorarchitecturegenerative} report 
 (no progressive growing, weight demodulation, path regularization) achieves a Fréchet Inception Distance of 
 about 3.3 on FFHQ, compared to ~4.4 for the original StyleGAN baseline.
 
-While StyleGAN and StyleGAN2 achieve unprecedented image realism, they have known limitations. 
-First, the generated images and editing capabilities are confined to the training distribution. 
-StyleGAN's latent control only applies to images the network can produce; arbitrary real-world 
-photos must first be inverted into $W$ (GAN inversion) before editing \citep{bermano2022stateoftheartarchitecturemethodsapplications}.
-Even then, inversion may not perfectly capture identity. 
-Second, the models excel on structured domains like faces or bedrooms but struggle with unstructured or complex scenes. 
-As \citet{bermano2022stateoftheartarchitecturemethodsapplications} observed, StyleGAN “struggles with domains that do not exhibit strong structure”.
-Third, bias is a concern: like all data-driven GANs, 
-StyleGAN can replicate demographic biases in the training set, raising fairness issues. 
-Finally, the architecture is computationally heavy and complex; 
-training StyleGAN2 on high-resolution data demands extensive GPU resources and careful tuning.
+Though StyleGAN and its successor deliver remarkable visual fidelity, certain constraints remain evident. Generated outputs along with manipulation options depend strictly on what the model learned during training. Control through latent space works solely within the boundaries of synthetic imagery the system supports; actual photographs require conversion into domain via GAN inversion prior to adjustments \citep{bermano2022stateoftheartarchitecturemethodsapplications}. Yet perfect preservation of subject traits isn’t always achieved post-inversion. What makes face images easier for these models becomes a hurdle elsewhere - disorganized settings confuse their output. Bermano and team noted back in 2022 how StyleGAN falters when patterns lack clear repetition. Problems show up beyond performance too, since learned behaviors include social imbalances present in source data. Training runs expose another layer of difficulty: high-res workloads need powerful graphics processors, precise adjustments. Complexity piles up, even if results look effortless.
