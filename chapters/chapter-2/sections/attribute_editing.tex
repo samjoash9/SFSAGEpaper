@@ -82,11 +82,26 @@ A Code Prediction Module (CPM) then uses global combinatorial reasoning (long-ra
 
 \subsection{Stable Attribute Group Editing}
 
-Stable Attribute Group Editing (SAGE) was proposed as a method to overcome such limitations of AGE. Instead of editing from a single exemplar, SAGE initially employs all the given few-shot images to estimate a stable class-center embedding. It does so by capitalizing on the pretrained category-relevant attribute dictionary (learned from visible classes) to linearly represent the novel class centroid in the latent space. As described by Ding et al., since there are not a sufficient number of examples to calculate a credible mean directly, "the category-relevant dictionary… is complete enough to cover the unique attributes of any related categories," a linear combination of the dictionary atoms can "recover the class-specific features of the unseen classes" \citep{ding2023stableattributegroupediting}.
+Stable Attribute Group Editing (SAGE) was proposed as a method to overcome such limitations of AGE. Instead of editing 
+from a single exemplar, SAGE initially employs all the given few-shot images to estimate a stable class-center embedding. 
+It does so by capitalizing on the pretrained category-relevant attribute dictionary (learned from visible classes) to 
+linearly represent the novel class centroid in the latent space. As described by Ding et al., since there are not a sufficient
+ number of examples to calculate a credible mean directly, "the category-relevant dictionary… is complete enough to cover 
+ the unique attributes of any related categories," a linear combination of the dictionary atoms can "recover the class-specific 
+ features of the unseen classes" \citep{ding2023stableattributegroupediting}.
 
-In practice, SAGE projects the few-shot samples onto such an attribute dictionary to separate their shared class features from each other, essentially removing the attributes not related to categories and retaining the attributes that are related. According to the authors, such a disentanglement also helps the model to estimate a more accurate class embedding even for a very small number of samples. The experiments also indicate that the estimated embedding from only three face images well approximates the ground truth centroid over hundreds of actual instances.
-%
-In the same paper, the weights from the projection are utilized for adaptively choosing which category-irrelevant editing directions to use. Taking cues from biological taxonomy, the authors make the assumption that categories sharing the same relevant characteristics which is being members of the same genus, for example they also share compatible and safe irrelevant characteristics. Consequently, SAGE picks the category-irrelevant directions from the highly similar seen classes depending on the projection coefficients. The approach enables the method to introduce the distribution of the unseen class to StyleGAN’s latent space by essentially repositioning the generated sample cloud towards the actual class manifold. Anchoring the synthesis about this reconstructed embedding and then carrying out filtered edits, SAGE manages to maintain class identity despite generating diverse and realistic variations.
+In practice, SAGE projects the few-shot samples onto such an attribute dictionary to separate their shared class features 
+from each other, essentially removing the attributes not related to categories and retaining the attributes that are related. 
+According to the authors, such a disentanglement also helps the model to estimate a more accurate class embedding even for a very small number of samples. The experiments also indicate that the estimated embedding from only three face images well approximates the ground truth centroid over hundreds of actual instances.
+
+In the same paper, the weights from the projection are utilized for adaptively choosing which category-irrelevant editing 
+directions to use. Taking cues from biological taxonomy, the authors make the assumption that categories sharing the same 
+relevant characteristics which is being members of the same genus, for example they also share compatible and safe irrelevant 
+characteristics. Consequently, SAGE picks the category-irrelevant directions from the highly similar seen classes depending on 
+the projection coefficients. The approach enables the method to introduce the distribution of the unseen class to StyleGAN’s 
+latent space by essentially repositioning the generated sample cloud towards the actual class manifold. Anchoring the synthesis 
+about this reconstructed embedding and then carrying out filtered edits, SAGE manages to maintain class identity despite 
+generating diverse and realistic variations.
 
 This refinement of AGE yields clearer gains in category consistency and diversity. Quantitative results show that SAGE 
 produces samples with significantly better quality (lower FID) and greater diversity (higher LPIPS) than AGE and competing 
@@ -101,28 +116,28 @@ in the latent space, thus effectively avoiding category-specific editing and enh
 report that SAGE achieves “more stable and reliable few-shot image generation” with significantly better category retention 
 than previous methods.
 
-Nonetheless, SAGE does not solve all challenges. The authors note that its generative range is still more restricted than that of real data: the “dynamic range” of editable variations in SAGE is smaller than in the true class. In practice, SAGE currently uses a uniform editing intensity for all directions (since estimating per-attribute scales from few samples is infeasible) and its dictionary contains only attributes that recur across the seen classes. Consequently, some subtle class-specific variations may still be missing. As the paper observes, “SAGE simply assumes a unified intensity for editing direction sampling,” and capturing attribute-dependent editing amplitudes or class-specific edits remains an open issue. Moreover, while classification performance is improved over AGE, it still generally lags behind a model trained on real examples. This gap – and the reliance on a pretrained StyleGAN inversion as the generator – highlight future work: extending SAGE’s ideas to handle multi-scale attributes and other generative models may be needed to fully close the gap for few-shot tasks.
+Nonetheless, SAGE does not solve all challenges. The authors note that its generative range is still more restricted 
+than that of real data: the “dynamic range” of editable variations in SAGE is smaller than in the true class. 
+In practice, SAGE currently uses a uniform editing intensity for all directions (since estimating per-attribute scales 
+from few samples is infeasible) and its dictionary contains only attributes that recur across the seen classes. 
+Consequently, some subtle class-specific variations may still be missing. As the paper observes, “SAGE simply assumes 
+a unified intensity for editing direction sampling,” and capturing attribute-dependent editing amplitudes or class-specific 
+edits remains an open issue. Moreover, while classification performance is improved over AGE, it still generally lags behind 
+a model trained on real examples. This gap – and the reliance on a pretrained StyleGAN inversion as the generator – highlight 
+future work: extending SAGE’s ideas to handle multi-scale attributes and other generative models may be needed to fully 
+close the gap for few-shot tasks.
 
 \subsection{Datasets and Applications}
 
-Attribute editing techniques are typically developed and evaluated on diverse image domains. 
-Face datasets (CelebA, FFHQ, VGGFace) are common: they have many labeled attributes and StyleGAN 
-models are readily available for them. 
-Few-shot generation research has also expanded to other domains. 
-For instance, the Flowers dataset has 102 flower species \citep{gupta2024conditionaldistributionmodellingfewshot},
-Animal Faces (or AnimalFacesHQ) has 149 animal species, VGGFace contains ~2300 human identities , and NABirds covers 555 North American bird species. 
-These datasets test how well latent editing generalizes beyond human faces. 
+Attribute editing techniques are typically developed and evaluated on diverse image domains. The datasets Animal Faces 
+HQ and Flowers are common: they have many labeled attributes and StyleGAN models are readily available for them. 
+Few-shot generation research has also expanded to other domains. For instance, the Flowers dataset has 102 flower 
+species \citep{gupta2024conditionaldistributionmodellingfewshot}, and Animal Faces (or AnimalFacesHQ) has 149 animal species.
 
-Latent editing has practical use in data augmentation (few-shot generation) 
-and interactive image manipulation. For example, 
-one can start with a single bird photo and synthesize 
-variants by editing color, pose, or environment using learned directions. 
-StyleGAN models have even been trained on NABirds to allow such editing of 
-feathers or backgrounds (though this is still an active research area). 
-However, note that many attributes in faces (smile, glasses, gender) 
-do not directly map to birds or flowers; cross-domain transfer of semantic concepts remains challenging.
-
-
+Latent editing has practical use in data augmentation (few-shot generation) and interactive image manipulation. For 
+example, one can start with a single animal or flower image and synthesize variants by editing color, pose, or environment
+ using learned directions. However, note that many attributes do not directly map across domains; cross-domain transfer of 
+ semantic concepts remains challenging.
 
 \subsection{Attribute Editing limitations and challeges}
 
