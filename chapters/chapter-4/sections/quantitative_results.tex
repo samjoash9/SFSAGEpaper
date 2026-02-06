@@ -2,7 +2,6 @@
 
 \subsection{Reconstruction and Inversion Performance}
 
-% Comparison between FeatureSAGE, SAGE, and other baselines across datasets (VGGFace2, Flowers, Animal Faces, NABirds).
 % Tables showing FID and LPIPS scores for 1-shot and 5-shot settings.
 
 \begin{table}[h!]
@@ -16,22 +15,4 @@ Flowers & TBD & TBD \\ \hline
 \end{tabular}
 \caption{Reconstruction and Inversion Performance of FeatureSAGE compared to baselines. LPIPS and FID are lower-the-better.}
 \label{tab:reconstruction_results}
-\end{table}
-
-
-\subsection{Few-Shot Image Generation Performance}
-
-% Naïve Augmentation Score (NAS) comparison.
-
-\begin{table}[h!]
-\centering
-\setlength{\tabcolsep}{50pt} % default is 6pt, increase for more width
-\begin{tabular}{|l|c|c|c|c|l|}
-\hline
-\textbf{Dataset} & \textbf{Shots} & \textbf{NAS $\uparrow$} \\ \hline
-VGGFace2 & 1 & TBD \\ \hline
-Flowers & 5 & TBD \\ \hline
-\end{tabular}
-\caption{Few-Shot Generation Performance of FeatureSAGE. NAS: Naive Augmentation Score. All metrics higher-the-better unless noted.}
-\label{tab:few_shot_results}
 \end{table}

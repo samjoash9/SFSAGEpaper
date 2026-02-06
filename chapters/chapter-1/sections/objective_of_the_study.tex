@@ -1,18 +1,17 @@
 \section{Objectives of the Study}
 
-The objective of this study is to develop and evaluate FeatureSAGE, a reliable few-shot image generator framework that improves upon the SAGE framework by 
-integrating a StyleFeatureEditor Inverter and Feature Editor
+The objective of this study is to develop and evaluate FeatureSAGE, a reliable few-shot image generator framework that 
+improves upon the SAGE framework by integrating a StyleFeatureEditor Inverter and Feature Editor
 
 \textbf{Specifically , this study's object is as follows:}
 \begin{enumerate}[label=\alph*.]
-  \item Integrate StyleFeatureEditing to SAGE framework: Replace the existing pSp-based encoder with StyleFeatureEditing Gan Inversion(encoder) to improve latent code retrived from real images.
-  This aims to make a framework variant of SAGE that can be used for a more downstream (e.g. Data Augmentation) task via high reconstructability and editability without the usual tradeoff.
-  \item Integrate the Feature Editor module into the SAGE framework for improved reconstruction quality.
+    \item Integrate StyleFeatureEditing to SAGE framework: Replace the existing pSp-based encoder with StyleFeatureEditing Gan Inversion(encoder) to improve latent code retrived from real images.
+    This aims to make a framework variant of SAGE that can be used for a more downstream (e.g. Data Augmentation) task via high reconstructability and editability without the usual tradeoff.
+
+    \item Integrate the Feature Editor module into the SAGE framework for improved reconstruction quality.
   
-    \item Evaluate reconstruction quality of the inverted images of VGGFace2 using FID, LPIPS, and identity similarity scores.
+    \item Evaluate reconstruction quality of the inverted images of Animal Faces and Flowers using FID and LPIPS.
     
-    \item Assess editing reliability and disentanglement in few-shot scenarios by measuring Naïve Augmentation Score (NAS)
-  for downstream classifier improvement, Attribute Consistency Score to quantify targeted attribute changes and Attribute disentanglement metrics (e.g., mutual information gap).
-    \item Benchmark FeatureSAGE against state-of-the-art GAN inversion and few-shot editing methods to demonstrate improvements in edit stability, identity preservation, and overall image quality.
+    \item Benchmark FeatureSAGE against baseline methods, specifically SAGE and AGE, to demonstrate improvements in edit stability, identity preservation, and overall image quality.
 
 \end{enumerate}

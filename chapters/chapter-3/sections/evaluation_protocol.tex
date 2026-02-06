@@ -33,20 +33,6 @@ We evaluated the models using quantitative metrics for both reconstruction quali
     \]
     where $\hat{y}^l_{hw}(x)$ is the unit-normalized feature vector of image $x$ at layer $l$ and position $(h, w)$, $w_l$ is a vector of learned weights for each channel at layer $l$, and $H_l$, $W_l$ are the height and width of the feature map at layer $l$~\cite{zhang2018unreasonable}. When interpreting LPIPS, \textit{lower values are better} in terms of similarity between generated and real images. A lower LPIPS score indicates that the generated image is more perceptually similar to the reference image. On the other hand, a higher LPIPS score may reflect less similarity (in fidelity tasks) or greater diversity (in intra-cluster evaluations of few-shot generation)~\cite{zhang2018unreasonable}.
 
-    \item \textbf{Naive Augmentation Score (NAS)}
-
-    Naive Augmentation Score (NAS) is a measure that was proposed to gauge the contribution of synthetic data towards the accuracy of classification models. It is different from conventional evaluation measures that only look at the accuracy of the model. It determines how effective a classifier model that has used real and synthetic data is in predicting on a real test set. It gives an indication of the usefulness of synthetic data in real applications \citep{ravuri2019classification}. Formally, NAS is defined as:
-    \[
-    \text{NAS} = \text{Accuracy}_{\text{augmented}} - \text{Accuracy}_{\text{baseline}}
-    \]
-    where:
-    \begin{itemize}
-        \item $\text{Accuracy}_{\text{augmented}}$ is the accuracy of a classifier trained on a combination of real and synthetic data.
-        \item $\text{Accuracy}_{\text{baseline}}$ is the accuracy of a classifier trained solely on real data.
-    \end{itemize}
-
-    A greater value, including positive ones, of NAS shows that the insert of synthetic data improved the accuracy of the model, a measure that signals the synthetic data is useful to the task. Similarly, a lower value, including negative ones, of NAS shows that the synthetic data did not add to the model's accuracy and might have reduced the accuracy of the model, becoming ineffective \cite{ravuri2019classification}.
-    
 \end{enumerate}
 
 % ==============================================================================

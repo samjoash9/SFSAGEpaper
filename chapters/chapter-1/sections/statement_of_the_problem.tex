@@ -1,15 +1,25 @@
 \section{Statement of the Problem}
 
-This study examines the main limitations of the current SAGE approach, specifically the use of the Pixel2Style2Pixel (pSp) encoder, which tends to yield latently entangled codes and diminished control over semantic edits. The limitations reduce the creation of semantic-consistent, high-fidelity images from few-shot instances. While GAN-produced images are visually realistic, loss of fine details from inversion heavily degrades downstream performance for classification. In approaches such as SAGE, using the reconstructed image for training lowers accuracy because of the mismatch between the latent embeddings and the original information, as well as the lack of fidelity in the reconstructions. The loss of information is carried over during the editing process, diminishing the performance of the generative augmentation. Enhanced inversion would increase both editability of the image and downstream task performance.
+This study examines the main limitations of the current SAGE approach, specifically the use of the Pixel2Style2Pixel 
+(pSp) encoder, which tends to yield latently entangled codes and diminished control over semantic edits. The 
+limitations reduce the creation of semantic-consistent, high-fidelity images from few-shot instances. 
+While GAN-produced images are visually realistic, loss of fine details from inversion heavily degrades downstream 
+performance for classification. In approaches such as SAGE, using the reconstructed image for training lowers accuracy 
+because of the mismatch between the latent embeddings and the original information, as well as the lack of fidelity in 
+the reconstructions. The loss of information is carried over during the editing process, diminishing the performance of 
+the generative augmentation. Enhanced inversion would increase both editability of the image and downstream task performance.
 Specifically, the study seeks to answer the following research questions:
 
 \begin{enumerate}
-    \item Can replacing the pSp encoder with the StyleFeatureEditor inverter and Feature Editor improve latent inversion fidelity and preserve image details for style-based editing within the SAGE framework?
+    \item Can replacing the pSp encoder with the StyleFeatureEditor inverter and Feature Editor improve latent inversion 
+    fidelity and preserve image details for style-based editing within the SAGE framework?
 
-    \item Do these modifications influence the consistency, diversity, and quality of images generated in the few-shot setting, particularly for novel classes in datasets Flowers and VGGFaces?
+    \item Do these modifications influence the consistency, diversity, and quality of images generated in the few-shot 
+    setting, particularly for novel classes in datasets Flowers and VGGFaces?
 
     \item How well does FeatureSAGE perform in terms of editing reliability and disentanglement in few-shot scenarios?
 
-    \item How does FeatureSAGE compare with state-of-the-art GAN inversion and few-shot editing methods in terms of edit stability, identity preservation, and overall image quality?
+    \item How does FeatureSAGE compare with state-of-the-art GAN inversion and few-shot editing methods in terms of edit 
+    stability, identity preservation, and overall image quality?
     
 \end{enumerate}

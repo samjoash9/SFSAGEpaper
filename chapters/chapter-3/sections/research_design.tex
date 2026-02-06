@@ -1,12 +1,21 @@
 \section{Research Design}
 
-This paper, "FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditing Encoder for Enhanced Few-Shot Image Generation," uses a quantitative approach with an experimental research design to test improvements to the current SAGE framework. In particular, the paper alters the GAN inversion module of SAGE by substituting the Pixel2Style2Pixel (pSp) encoder with the StyleFeatureEditor (SFE) and adding its integrated Feature Editor module for enhanced latent inversion and editing functionality. The research employed a quantitative approach using existing automated measures for objective testing. Reconstruction quality is measured via Fréchet Inception Distance (FID) and Learned Perceptual Image Patch Similarity (LPIPS), and attribute editing performance is measured through Naive Augmentation Score (NAS), and Attribute Consistency Score, which measures latent disentanglement. Multiple tests are carried out in various visual domains via the use of held-out test sets to provide statistical robustness. 
-
+This paper, "FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditing Encoder for Enhanced 
+Few-Shot Image Generation," uses a quantitative approach with an experimental research design to test improvements 
+to the current SAGE framework. In particular, we replace the GAN inversion module of SAGE by substituting
+ the Pixel2Style2Pixel (pSp) encoder with the StyleFeatureEditor (SFE) and adding its integrated Feature Editor 
+ module for enhanced latent inversion and editing functionality. The research employed a quantitative approach using 
+ existing automated measures for objective testing. Reconstruction quality is measured via Fréchet Inception Distance 
+ (FID) and Learned Perceptual Image Patch Similarity (LPIPS), and attribute editing performance is measured through 
+ Attribute Consistency Score, which measures latent disentanglement. Multiple tests are carried out in various visual 
+ domains via the use of held-out test sets to provide statistical robustness.
 
 % =============================================================================
 \subsection{Experimental Setup}
 
-The experimental setup is designed to evaluate the effectiveness of the proposed FeatureSAGE framework in comparison to the existing SAGE method. The evaluation follows a quantitative, experimental research design that involves controlled changes to a single independent variable and the measurement of multiple dependent variables using standardized metrics.
+The experimental setup is designed to evaluate the effectiveness of the proposed FeatureSAGE framework in comparison 
+to the existing SAGE method. The evaluation follows a quantitative, experimental research design that involves controlled 
+changes to a single independent variable and the measurement of multiple dependent variables using standardized metrics.
 
 \begin{itemize}
     \item \textbf{Independent Variable}
@@ -21,24 +30,15 @@ The experimental setup is designed to evaluate the effectiveness of the proposed
             \item Fréchet Inception Distance (FID): Measures distribution-level similarity between generated and real images.
             \item Learned Perceptual Image Patch Similarity (LPIPS): Measures perceptual similarity between original and reconstructed images based on deep features.
         \end{enumerate}
-        \item Attribute Editing Reliability \& Disentanglement
-        \begin{enumerate}
-            \item Naive Augmentation Score (NAS): Evaluates the reliability of attribute manipulation after augmentation.
-            % \item Attribute Consistency Score: Assesses whether the edited attributes remain consistent across image variations.
-        \end{enumerate}
-        \item Downstream Utility
-        \begin{enumerate}
-            \item Few-Shot Classification Accuracy: Assesses how well the generated images retain semantically meaningful content usable for classification.
-        \end{enumerate}
     \end{itemize}
     \item \textbf{Controlled Variables}
     \begin{enumerate}
         \item Generator Architecture : A fixed, pretrained StyleGAN2 generator is used in both configurations for consistent image synthesis capabilities.
-        \item Training Dataset : Both configurations use the same datasets (Animal Faces HQ, VGGFace2, NABirds , and 102 Flower) with the same preprocessing and data-splitting.
+        \item Training Dataset : Both configurations use the same datasets (Animal Faces HQ and 102 Flower) with the same preprocessing and data-splitting.
         \item Evaluation Protocol : Use the sample unseen categories from the train-test spliting data for few-shot testing in both configurations. Evaluation is conducted using identical random seeds, few-shot sample counts (e.g., 1-shot, 5-shot), and query sets.
         \item Loss Functions : Reconstruction and editing losses (e.g., pixel loss, perceptual loss, identity loss) are applied consistently across both systems.
         \item Optimization Settings : Both models utilize the same Optimizer type, Learning rate , Batch size and Training epochs 
-        \item Evaluation Metrics : All quantitative metrics (FID, LPIPS, NAS, Attribute Consistency, few-shot accuracy) are computed using the same implementation and parameters for consistency.
+        \item Evaluation Metrics : All quantitative metrics (FID and LPIPS) are computed using the same implementation and parameters for consistency.
         \item Hardware \& Software Environment : All experiments are conducted using the same hardware and PyTorch environment to avoid performance inconsistencies.
     \end{enumerate}
     \item \textbf{Experimental Conditions}
