@@ -1,0 +1,42 @@
+\section{Analysis of Quantitative Results}
+
+This section analyzes the quantitative performance trends observed in Table~\ref{tab:quantitative_comparison_merged}, focusing on how the proposed 
+SFSAGE model compares against AGE and SAGE baselines across the Flowers and Animal Faces datasets at both 1024×1024 and 256×256 resolutions using 
+FID and LPIPS metrics.
+
+\subsection{102 Flowers}
+
+\subsubsection{102 Flowers at 1024$\times$1024}
+
+At high resolution (1024$\times$1024), SFSAGE demonstrates substantial improvements in distributional realism. The framework achieves an FID of 45.6, representing a 25.9\% reduction relative to SAGE (61.57) and a 36.0\% reduction relative to AGE (71.2). This significant decrease in FID indicates that SFSAGE generates images more closely aligned with the true distribution of flower images in the Inception feature space, reflecting improved statistical similarity to real data.
+
+Critically, SFSAGE also achieves the highest LPIPS score of 0.38 compared to SAGE (0.24) and AGE (0.19), representing a 58.3\% improvement over SAGE and a 100\% improvement over AGE. This higher LPIPS reflects greater perceptual diversity in the generated samples, indicating that SFSAGE successfully explores a wider range of the latent-feature space rather than replicating limited reference images. The feature editing module enables variation across multiple semantic dimensions while maintaining category consistency. This increased diversity is essential in few-shot scenarios, where the risk of mode collapse and memorization is high.
+
+However, higher LPIPS also implies a trade-off: generated images deviate more from their reference samples at the perceptual feature level. This means that while the outputs are diverse and distributionally realistic, they exhibit lower perceptual similarity to the original inputs in the VGG feature space. The framework prioritizes semantic exploration over strict fidelity to reference images.
+
+\subsubsection{102 Flowers at 256$\times$256}
+
+At lower resolution (256$\times$256), SFSAGE maintains its advantage in distributional realism with an FID of 145.6, outperforming SAGE (160.0) by 9.0\% and AGE (181.1) by 19.6\%. However, a notable divergence appears in the LPIPS metric: SFSAGE records 0.12, which is 76\% lower than SAGE (0.50) and 79\% lower than AGE (0.58). This indicates significantly reduced diversity at lower resolution compared to the baselines.
+
+This resolution-dependent behavior suggests that the feature editing module's effectiveness is tied to the dimensionality of the intermediate feature representations. At 256$\times$256, the feature tensors 
+$\mathbf{F}_k \in \mathbb{R}^{512 \times 16 \times 16}$ contain substantially less spatial information than at 1024$\times$1024, where 
+$\mathbf{F}_k \in \mathbb{R}^{512 \times 64 \times 64}$, constraining the module's capacity to introduce variation while preserving semantic coherence. 
+
+The dramatically lower LPIPS suggests that SFSAGE adopts a conservative editing strategy at reduced resolution, prioritizing distributional alignment (FID) over perceptual diversity (LPIPS). The generated outputs likely remain closer to the class embedding with minimal attribute variation, reducing the risk of semantic drift but limiting the range of diverse samples.
+
+\subsection{Animal Faces}
+
+\subsubsection{Animal Faces HQ at 1024$\times$1024}
+
+On the Animal Faces HQ dataset at high resolution (1024$\times$1024), SFSAGE achieves the lowest FID of 38.6, outperforming SAGE (44.7) by 13.6\% and AGE (52.3) by 26.2\%. This improvement reflects SFSAGE's enhanced capability to model the underlying distribution of animal facial images, as measured by the Fréchet distance between real and generated feature distributions in the Inception embedding space.
+
+Importantly, SFSAGE also achieves the highest LPIPS score of 0.45 compared to SAGE (0.28) and AGE (0.21), representing a 60.7\% improvement over SAGE and a 114\% improvement over AGE. This substantial increase in perceptual diversity indicates that the framework generates samples with greater variation in the learned perceptual feature space while maintaining category-level consistency. The dual-level editing of both latent codes and feature tensors enables SFSAGE to explore diverse regions of the latent-feature manifold without sacrificing distributional alignment.
+
+The higher LPIPS reflects the same trade-off observed in the Flowers dataset: greater perceptual deviation from reference inputs. While this enhances diversity and prevents overfitting to the limited few-shot examples, it also means that generated samples show increased perceptual distance from the original images in the VGG feature space. This behavior aligns with the framework's design objective of prioritizing class-consistent diversity over reconstruction fidelity.
+
+
+\subsubsection{Animal Faces HQ at 256$\times$256}
+
+At 256$\times$256 resolution, SFSAGE continues to demonstrate superior distributional alignment with an FID of 78.6, outperforming SAGE (82.4) by 4.6\% and AGE (97.3) by 19.2\%. However, LPIPS drops significantly to 0.14, which is 64\% lower than SAGE (0.39) and 53\% lower than AGE (0.30). This represents a substantial reduction in perceptual diversity compared to both baselines at this resolution.
+
+The reduced diversity at lower resolution again highlights the feature editing module's dependence on high-dimensional spatial representations. The constrained information content in lower-resolution feature tensors appears to limit the module's ability to introduce diverse edits while maintaining semantic coherence. The framework adopts a more conservative editing strategy at 256$\times$256, prioritizing distributional fidelity (FID) over perceptual diversity (LPIPS). This suggests that when operating on lower-dimensional feature spaces, SFSAGE defaults to less exploratory edits to minimize the risk of generating out-of-distribution samples.

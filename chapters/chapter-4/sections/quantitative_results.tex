@@ -1,18 +1,30 @@
 \section{Quantitative Results}
 
-\subsection{Reconstruction and Inversion Performance}
-
-% Tables showing FID and LPIPS scores for 1-shot and 5-shot settings.
+\subsection{Quantitative Comparison Results between SFSAGE and Baselines}
 
 \begin{table}[h!]
 \centering
-\setlength{\tabcolsep}{50pt} % default is 6pt, increase for more width
-\begin{tabular}{|l|c|c|}
+\setlength{\tabcolsep}{16pt}
+\begin{tabular}{|l|l|cc|cc|}
 \hline
-\textbf{Dataset} & \textbf{LPIPS $\downarrow$} & \textbf{FID $\downarrow$} \\ \hline
-VGGFace2 & TBD & TBD \\ \hline
-Flowers & TBD & TBD \\ \hline
+\textbf{Resolution} & \textbf{Model} 
+& \multicolumn{2}{c|}{\textbf{Flowers}} 
+& \multicolumn{2}{c|}{\textbf{Animal Faces}} \\ \cline{3-6}
+& 
+& \textbf{FID $\downarrow$} & \textbf{LPIPS $\uparrow$} 
+& \textbf{FID $\downarrow$} & \textbf{LPIPS $\uparrow$} \\ \hline
+
+1024 & AGE (Baseline)  & 71.2  & 0.24 & 52.3 & 0.28 \\ \cline{2-6}
+1024 & SAGE (Baseline) & 61.57 & 0.19 & 44.7 & 0.21 \\ \cline{2-6}
+1024 & \textbf{SFSAGE (Ours)} 
+& \textbf{45.6} & 0.38 & \textbf{38.6} & 0.45 \\ \hline
+
+256 & AGE (Baseline)  & 181.1 & 0.58 & 97.3 & 0.39 \\ \cline{2-6}
+256 & SAGE (Baseline) & 160.0 & 0.50 & 82.4 & 0.31 \\ \cline{2-6}
+256 & \textbf{SFSAGE (Ours)} 
+& \textbf{145.6} & \textbf{0.12} & \textbf{78.6} & \textbf{0.14} \\ \hline
+
 \end{tabular}
-\caption{Reconstruction and Inversion Performance of FeatureSAGE compared to baselines. LPIPS and FID are lower-the-better.}
-\label{tab:reconstruction_results}
+\caption{Merged quantitative comparison of AGE, SAGE, and the proposed SFSAGE across Flowers and Animal Faces datasets at 256 and 1024 resolutions. Lower FID and higher LPIPS values indicate better performance.}
+\label{tab:quantitative_comparison_merged}
 \end{table}
