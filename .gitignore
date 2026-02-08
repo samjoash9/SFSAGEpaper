@@ -1,8 +1,51 @@
-main.pdf
-main.aux
-main.bbl
-main.blg
-main.lof
-main.log
-main.out
-main.toc
+# === LaTeX build files ===
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.fdb_latexmk
+*.fls
+*.glo
+*.gls
+*.glg
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.toc
+*.synctex.gz
+*.synctex(busy)
+*.xdv
+
+# === Latexmk ===
+.latexmkrc
+latexmk.out
+
+# === BibLaTeX ===
+*.bib.bak
+
+# === PDFs (optional) ===
+# Uncomment if you don't want generated PDFs in git
+# *.pdf
+
+# === Temporary files ===
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# === Editor / IDE files ===
+.vscode/
+.idea/
+*.code-workspace
+
+# === OS files ===
+.DS_Store
+Thumbs.db
