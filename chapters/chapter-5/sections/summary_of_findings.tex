@@ -1,6 +1,33 @@
-\section{Summar of Findings}
+\section{Summary of Findings}
 
 \subsection{Summary of Contributions}
 
+\paragraph{1. Integration of StyleFeatureEditor (SFE) Inverter} 
+FeatureSAGE replaces the original pSp encoder in SAGE with the SFE inverter, enabling improved latent representations that better capture distributional characteristics of the data across resolutions.
+
+\paragraph{2. Integration of Feature Editor for Semantic Control} 
+The Feature Editor module allows fine-grained and semantically consistent modifications by operating directly on intermediate feature representations, enhancing the expressiveness of attribute edits.
+
+\paragraph{3. Resolution-Dependent and Dataset-Adaptive Editing} 
+FeatureSAGE adapts its editing strategies according to both image resolution and dataset characteristics, ensuring appropriate trade-offs between edit diversity, stability, and realism.
+
+\paragraph{4. Comprehensive Benchmarking Against Baselines} 
+The framework demonstrates robust performance across structurally diverse datasets (Flowers and Animal Faces) and multiple resolutions, providing a generalizable approach to few-shot image generation while balancing perceptual expressiveness and identity preservation.
+
 \subsection{Empirical Outcomes}
-% Recap of quantitative results (FID and LPIPS improvements). (The qualitative performance will be written soon)
+
+\paragraph{Quantitative Performance} 
+FeatureSAGE consistently improves distributional realism and perceptual diversity compared to baseline methods. Key metrics include:
+
+\begin{itemize}
+    \item \textbf{FID improvements:} At $1024 \times 1024$, FeatureSAGE reduces FID by 25.9\% on Flowers (45.6 vs. 61.57) and by 19.9\% on Animal Faces (48.6 vs. 60.7). At $256 \times 256$, reductions are 9.0\% and 24.0\%, respectively.
+    \item \textbf{LPIPS improvements:} On Flowers at $1024 \times 1024$, FeatureSAGE achieves an LPIPS of 0.45—87.5\% higher than SAGE (0.24) and 137\% higher than AGE (0.19), reflecting enhanced perceptual diversity. At $256 \times 256$, LPIPS decreases to 0.13, prioritizing stability at lower resolution. On Animal Faces, LPIPS remains relatively stable across resolutions (0.35 at $1024 \times 1024$ vs. 0.33 at $256 \times 256$).
+\end{itemize}
+
+\paragraph{Dataset- and Resolution-Adaptive Trends} 
+The framework demonstrates context-sensitive behavior: 
+\begin{itemize}
+    \item Higher-resolution images (1024×1024) allow more expressive edits and perceptual diversity. 
+    \item Lower-resolution images (256×256) favor edit stability and distributional fidelity.
+    \item Domain-specific adaptation is evident: complex datasets like Flowers benefit from expressive edits, while constrained datasets like Animal Faces prioritize identity preservation.
+\end{itemize}
