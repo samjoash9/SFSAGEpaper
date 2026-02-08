@@ -5,11 +5,9 @@ improves upon the SAGE framework by integrating a StyleFeatureEditor Inverter an
 
 \textbf{Specifically , this study's object is as follows:}
 \begin{enumerate}[label=\alph*.]
-    \item Integrate StyleFeatureEditing to SAGE framework: Replace the existing pSp-based encoder with StyleFeatureEditing Gan Inversion(encoder) to improve latent code retrived from real images.
+    \item Integrate StyleFeatureEditing to SAGE framework: integrate the inverter and feature editor pair to improve generated image quality.
     This aims to make a framework variant of SAGE that can be used for a more downstream (e.g. Data Augmentation) task via high reconstructability and editability without the usual tradeoff.
 
-    \item Integrate the Feature Editor module into the SAGE framework for improved reconstruction quality.
-  
     \item Evaluate reconstruction quality of the inverted images of Animal Faces and Flowers using FID and LPIPS.
     
     \item Benchmark FeatureSAGE against baseline methods, specifically SAGE and AGE, to demonstrate improvements in edit stability, identity preservation, and overall image quality.
