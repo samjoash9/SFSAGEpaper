@@ -19,12 +19,36 @@ This study proposes a modified SAGE framework named \textbf{FeatureSAGE}, which 
 
 \subsection{Framework}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/feature_sage_framework.png}
-    \caption{\textit{FeatureSAGE framework}}
-    \label{fig:feature_sage_framework}
-\end{figure}
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=1\linewidth]{figures/feature_sage_framework.png}
+%     \caption{\textit{FeatureSAGE framework}}
+%     \label{fig:feature_sage_framework}
+% \end{figure}
+
+\newgeometry{
+    paperwidth=29.7cm,
+    paperheight=21.0cm,
+    top=1cm,
+    bottom=1cm,
+    left=1cm,
+    right=1cm
+}
+
+\begin{landscape}
+    \begin{figure}[p]
+        \centering
+        \includegraphics[
+            width=\linewidth,
+            height=\textheight,
+            keepaspectratio
+        ]{images/framework.png}
+        \caption{FeatureSAGE framework}
+        \label{fig:feature_sage_framework}
+    \end{figure}
+\end{landscape}
+
+\restoregeometry
 
 \textit{Figure~\ref{fig:feature_sage_framework} shows the overview of the FeatureSAGE framework.}
 The training set for seen categories is denoted as $D_{train}$ = $\{x_i^{c_s}\}^S$, which consists of S seen categories. While the testing set for unseen categories is denoted as $D_{test}$ = $\{x_i^{c_u}\}^U$ consists of U unseen categories.
