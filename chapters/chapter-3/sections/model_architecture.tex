@@ -51,50 +51,48 @@ This study proposes a modified SAGE framework named \textbf{FeatureSAGE}, which 
 \restoregeometry
 
 \textit{Figure~\ref{fig:feature_sage_framework} shows the overview of the FeatureSAGE framework.}
+
+
 The training set for seen categories is denoted as $D_{train}$ = $\{x_i^{c_s}\}^S$, which consists of S seen categories. While the testing set for unseen categories is denoted as $D_{test}$ = $\{x_i^{c_u}\}^U$ consists of U unseen categories.
 
-To enable image editing, the latent codes of the images should first be obtained. In this study, we use the Inverter $I(\cdot)$ of StyleFeatureEditor Encoder instead of the base SAGE pSp encoder. This encodes the image $x_i$ to $W^+$ space of StyleGAN2 and to a Feature Code $F_k$ which is used to improve reconstruction.
 
-\[
-(w_i,F_{ki}) = SFE(x_i)
-\]
+A pretrained pixel2style2pixel encoder $PSP$ takes seen image $X_i^{C_s}$ and predicts $w_i^{C_s} \in W+$. 
+Using the latent editor, which samples random directions from sparse dictionary $A$, we are able to get an edited image $\hat{w_i^{C_s}}$
+which we will use as an editing pair for training the feature editor module. Image $x_{i_psp}^{C_s}$ and features $F_w$ are synthesized from 
+$w_i^{C_s}$, while $\hat{x_{i_psp}^{C_s}}$ and features $\hat{F_w}$ are synthesized from $\hat{w}^{C_s}$ via Stylegan2 generator $G$.
+Generated image  $x_{i_psp}^{C_s}$ is then passed to a frozen StyleFeatureEditor Inverter Module $I$ which predicts $F_{k,i_psp}^{C_s}$ and $w_{i_psp}^{C_s}$ which is then
+edited by the latent editor according to sampled direction. Then $\Delta{F_w}$ is calculated, Feature Editor edits $F_{k,i_psp}^{C_s}$ according to $\Delta{F_w}$.
 
-where $w_i \in \mathbb{R}^{18 \times 512}$ is the corresponding latent vector of $x_i$ in the $W^+$ space \citep{AGE} and $F_{ki} \in \mathbb{R}^{512 \times 64 \times 64}$ is the feature map extracted from the original input image $x_i$ \citep{liu2023delvingstyleganinversionimage}.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1\linewidth]{figures/modified_attribute_block.png}
+    \includegraphics[width=1\linewidth]{images/SFSAGE.drawio.png}
+    \caption{\textit{Attribute Factorization Training Framework \citep{ding2023stableattributegroupediting}}}
+    \label{fig:attribute_factorization_block}
+\end{figure}
+
+
+To enable disentangled editing, we first need to train a module that learns to identify category irrelevant attributes in the latent space.
+It is learned through sparse dictionary learning via the difference between the sample embedding and mean latent code of the category.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{images/AttributeFac.drawio.png}
     \caption{\textit{Modified Attribute Factorization Block, Derived from \citep{ding2023stableattributegroupediting}}}
     \label{fig:attribute_factorization_block}
 \end{figure}
 
-In our modified Attribute Factorization block (Fig.~\ref{fig:attribute_factorization_block}), we retain the same two‐step decomposition as in SAGE—i.e.\ we compute the residual
+In the Attribute Factorization block (Fig.~\ref{fig:attribute_factorization_block}), we retain the same two‐step decomposition as in SAGE—i.e.\ we compute the residual
 \[
-\Delta w_i^{ir} \;=\; w_i^{C_s} - e^{C_s},
+\Delta w_i^{ir} \;=\; w_i^{C_s} - e^{C_s}
 \]
 and factorize it via the learned dictionary $A$ and MLP‐predicted coefficients $n_i$ so that
 \[
-\Delta w_i^{ir} \;=\; A\,n_i.
-\]
+\hat{\Delta w_i^{ir}} \;=\; A\,n_i.
+\] 
 
-The key enhancement in FeatureSAGE is that, instead of editing only the latent code, we also edit the corresponding intermediate feature map $F_{k\,i}\in\mathbb R^{C\times H\times W}$ extracted by the StyleFeatureEditor encoder. Concretely, we pass the pair $\bigl(F_{k\,i},\,\Delta w_i^{ir}\bigr)$ into our Feature Editor module
-\[
-F'_{k\,i} \;=\; H\bigl(F_{k\,i},\,\Delta w_i^{ir}\bigr)\,,
-\]
-which learns to translate the low–resolution feature map according to the desired attribute shift while preserving fine‐grained details. The edited feature $F'_{k\,i}$ is then used—together with the edited latent $\hat W_i^{C_s}=e^{C_s}+\Delta w_i^{ir}$—to synthesize the final image. By operating jointly on $w$ and $F$, this block ensures that semantic edits (e.g.\ adding a smile or changing hair color) are reflected coherently at both the global (latent) and local (feature) levels.
+This edited residual is then added back to the mean latent to get the edited image $\hat{w_i^{C_s}}$.
 
-\textbf{Category Relevant Attributes} are attributes in the latent space that can cause shifts or changes to the category or class of an image if shifted or moved in a direction. This is also called the class embedding in the $W^+$ space. According to \citet{ding2023stableattributegroupediting}, all samples from the same category can be regarded as moving the same class embedding along different category-irrelevant attribute directions in $W^+$:
-
-\[
-W_i^{C_S} = e^{C_S} + \Delta{W_i^{ir}},
-\]
-where $W_i^{C_S}$ is a sample of $C_S$ in the latent space, $e^{C_S}$ is the class embedding of $C_S$ and $\Delta{W_i^{ir}}$ is the direction for the category-irrelevant editing.
-
-\textbf{Class Embedding} is a core latent representation that captures the relevant (category-defining) attributes of a class. In StyleGAN latent space, it is a vector that represents the identity or semantic center of a class (e.g. dog , cat , sunflower). According to \citet{ding2023stableattributegroupediting, AGE}, "class embedding should encode the common attributes among all samples from one specific category." To get our representation for the class embedding $e^{C_S}$, we use the mean latent vector $\overline{W}^{C_S} \in W^+ $ of all samples in a category $C_S$:
-\[
-e^{C_S} = \frac{1}{N_S} \sum_{i=1}^{N_S} W_i^{C_S},
-\]
-where the number of samples from the category $C_S$ is denoted by $N_S$. We define $B =  [e^{C1}, e^{C2}, e^{C3}....e^{C_S}]$ as the dictionary of category-relevant attributes of S seen categories.
 
 \textbf{Category-irrelevant Attributes} are features that influence how an object appears but are not essential to its identity or class membership. Example is that a cat is still a cat even if it faces left or right , the color changes , the background changes , texture, expression, etc. They are attributes that can change the appearance but not the class of the object. According to \citet{ding2023stableattributegroupediting}, we define category-irrelevant editing as $edit_{ir}(\cdot)$ which does not change the category given a latent code $w^{C_S}$ of seen category $C_S$:
 \[
@@ -129,7 +127,7 @@ n_i = MLP(\Delta W_i^{ir})
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1\linewidth]{figures/class_embedding_mapping_block.png}
+    \includegraphics[width=1\linewidth]{images/Class_embedding_mapping.drawio.png}
     \caption{\textit{Class Embedding Block , Adapted from \citep{ding2023stableattributegroupediting}}}
     \label{fig:class_embedding_block}
 \end{figure}
@@ -158,12 +156,12 @@ given $N_u$ latent codes of $\{ w_i^{C_u}\}_{i=1}^{N_u}$ unseen categories $C_u$
 %
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1\linewidth]{figures/adaptive_editing.png}
-    \caption{\textit{Modified Adaptive Editing Block, Adapted from \citep{ding2023stableattributegroupediting}}}
+    \includegraphics[width=1\linewidth]{images/adaptive.drawio.png}
+    \caption{\textit{Adaptive Editing Block, from \citep{ding2023stableattributegroupediting}}}
     \label{fig:adaptive_editing_block}
 \end{figure}
 
-Figure~\ref{fig:adaptive_editing_block} shows the modified adaptive editing block of FeatureSAGE.
+Figure~\ref{fig:adaptive_editing_block} shows the adaptive editing block of FeatureSAGE.
 Category-irrelevant qualities typically have similar distributions in closely related categories but differ dramatically in more distant ones.  Editing photos in a category-aware manner helps to preserve category-specific properties. Therefore we use adaptive editing to achieve this. Given a class $e^{C_u}$ of unseen category $C_u$, the top-$t_C$ seen categories $C_u = [C_{S_1},C_{S_2}....C_{S_{t_C}}]$ are first selected according to
 the distances between their class embeddings \citep{ding2023stableattributegroupediting}.
 
@@ -186,12 +184,36 @@ X_j^{C_u} = G(\hat{e}^{C_u} + \alpha A_{C_u} \tilde{n}_j , H(F_{ki}, \alpha A_{C
 
 where the intensity of manipulation is denoted by $\alpha$ to control diversity in the generated image.
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{images/featureEditordrawio.drawio.png}
+    \caption{\textit{Feature Editing Decoder Block}}
+    \label{fig:featureEditingBlock}
+\end{figure}
+
+Figure~\ref{fig:featureEditingBlock} show the feature editing decoder block. It takes the latent of the original image, and the edited latents after
+the adaptive editing block as inputs. For a semantic edit on the $W+$ space from the Inverter (I), we first need to calculate the latent difference between the original image latent and the 
+edited latent, denoted by $\Delta{w_j^{C_u}}$. We also need to get the difference between the feature spaces of both latents at layer 9  
+for feature injection which is denoted as :
+
+\[\Delta{F_w} = {F_w} - {F_{\hat{w}}}\],
+
+Latent $w_{j_psp}^{C_u}$ is then used to generate image while injecting edited features $F_{k,j_{psp}^{\hat{C_u}}}$ back into the 9th layer of the stylegan feature space.
+
+
 % ======================================================================================================
 \subsection{Training Strategy}
-In the training stage, we first need to train a StlyeGAN2 with images from the seen categories . Similarly, the StyleFeatureEditor Inverter and Feature Editor are also trained. To train the FeatureSAGE framework to effectively generate images in a few-shot environment and ensure generalizability, we adopt a systematic training strategy involving loss optimization, regularization, and evaluation monitoring. Below are the key components of our training pipeline.
+In the training stage, we first need to train a StlyeGAN2 with images from the seen categories . 
+Similarly, the StyleFeatureEditor Inverter and the PSP encoder are also trained. 
+To minimize resource consumption, the model is trained via a double phase method.
 
-\subsubsection{Loss Functions}
-The following are the loss functions applied to the FeatureSAGE framework:
+\subsection{Phase 1: Attribute Factorization Training}
+Phase 1 involves training the attribute factorization block for disentangled sampling of attribute irrelevant directions.
+To train the FeatureSAGE framework to effectively generate images in a few-shot environment and ensure generalizability, 
+we adopt a systematic training strategy involving loss optimization, regularization, and evaluation monitoring. Below are the key components of our training pipeline.
+
+
+The following are the loss functions applied to the attribute factorization block:
 \begin{itemize}
     \item Sparsity Loss ($L_{sparse}$) : The sparsity loss encourages the learned attribute code to be sparse, so that only a few dictionary directions are active for any image. Concretely, if $n_i$ is the code vector output by an MLP (encoding the differences between an image and the class mean), we  approximate an $L_0$ penalty by using a sigmoid and $L_1$ norm defined as :
     \[
@@ -214,12 +236,18 @@ The following are the loss functions applied to the FeatureSAGE framework:
     where $\|\cdot\|_F^2$ denotes the Frobenius Norm. 
 \end{itemize}
 
-The overall loss function is defined as :
+The overall loss function for the attribute factorization block is defined as :
 
 \[
-L = L_{rec} + \lambda_1{L_{orth}} + \lambda_2{L_{sparse}},  
+L_{af} = L_{rec} + \lambda_1{L_{orth}} + \lambda_2{L_{sparse}},  
 \]
 where $\lambda_1$ and $\lambda_2$ are weights for $L_{orth}$ and $L_{sparse}$ \citep{ding2023stableattributegroupediting}.
 
 \subsubsection{Optimization Algorithm}
 Training is done using the Adam Optimizer with the same configuration as defined by \citet{ding2023stableattributegroupediting} , a fixed learning rate of $1 \times 10^{-4}$ with hyperparameters of $\lambda_1 = 5 \times 10^{-4}$, $\lambda_2 = 5 \times 10^{-3} , \theta_0 = 5 \times 10^{-1} \  \text{and} \ \theta_1 = -1$.
+
+\subsection{Phase 2: Feature Editor Training}
+Phase 2 involves training the Feature Editor module via generating an editing pair using a pretrained psp encoder. Following the method of \cite{bobkov2024devildetailsstylefeatureeditordetailrich}, 
+we generate image $(X, \hat{X})$ where psp takes input image $X$ and predicts $w$ which is then edited by a sampled direction using the 
+adaptive editing method of the original SAGE to generate random image direction within local distribution and sampled sparse A attributes.
+This ensures that feature editor learns to edit features in a varying directions.

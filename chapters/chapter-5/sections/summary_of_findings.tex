@@ -20,18 +20,15 @@ approach to few-shot image generation while balancing perceptual expressiveness 
 
 \subsection{Empirical Outcomes}
 
-\paragraph{Quantitative Performance} 
-FeatureSAGE consistently improves distributional realism across datasets and resolutions. Key metrics include:
-
-\begin{itemize}
-    \item \textbf{FID improvements:} At $1024 \times 1024$, FeatureSAGE reduces FID by 25.9\% on Flowers (45.60 vs. 61.57 for AGE) and 15.8\% (vs. 54.17 for SAGE), and by 20.2\% on Animal Faces (49.60 vs. 62.13 for AGE) and 18.6\% (vs. 60.92 for SAGE). At $256 \times 256$ on Flowers, reductions are 15.0\% (vs. AGE) and 9.1\% (vs. SAGE).
-    \item \textbf{LPIPS performance:} On Flowers at $1024 \times 1024$, FeatureSAGE achieves an LPIPS of 0.4209, which is 7.0\% lower than SAGE (0.4528) and 2.5\% higher than AGE (0.4108), maintaining competitive perceptual diversity. At $256 \times 256$, LPIPS decreases to 0.1309, representing a 37.2\% reduction compared to SAGE (0.2085) and 37.9\% compared to AGE (0.2108). On Animal Faces at $1024 \times 1024$, LPIPS is 0.4811, within 1.2\% of SAGE (0.4867) and 4.4\% of AGE (0.5033).
-\end{itemize}
-
-\paragraph{Dataset and Resolution-Adaptive Trends} 
-The framework demonstrates resolution-dependent behavior: 
-\begin{itemize}
-    \item At $1024 \times 1024$ resolution, FeatureSAGE achieves substantial FID improvements (15.8-25.9\%) while maintaining LPIPS within 7.0\% of baseline methods across both datasets.
-    \item At $256 \times 256$ resolution on Flowers, FID improvements are smaller (9.1-15.0\%) but accompanied by larger LPIPS reductions (37.2-37.9\%), indicating reduced perceptual diversity at lower resolutions.
-    \item LPIPS values decrease substantially from high to low resolution on Flowers (0.4209 to 0.1309), while the pattern differs across datasets based on their structural characteristics.
-\end{itemize}
+Quantitative evaluation of the performance of the proposed FeatureSAGE framework indicated substantial performance gains 
+on both datasets at 1024x1024 resolution. SFSAGE obtained an FID score of 45.60 on the 102 Flowers dataset, showing a 
+relative improvement of 15.8\% when compared with SAGE and 25.9\% when compared with AGE, with an LPIPS value of 0.4209. 
+For the Animal Faces dataset, SFSAGE obtained an FID of 49.60 on the dataset, showing relative improvements of 18.6\% and 
+20.2\% when compared with SAGE and AGE respectively, with an LPIPS score of 0.4811. From the experiments' results, it is 
+clear that SFSAGE had substantial performance gains in aligning the distribution of samples with real data without compromising 
+the perceptual diversity in 7.0\% of the baseline methods on both datasets. The results highlighted that SFSAGE performed best 
+in terms of the quality produced, whereby the generated image had more sharpness, colors, and realism. SFSAGE performed remarkably 
+on the Flowers dataset, whereby maintaining the finer details and colors on faces was great, and manipulability related to 
+facial attributes also performed great with SFSAGE, whereby these attributes changed when changing orientations of faces of 
+flowers. For the Animal Faces dataset, SFSAGE performed remarkably with maintaining color accuracy and texture, along with more 
+coherence in terms of blurring of shading and fur, while the diversity of posing by this framework was not impressive enough.

@@ -2,10 +2,6 @@
 
 \subsection{Visual Comparison Across Models}
 
-% AGE vs SAGE vs SFSAGE
-% Same input, same dataset
-% Highlight realism, diversity, edit strength
-
 \begin{figure}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
@@ -69,6 +65,24 @@ Input & AGE & AGE & SAGE & SAGE & SFSAGE & SFSAGE
 \label{fig:qualitative_animalfaces}
 \end{figure}
 
+\begin{figure}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+
+\begin{tabular}{ccccccc}
+\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/input4.jpg} &
+\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4age_af_output2.jpg} &
+\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4age_output1.jpg} &
+\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4sage_output1.jpg} &
+\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4sage_output2.jpg} &
+\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4sfsage_af_output1.jpg} &
+\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4sfsage_output2.jpg} \\
+Input & AGE & AGE & SAGE & SAGE & SFSAGE & SFSAGE
+\end{tabular}
+
+\caption{Comparison across AGE, SAGE, and the proposed SFSAGE model under one-shot setting with a different dog input image. Each model generates two outputs per input to illustrate diversity and semantic consistency.}
+\label{fig:qualitative_input4}
+\end{figure}
 
 \subsection{Visual Observations}
 

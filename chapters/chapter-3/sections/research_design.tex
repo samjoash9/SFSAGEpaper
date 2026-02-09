@@ -33,7 +33,7 @@ changes to a single independent variable and the measurement of multiple depende
         \item Generator Architecture : A fixed, pretrained StyleGAN2 generator is used in both configurations for consistent image synthesis capabilities.
         \item Training Dataset : Both configurations use the same datasets (FUNIT Animal Faces and 102 Flower) with the same preprocessing and data-splitting.
         \item Evaluation Protocol : Use the sample unseen categories from the train-test spliting data for few-shot testing in both configurations. Evaluation is conducted using identical random seeds, few-shot sample counts (e.g., 1-shot, 5-shot), and query sets.
-        \item Loss Functions : Reconstruction and editing losses (e.g., pixel loss, perceptual loss, identity loss) are applied consistently across both systems.
+        \item Loss Functions : Reconstruction and editing losses are applied consistently across both systems.
         \item Optimization Settings : Both models utilize the same Optimizer type, Learning rate , Batch size and Training epochs 
         \item Evaluation Metrics : All quantitative metrics (FID and LPIPS) are computed using the same implementation and parameters for consistency.
         \item Hardware \& Software Environment : All experiments are conducted using the same hardware and PyTorch environment to avoid performance inconsistencies.
@@ -47,14 +47,15 @@ changes to a single independent variable and the measurement of multiple depende
     \end{itemize}
 
     \item \textbf{Hardware specifications}:
-    The machine learning experiments in this thesis utilize the University's supercomputing resources, which provide high-performance CPUs, GPUs, and memory suitable for deep learning and large-scale data processing.
+    All experiments were conducted on a virtual machine instance with GPU pass‐through, hosted
+    on institutional cloud infrastructure:
 
-    % Listed below are the hardware specifications of the device that will be used for training:
-    % \begin{itemize}
-    %     \item GPU : 
-    %     \item CPU :
-    %     \item RAM : 
-    % \end{itemize}
+    Listed below are the hardware specifications of the device that will be used for training:
+    \begin{itemize}
+        \item GPU : NVIDIA GRID V100D‐32A (virtualized Tesla V100) 16 GB HBM2
+        \item CPU : QEMU Virtual CPU version 2.5+ 2 processors @ 2.19 GHz
+        \item RAM : 32.0 GB
+    \end{itemize}
 \end{itemize}
 
 % =========================================================================================
@@ -69,31 +70,3 @@ and the proposed FeatureSAGE framework. By explicitly controlling the evaluation
 protocol enables a systematic assessment of FeatureSAGE’s robustness, stability, and generalization capability under severe data limitations. 
 The few-shot constraint is applied during test-time adaptation and evaluation on unseen classes, while the StyleGAN2 generator and attribute 
 directions are learned from large-scale seen-category data.
-
-% =========================================================================================
-\subsection{Workflow Diagram}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/overview_workflow.png}
-    \caption{\textit{Overview of Workflow Diagram of FeatureSAGE}}
-    \label{fig:overview_workflow}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[height=0.8\linewidth]{figures/workflow_diagram.png}
-    \caption{\textit{Detailed Workflow Diagram of FeatureSAGE}}
-    \label{fig:workflow_diagram}
-\end{figure}
-
-Figure~\ref{fig:overview_workflow} and Figure~\ref{fig:workflow_diagram} show the workflow diagram of FeatureSAGE. For FeatureSAGE consists of the following steps:
-
-\begin{enumerate}
-    \item Input and image to the model
-    \item The Inverter of the StyleFeatureEditor (SFE) $I (\cdot)$ inverts the image into latent space and feature tensor representation $(W,F)$
-    \item When the mode of the model is for training then proceed with the process, else freeze the loss function calculations
-    \item Inside the modified SAGE block, calculate the direction of the irrelevant attributes(e.g Pose, lighting, background, color tone, style, texture, camera angle, hair style) and move latent and feature space to that direction. This changes the output image without changing the class of the image, a dog stays a dog even after edits. Output the edited latent and feature space $(\hat{W}, \hat{F_k})$. 
-    \item $(\hat{W}, \hat{F_k})$ are then used as input to the StyleGAN2 synthesis network to generate novel images.
-    \item If mode is for training, then it calculates and apply loss, else end for inference.
-\end{enumerate}
