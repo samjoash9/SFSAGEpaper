@@ -31,7 +31,7 @@ changes to a single independent variable and the measurement of multiple depende
     \item \textbf{Controlled Variables}
     \begin{enumerate}
         \item Generator Architecture : A fixed, pretrained StyleGAN2 generator is used in both configurations for consistent image synthesis capabilities.
-        \item Training Dataset : Both configurations use the same datasets (Animal Faces HQ and 102 Flower) with the same preprocessing and data-splitting.
+        \item Training Dataset : Both configurations use the same datasets (FUNIT Animal Faces and 102 Flower) with the same preprocessing and data-splitting.
         \item Evaluation Protocol : Use the sample unseen categories from the train-test spliting data for few-shot testing in both configurations. Evaluation is conducted using identical random seeds, few-shot sample counts (e.g., 1-shot, 5-shot), and query sets.
         \item Loss Functions : Reconstruction and editing losses (e.g., pixel loss, perceptual loss, identity loss) are applied consistently across both systems.
         \item Optimization Settings : Both models utilize the same Optimizer type, Learning rate , Batch size and Training epochs 

@@ -4,7 +4,7 @@
 
 \begin{table}[h!]
 \centering
-\setlength{\tabcolsep}{16pt}
+\setlength{\tabcolsep}{15pt}
 \begin{tabular}{|l|l|cc|cc|}
 \hline
 \textbf{Resolution} & \textbf{Model} 
@@ -15,20 +15,21 @@
 & \textbf{FID $\downarrow$} & \textbf{LPIPS $\uparrow$} \\ \hline
 
 1024 & AGE (Baseline)  
-& 71.2  & 0.19 & 73.3 & 0.39 \\ \cline{2-6}
+& 61.57  & 0.4108 & 62.13 & 0.5033 \\ \cline{2-6}
 1024 & SAGE (Baseline) 
-& 61.57 & 0.24 & 60.7 & 0.48 \\ \cline{2-6}
+& 54.17 & 0.4528 & 60.92 & 0.4867 \\ \cline{2-6}
 1024 & \textbf{SFSAGE (Ours)} 
-& \textbf{45.6} & \textbf{0.45} & \textbf{48.6} & 0.35 \\ \hline
+& 45.60 & 0.4209 & 49.60 & 0.4811 \\ \hline
 
 256 & AGE (Baseline)  
-& 171.1 & 0.20 & 69.1 & 0.37 \\ \cline{2-6}
+& 171.15 & 0.2108 & - & - \\ \cline{2-6}
 256 & SAGE (Baseline) 
-& 160.0 & 0.29 & 60.92 & 0.48 \\ \cline{2-6}
+& 160.12 & 0.2085 & - & - \\ \cline{2-6}
 256 & \textbf{SFSAGE (Ours)} 
-& \textbf{145.6} & 0.13 & \textbf{46.3} & 0.33 \\ \hline
+& 145.48 & 0.1309 & - & - \\ \hline
 
 \end{tabular}
-\caption{Merged quantitative comparison of AGE, SAGE, and the proposed SFSAGE across Flowers and Animal Faces datasets at 256 and 1024 resolutions. Lower FID and higher LPIPS values indicate better performance.}
+\caption{Merged quantitative comparison of AGE, SAGE, and the proposed SFSAGE across Flowers and Animal Faces datasets at 256 and 1024 resolutions. 
+Lower FID and higher LPIPS values indicate better performance. The 256$\times$256 Animal Faces results were not evaluated.}
 \label{tab:quantitative_comparison_merged}
 \end{table}

@@ -8,36 +8,33 @@ FID and LPIPS metrics.
 
 \subsubsection{102 Flowers at 1024$\times$1024}
 
-On a high resolution setting (1024$\times$1024), SFSAGE shows clear gains in distributional realism. The model obtains an FID of 45.6, which corresponds to a 25.9\% improvement over SAGE (61.57) and a 36.0\% improvement over AGE (71.2). The large FID improvement obtained by SFSAGE clearly shows that the model produces images that are more similar to the actual distribution of flower images in the Inception feature space.
-
-Notably, SFSAGE achieves the maximum value of LPIPS of 0.45 compared to SAGE (0.24) and AGE (0.19), which is an improvement of 87.5\% over SAGE and 137\% over AGE. The high value of LPIPS suggests higher perceptual diversity in the generated samples, which implies that SFSAGE is able to search a larger region of the latent feature space instead of copying a few example images. The feature editing module helps in achieving diversity along multiple semantic axes while maintaining consistency in categories. The high degree of diversity is desirable in few-shot learning settings, where the danger of mode collapse and memorization is high.
-
-However, a high LPIPS value suggests that there is a compromise in terms of the degree to which the generated images are dissimilar from the reference images in terms of perceptual characteristics. As a result, even though the generated images are diverse and perceptually realistic, they are less similar to the original inputs in the VGG feature space.
+On a high resolution setting (1024$\times$1024), SFSAGE obtains an FID of 45.60, which corresponds to a 15.8\% improvement over SAGE (54.17) and a 
+25.9\% improvement over AGE (61.57). This substantial FID reduction demonstrates improved distributional alignment with the real flower images in 
+the Inception feature space. In terms of perceptual diversity, SFSAGE achieves an LPIPS of 0.4209, compared to SAGE (0.4528) and AGE (0.4108). 
+This represents a 7.0\% decrease relative to SAGE and a 2.5\% increase relative to AGE. The LPIPS values across all three methods range from 
+0.4108 to 0.4528, indicating that perceptual diversity remains relatively consistent across the approaches. The results show that SFSAGE achieves 
+FID improvements of 15.8-25.9\% while maintaining LPIPS within 7.0\% of the baseline methods. This pattern differs from the 256$\times$256 resolution 
+results on the same dataset, where SFSAGE achieved FID improvements of 9.1-15.0\% but with LPIPS reductions of 37.2-37.9\%.
 
 \subsubsection{102 Flowers at 256$\times$256}
 
-With a lower resolution of 256$\times$256, SFSAGE continues to hold the lead in terms of distributional realism with an FID of 145.6, which outperforms SAGE by 9.0\% and AGE by 14.9\%. However, a significant gap is observed in the LPIPS score, where SFSAGE reports a value of 0.13, reflecting a decrease of 55.2\% compared to SAGE and 35.0\% compared to AGE. This trend suggests that the diversity is significantly lower at the lower resolution compared to SAGE, but the gap is relatively smaller compared to AGE.
-
-% AI
-This resolution-dependent behavior suggests that the feature editing module's effectiveness is tied to the dimensionality of the intermediate feature representations. At 256$\times$256, the feature tensors 
-$\mathbf{F}_k \in \mathbb{R}^{512 \times 16 \times 16}$ contain substantially less spatial information than at 1024$\times$1024, where 
-$\mathbf{F}_k \in \mathbb{R}^{512 \times 64 \times 64}$, constraining the module's capacity to introduce variation while preserving semantic coherence. The dramatically lower LPIPS compared to high resolution (0.13 vs. 0.45) suggests that SFSAGE adopts a conservative editing strategy at reduced resolution, prioritizing distributional alignment (FID) over perceptual diversity (LPIPS). The generated outputs likely remain closer to the class embedding with minimal attribute variation, reducing the risk of semantic drift but limiting the range of diverse samples.
+At a lower resolution of 256$\times$256, SFSAGE achieves an FID of 145.48, which outperforms SAGE (160.12) by 9.1\% and AGE (171.15) by 15.0\%. 
+This demonstrates continued FID improvements across resolutions, though the percentage gains are smaller compared to the 1024$\times$1024 setting 
+(15.8\% and 25.9\% improvements). In terms of perceptual diversity, SFSAGE achieves an LPIPS of 0.1309, which is 37.2\% lower than SAGE (0.2085) 
+and 37.9\% lower than AGE (0.2108). The LPIPS values across methods range from 0.1309 to 0.2108 at this resolution, compared to 0.4108 to 0.4528 
+at 1024$\times$1024, indicating overall lower perceptual diversity at the reduced resolution. Comparing across resolutions, SFSAGE shows different 
+performance patterns: at 1024$\times$1024, FID improvements of 15.8-25.9\% are accompanied by LPIPS changes within ±7.0\%, while at 256$\times$256, 
+FID improvements of 9.1-15.0\% are accompanied by LPIPS reductions of 37.2-37.9\%. The LPIPS value decreases from 0.4209 to 0.1309 when resolution 
+is reduced from 1024$\times$1024 to 256$\times$256.
 
 \subsection{Animal Faces}
 
 \subsubsection{Animal Faces HQ at 1024$\times$1024}
 
-On the Animal Faces HQ dataset at 1024$\times$1024, SFSAGE achieved the lowest FID at 48.6, surpassing SAGE at 60.7 by 19.9\%, and AGE at 73.3 by 33.7\%. This reduction in FID verifies the superiority of SFSAGE in describing the actual data distribution of the animal face images, based on the Fréchet distance between the features in the real images and generated images in the Inception space.
-
-In contrast to the Flowers dataset, SFSAGE has a lower LPIPS value of 0.35, compared to SAGE (0.48) and AGE (0.39). This represents a 27.1\% reduction compared to SAGE and a 10.3\% reduction compared to AGE. The reduction in perceptual diversity at high resolution is particularly interesting and reflects the dependence on the dataset of the feature editing module. In contrast to the Flowers dataset, the Animal Faces dataset may have different structural constraints in the latent feature space, where a greater diversity (LPIPS 0.45) was achieved.
-
-% AI
-The lower LPIPS indicates that SFSAGE generates samples with less perceptual variation in the VGG feature space while still maintaining superior distributional alignment (lower FID). This suggests a more conservative editing strategy on this dataset, where the framework prioritizes maintaining closer perceptual similarity to reference inputs while improving overall distributional realism. The dual-level editing of both latent codes and feature tensors appears to operate differently across datasets, adapting to the complexity and variability inherent in each domain.
-
-\subsubsection{Animal Faces HQ at 256$\times$256}
-
-With a resolution of 256$\times$256, SFSAGE continues to have better distributional matching, as indicated by an FID of 46.3, outperforming SAGE (60.92) by 24.0\% and AGE (69.1) by 33.0\%. On the other hand, LPIPS reduces to 0.33, indicating a drop of 31.3\% compared to SAGE (0.48) and 10.8\% compared to AGE (0.37). This suggests a lower perceptual diversity at this resolution compared to the other two approaches, although the difference is not as significant as that seen in the Flowers dataset at 256$\times$256.
-
-It is worth noting that SFSAGE has a relatively stable LPIPS metric with respect to the resolution (0.35 at 1024$\times$1024 and 0.33 at 256$\times$256), which is a 5.7\% drop, in contrast to the large 71.1\% drop of 0.45 to 0.13 in the Flowers dataset. The relative stability of the diversity metrics implies that the Animal Faces dataset has its own unique structural characteristics in the latent feature space, which allow the feature editing module to maintain diversity even at coarser resolutions.
-
-Despite the lower variety compared to the baselines, SFSAGE obtains the best FID improvements at this resolution, proving the effectiveness of the framework in trading distributional alignment for perceptual variety for the Animal Faces dataset. This module in the feature editing component appears to respond adaptively to the characteristics of the data by preserving an acceptable level of variety while favoring distributional alignment at lower resolutions.
+On the Animal Faces HQ dataset at 1024$\times$1024, SFSAGE achieved an FID of 49.60, outperforming SAGE (60.92) by 18.6\% and AGE (62.13) by 20.2\%. 
+This reduction in FID demonstrates SFSAGE's superior distributional alignment with the real data distribution in the Inception feature space. In terms of 
+perceptual diversity, SFSAGE achieves an LPIPS of 0.4811, compared to SAGE (0.4867) and AGE (0.5033). This represents a 1.2\% decrease relative to SAGE 
+and a 4.4\% decrease relative to AGE. The LPIPS differences across all three methods are relatively small, with values ranging from 0.4811 to 0.5033, 
+indicating comparable levels of perceptual diversity in the VGG feature space. The results show that SFSAGE achieves substantial FID improvements 
+(18.6-20.2\%) while maintaining LPIPS values within 4.4\% of the baseline methods. This contrasts with the Flowers dataset at 256$\times$256 resolution, 
+where SFSAGE showed larger LPIPS reductions (37.2-37.9\%) alongside FID improvements of 9.1-15.0\%.

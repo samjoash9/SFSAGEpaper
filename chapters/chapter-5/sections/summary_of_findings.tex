@@ -2,11 +2,11 @@
 
 \subsection{Summary of Contributions}
 
-\paragraph{1. Integration of StyleFeatureEditor (SFE) Inverter} 
-FeatureSAGE integrates StyleFeatureEditor Encoder on the original SAGE framework, enabling improved latent representations that better capture distributional characteristics 
-of the data across resolutions.
+\paragraph{1. Integration of StyleFeatureEditor (SFE) Encoder} 
+FeatureSAGE integrates StyleFeatureEditor Encoder on the original SAGE framework, enabling improved latent representations that better 
+capture distributional characteristics of the data across resolutions.
 
-\paragraph{2. Integration of Feature Editor for Semantic Control} 
+\paragraph{2. Integration of Feature Editor} 
 The Feature Editor module allows fine-grained and semantically consistent modifications by operating directly on intermediate feature representations, enhancing the 
 expressiveness of attribute edits.
 
@@ -15,22 +15,23 @@ FeatureSAGE adapts its editing strategies according to both image resolution and
 stability, and realism.
 
 \paragraph{4. Comprehensive Benchmarking Against Baselines} 
-The framework demonstrates robust performance across structurally diverse datasets (Flowers and Animal Faces) and multiple resolutions, providing a generalizable approach to few-shot image generation while balancing perceptual expressiveness and identity preservation.
+The framework demonstrates robust performance across structurally diverse datasets (Flowers and Animal Faces) and multiple resolutions, providing a generalizable 
+approach to few-shot image generation while balancing perceptual expressiveness and identity preservation.
 
 \subsection{Empirical Outcomes}
 
 \paragraph{Quantitative Performance} 
-FeatureSAGE consistently improves distributional realism and perceptual diversity compared to baseline methods. Key metrics include:
+FeatureSAGE consistently improves distributional realism across datasets and resolutions. Key metrics include:
 
 \begin{itemize}
-    \item \textbf{FID improvements:} At $1024 \times 1024$, FeatureSAGE reduces FID by 25.9\% on Flowers (45.6 vs. 61.57) and by 19.9\% on Animal Faces (48.6 vs. 60.7). At $256 \times 256$, reductions are 9.0\% and 24.0\%, respectively.
-    \item \textbf{LPIPS improvements:} On Flowers at $1024 \times 1024$, FeatureSAGE achieves an LPIPS of 0.45—87.5\% higher than SAGE (0.24) and 137\% higher than AGE (0.19), reflecting enhanced perceptual diversity. At $256 \times 256$, LPIPS decreases to 0.13, prioritizing stability at lower resolution. On Animal Faces, LPIPS remains relatively stable across resolutions (0.35 at $1024 \times 1024$ vs. 0.33 at $256 \times 256$).
+    \item \textbf{FID improvements:} At $1024 \times 1024$, FeatureSAGE reduces FID by 25.9\% on Flowers (45.60 vs. 61.57 for AGE) and 15.8\% (vs. 54.17 for SAGE), and by 20.2\% on Animal Faces (49.60 vs. 62.13 for AGE) and 18.6\% (vs. 60.92 for SAGE). At $256 \times 256$ on Flowers, reductions are 15.0\% (vs. AGE) and 9.1\% (vs. SAGE).
+    \item \textbf{LPIPS performance:} On Flowers at $1024 \times 1024$, FeatureSAGE achieves an LPIPS of 0.4209, which is 7.0\% lower than SAGE (0.4528) and 2.5\% higher than AGE (0.4108), maintaining competitive perceptual diversity. At $256 \times 256$, LPIPS decreases to 0.1309, representing a 37.2\% reduction compared to SAGE (0.2085) and 37.9\% compared to AGE (0.2108). On Animal Faces at $1024 \times 1024$, LPIPS is 0.4811, within 1.2\% of SAGE (0.4867) and 4.4\% of AGE (0.5033).
 \end{itemize}
 
-\paragraph{Dataset- and Resolution-Adaptive Trends} 
-The framework demonstrates context-sensitive behavior: 
+\paragraph{Dataset and Resolution-Adaptive Trends} 
+The framework demonstrates resolution-dependent behavior: 
 \begin{itemize}
-    \item Higher-resolution images (1024×1024) allow more expressive edits and perceptual diversity. 
-    \item Lower-resolution images (256×256) favor edit stability and distributional fidelity.
-    \item Domain-specific adaptation is evident: complex datasets like Flowers benefit from expressive edits, while constrained datasets like Animal Faces prioritize identity preservation.
+    \item At $1024 \times 1024$ resolution, FeatureSAGE achieves substantial FID improvements (15.8-25.9\%) while maintaining LPIPS within 7.0\% of baseline methods across both datasets.
+    \item At $256 \times 256$ resolution on Flowers, FID improvements are smaller (9.1-15.0\%) but accompanied by larger LPIPS reductions (37.2-37.9\%), indicating reduced perceptual diversity at lower resolutions.
+    \item LPIPS values decrease substantially from high to low resolution on Flowers (0.4209 to 0.1309), while the pattern differs across datasets based on their structural characteristics.
 \end{itemize}
