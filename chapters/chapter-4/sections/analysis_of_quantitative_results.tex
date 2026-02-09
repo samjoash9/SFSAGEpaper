@@ -1,40 +1,22 @@
 \section{Analysis of Quantitative Results}
 
-This section analyzes the quantitative performance trends observed in Table~\ref{tab:quantitative_comparison_merged}, focusing on how the proposed 
-SFSAGE model compares against AGE and SAGE baselines across the Flowers and Animal Faces datasets at both 1024×1024 and 256×256 resolutions using 
-FID and LPIPS metrics.
+This section analyzes the quantitative performance trends observed in Table~\ref{tab:quantitative_comparison_1024}, focusing on how the proposed 
+SFSAGE model compares against AGE and SAGE baselines across the Flowers and Animal Faces datasets at 1024×1024 resolution only using FID and LPIPS metrics.
 
 \subsection{102 Flowers}
-
-\subsubsection{102 Flowers at 1024$\times$1024}
 
 On a high resolution setting (1024$\times$1024), SFSAGE obtains an FID of 45.60, which corresponds to a 15.8\% improvement over SAGE (54.17) and a 
 25.9\% improvement over AGE (61.57). This substantial FID reduction demonstrates improved distributional alignment with the real flower images in 
 the Inception feature space. In terms of perceptual diversity, SFSAGE achieves an LPIPS of 0.4209, compared to SAGE (0.4528) and AGE (0.4108). 
 This represents a 7.0\% decrease relative to SAGE and a 2.5\% increase relative to AGE. The LPIPS values across all three methods range from 
 0.4108 to 0.4528, indicating that perceptual diversity remains relatively consistent across the approaches. The results show that SFSAGE achieves 
-FID improvements of 15.8-25.9\% while maintaining LPIPS within 7.0\% of the baseline methods. This pattern differs from the 256$\times$256 resolution 
-results on the same dataset, where SFSAGE achieved FID improvements of 9.1-15.0\% but with LPIPS reductions of 37.2-37.9\%.
-
-\subsubsection{102 Flowers at 256$\times$256}
-
-At a lower resolution of 256$\times$256, SFSAGE achieves an FID of 145.48, which outperforms SAGE (160.12) by 9.1\% and AGE (171.15) by 15.0\%. 
-This demonstrates continued FID improvements across resolutions, though the percentage gains are smaller compared to the 1024$\times$1024 setting 
-(15.8\% and 25.9\% improvements). In terms of perceptual diversity, SFSAGE achieves an LPIPS of 0.1309, which is 37.2\% lower than SAGE (0.2085) 
-and 37.9\% lower than AGE (0.2108). The LPIPS values across methods range from 0.1309 to 0.2108 at this resolution, compared to 0.4108 to 0.4528 
-at 1024$\times$1024, indicating overall lower perceptual diversity at the reduced resolution. Comparing across resolutions, SFSAGE shows different 
-performance patterns: at 1024$\times$1024, FID improvements of 15.8-25.9\% are accompanied by LPIPS changes within ±7.0\%, while at 256$\times$256, 
-FID improvements of 9.1-15.0\% are accompanied by LPIPS reductions of 37.2-37.9\%. The LPIPS value decreases from 0.4209 to 0.1309 when resolution 
-is reduced from 1024$\times$1024 to 256$\times$256.
+FID improvements of 15.8-25.9\% while maintaining LPIPS within 7.0\% of the baseline methods.
 
 \subsection{Animal Faces}
-
-\subsubsection{Animal Faces HQ at 1024$\times$1024}
 
 On the Animal Faces HQ dataset at 1024$\times$1024, SFSAGE achieved an FID of 49.60, outperforming SAGE (60.92) by 18.6\% and AGE (62.13) by 20.2\%. 
 This reduction in FID demonstrates SFSAGE's superior distributional alignment with the real data distribution in the Inception feature space. In terms of 
 perceptual diversity, SFSAGE achieves an LPIPS of 0.4811, compared to SAGE (0.4867) and AGE (0.5033). This represents a 1.2\% decrease relative to SAGE 
 and a 4.4\% decrease relative to AGE. The LPIPS differences across all three methods are relatively small, with values ranging from 0.4811 to 0.5033, 
 indicating comparable levels of perceptual diversity in the VGG feature space. The results show that SFSAGE achieves substantial FID improvements 
-(18.6-20.2\%) while maintaining LPIPS values within 4.4\% of the baseline methods. This contrasts with the Flowers dataset at 256$\times$256 resolution, 
-where SFSAGE showed larger LPIPS reductions (37.2-37.9\%) alongside FID improvements of 9.1-15.0\%.
+(18.6-20.2\%) while maintaining LPIPS values within 4.4\% of the baseline methods.
