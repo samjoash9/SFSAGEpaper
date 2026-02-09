@@ -43,9 +43,6 @@ Input & AGE & AGE & SAGE & SAGE & SFSAGE & SFSAGE
 \label{fig:qualitative_input2}
 \end{figure}
 
-% image names for af:
-% input3.png, age_af_output1.jpg, age_af_output2.jpg, sage_af_output1.jpg, sfsage_af_output1.jpg, sage_output2.jpg, sfsage_af_ouptut2.jpg
-
 \begin{figure}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
@@ -95,7 +92,9 @@ model performs well in the retention of the pink petal colors from the input ima
 consistency. Note that the proposed model also fails to represent the combined red and yellow colors of the pistil from the input images. On the 
 other hand, the proposed model performs much better than both the input images in the sharpness of the petal. Although there are inconsistencies 
 from the input images, the proposed model also performs much better. In addition, the level of contrast in the proposed model results in the sharpest 
-flower among all the models. Further, the advantages of SFSAGE are highlighted by Figure \ref{fig:qualitative_input2}. The sharpness in petal edges 
+flower among all the models. 
+
+Further, the advantages of SFSAGE are highlighted by Figure \ref{fig:qualitative_input2}. The sharpness in petal edges 
 is better retained by the model compared to AGE and SAGE, which allows for a more photo-realistic and organic rendering. More varied outputs have 
 also resulted from SFSAGE; for instance, in one generated image, the flower is presented with a slight tilt, reflecting strong attribute manipulation. 
 The model maintains higher clarity, with balanced contrast and natural color distribution, while AGE slightly looks pale with reduced contrast in 
@@ -114,3 +113,10 @@ produced by each model. The more consistent results produced by the proposed SFS
 maintaining integrity while providing semantic edits. Also, there are some minor enhancements in the realism of the output, whereby the output 
 from SFSAGE shows slightly more coherent shading and blending of the fur patterns. This indicates that although all these models demonstrate 
 the ability to sustain basic attributes like color and texture, the SFSAGE model has the best consistency in output.
+
+Figure \ref{fig:qualitative_input4}, the similar behavior to the third image input for SFSAGE is observed, where it maintains consistency in terms of pose within the results, 
+showing that it does not have great variability compared to AGE and SAGE, which have more diverse orientations. At the same time, it may be 
+noted that SFSAGE is better at maintaining consistency of shape and structure for eyes, thus improving realism. It is also observed that the 
+results from SFSAGE have better clarity and contrast, improving image quality, particularly for fur texture and shading. On the other hand, 
+it may be noted that AGE performs best in terms of diversity among all models, particularly for pose variation. Yet, it is observed that this 
+diversity may also decrease image clarity.
