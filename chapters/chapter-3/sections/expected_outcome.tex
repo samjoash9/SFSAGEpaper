@@ -1,8 +1,18 @@
 \section{Expected Outcome}
 
-The study is expected to significantly enhance latent code retrieval from real-world images. By integrating the StyleFeatureEditing module into SAGE framework, results should show stronger reconstruction alongside easier modification without forcing a trade-off. Instead of relying on the initial pSp-based encoder, this updated setup known as FeatureSAGE may handle follow-up jobs more effectively. Tasks like enriching datasets could benefit greatly, particularly when only a handful of examples exist. Higher-quality inversions are likely to yield closer-to-original visuals while preserving meaning-rich traits needed for edits. Another boost comes from adding the Feature Editor unit, which tends to sharpen output clarity. It helps keep small textures intact and ensures the subject looks consistent even after changes take place.
+The study is expected to significantly enhance latent code retrieval from real-world images. By integrating the StyleFeatureEditing module into 
+SAGE framework, results should show stronger reconstruction alongside easier modification without forcing a trade-off. Instead of relying on the 
+initial pSp-based encoder, this updated setup known as FeatureSAGE may handle follow-up jobs more effectively. Tasks like enriching datasets could 
+benefit greatly, particularly when only a handful of examples exist. Higher-quality inversions are likely to yield closer-to-original visuals while 
+preserving meaning-rich traits needed for edits. Another boost comes from adding the Feature Editor unit, which tends to sharpen output clarity. 
+It helps keep small textures intact and ensures the subject looks consistent even after changes take place.
 
-In order to evaluate FeatureSAGE, performance is checked on two known datasets, VGGFace2 and Flowers102. Image variety and clarity are reviewed through a common tool called Fréchet Inception Distance (FID). Instead of relying only on visuals, perceptual likeness is measured via LPIPS scores that highlight fine differences between pictures. Keeping the person's look intact during edits receives attention using identity similarity assessments. Comparisons unfold alongside recent methods in GAN-based editing and low-data image changes. These side-by-side tests aim to show whether FeatureSAGE holds up more consistently across adjustments. Preserving who someone looks like matters just as much as making realistic tweaks. Overall picture quality enters evaluation not as an afterthought, but woven into each comparison point.
+In order to evaluate FeatureSAGE, performance is checked on two known datasets, FUNIT Animal Faces and Flowers 102. Image variety and clarity are 
+reviewed through a common tool called Fréchet Inception Distance (FID). Instead of relying only on visuals, perceptual likeness is measured via 
+LPIPS scores that highlight fine differences between pictures. Keeping the person's look intact during edits receives attention using identity 
+similarity assessments. Comparisons unfold alongside recent methods in GAN-based editing and low-data image changes. These side-by-side tests 
+aim to show whether FeatureSAGE holds up more consistently across adjustments. Preserving who someone looks like matters just as much as making 
+realistic tweaks. Overall picture quality enters evaluation not as an afterthought, but woven into each comparison point.
 
 Based on the objectives outlined in this study, the proposed FeatureSAGE framework is expected to achieve the following measurable outcomes:
 
@@ -12,4 +22,6 @@ Based on the objectives outlined in this study, the proposed FeatureSAGE framewo
     \item \textbf{Higher Learned Perceptual Image Patch Similarity (LPIPS)}, reflecting increased perceptual diversity among edited images.
 \end{enumerate}
 
-All of these results are collectively establish the strength of FeatureSAGE as a robust and universal instrument for few-shot image generation, manipulation, and data enhancement in resource-limited learning systems. The research also contribute to the development of the edit-based few-shot approach.
+All of these results are collectively establish the strength of FeatureSAGE as a robust and universal instrument for few-shot image generation, 
+manipulation, and data enhancement in resource-limited learning systems. The research also contribute to the development of the edit-based 
+few-shot approach.
