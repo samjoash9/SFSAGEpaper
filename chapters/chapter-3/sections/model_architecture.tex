@@ -68,7 +68,7 @@ edited by the latent editor according to sampled direction. Then $\Delta{F_w}$ i
     \centering
     \includegraphics[width=1\linewidth]{images/SFSAGE.drawio.png}
     \caption{\textit{Attribute Factorization Training Framework \citep{ding2023stableattributegroupediting}}}
-    \label{fig:attribute_factorization_block}
+    \label{fig:attributge_fac_training}
 \end{figure}
 
 
@@ -78,7 +78,7 @@ It is learned through sparse dictionary learning via the difference between the 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\linewidth]{images/AttributeFac.drawio.png}
-    \caption{\textit{Modified Attribute Factorization Block, Derived from \citep{ding2023stableattributegroupediting}}}
+    \caption{\textit{Attribute Factorization Block, Derived from \citep{ding2023stableattributegroupediting}}}
     \label{fig:attribute_factorization_block}
 \end{figure}
 
@@ -247,7 +247,22 @@ where $\lambda_1$ and $\lambda_2$ are weights for $L_{orth}$ and $L_{sparse}$ \c
 Training is done using the Adam Optimizer with the same configuration as defined by \citet{ding2023stableattributegroupediting} , a fixed learning rate of $1 \times 10^{-4}$ with hyperparameters of $\lambda_1 = 5 \times 10^{-4}$, $\lambda_2 = 5 \times 10^{-3} , \theta_0 = 5 \times 10^{-1} \  \text{and} \ \theta_1 = -1$.
 
 \subsection{Phase 2: Feature Editor Training}
-Phase 2 involves training the Feature Editor module via generating an editing pair using a pretrained psp encoder. Following the method of \cite{bobkov2024devildetailsstylefeatureeditordetailrich}, 
+Phase 2 involves training the Feature Editor $H$ module via generating an editing pair using a pretrained psp encoder. Following the method of \cite{bobkov2024devildetailsstylefeatureeditordetailrich}, 
 we generate image $(X, \hat{X})$ where psp takes input image $X$ and predicts $w$ which is then edited by a sampled direction using the 
 adaptive editing method of the original SAGE to generate random image direction within local distribution and sampled sparse A attributes.
-This ensures that feature editor learns to edit features in a varying directions.
+This ensures that feature editor learns to edit features from the learned category irrelevant attributes.
+To ensure that Feature Editor output quality does not degrade due to being trained using synthetic images only, $H$ is to be trained with classical inversion task as well.
+It follows the same pipeline as the editing loss but with $\Delta = 0$. 
+
+For this phase we apply $L_2\:and\:L_{lpips}$ on both editing and inversion loss calculation : 
+
+\[L_{edit} = L_2+\lambda_{\text{lpips}} \, \mathcal{L}_{\text{lpips}}\]
+\[L_{inv} = L_2+\lambda_{\text{lpips}} \, \mathcal{L}_{\text{lpips}}\]
+\[L_{fe} = L_{edit}(X, \hat{X}) + L_{inv}{(X, \hat{X})}\]
+
+The model is trained using the Adam optimizer with fixed learning rate of $1x10^{-4}$ for a total of 15,000 iterations on a single v100 16GB
+V100 vGPU with mixed precision enabled to improve memory efficiency due to multiple generator passes.
+The encoder is optimized using a weighted combination of reconstruction and perceptual losses. We set the loss
+weights $\lambda_{l_2} = 10$ and $\lambda_{\text{lpips}} = 0.8$ with an additional LPIPS scaling factor of 0.5.
+It is the model is initialized with a fixed length of 100 for the A sparse dictionary.
+
