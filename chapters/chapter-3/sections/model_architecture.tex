@@ -5,7 +5,14 @@ This study proposes a modified SAGE framework named \textbf{FeatureSAGE}, which 
 \begin{enumerate}
     \item \textbf{StyleGAN2} : Similar to the SAGE framework, the synthesis module of a pretrained StyleGAN2 is used to generate images from the inverted latent space codes output of the GAN inverter (StyleFeatureEditor). Additionally, with the integration of the Feature Editor of SFE, we utilized the feature tensor together with the latent codes to synthesize the resulting image.
     
-    \item \textbf{StyleFeatureEditor Encoder (SFE)} : SFE by \citet{bobkov2024devildetailsstylefeatureeditordetailrich} , is a novel method that enables editing in both $w$-latents and $F$-latents. This technique not only allows for the reconstruction of finer image details but also ensures their preservation during editing". In the FeatureSAGE framework it is to replace the GAN Inversion module $I(\cdot)$ of the Original SAGE framework. According to the observations of \citet{ding2023stableattributegroupediting}, when reconstructing from the experimented inversion methods (pSp , ReStyle, HyperStyle) , there is an observed loss of local details and thus the accuracy of the reconstructed images is lower by over 5\% compared to the stadard data. And as noted by \citet{ding2023stableattributegroupediting} "If we obtain a better inversion method with better reconstruction ability and editability, SAGE will be endowed with a larger potential to further improve downstream classifications with generative augmentation." Thus, with this in mind, we propose to use SFE as the GAN Inverter $I(\cdot)$ model for this study together with its Feature Editor $H(\cdot)$ for improved editability and reconstruction.
+    \item \textbf{StyleFeatureEditor Encoder (SFE)} : SFE by \citet{bobkov2024devildetailsstylefeatureeditordetailrich} , is a novel method that enables editing in 
+    both $w$-latents and $F$-latents. This technique not only allows for the reconstruction of finer image details but also ensures their preservation during editing". 
+    In the FeatureSAGE framework, SFE is \emph{integrated into} the GAN inversion module $I(\cdot)$ of the original SAGE framework to enhance latent inversion and attribute 
+    editing capabilities. According to the observations of \citet{ding2023stableattributegroupediting}, when reconstructing from the experimented inversion methods (pSp , 
+    ReStyle, HyperStyle) , there is an observed loss of local details and thus the accuracy of the reconstructed images is lower by over 5\% compared to the stadard data. 
+    And as noted by \citet{ding2023stableattributegroupediting} "If we obtain a better inversion method with better reconstruction ability and editability, SAGE will be 
+    endowed with a larger potential to further improve downstream classifications with generative augmentation." Thus, with this in mind, we propose to integrate SFE as the GAN 
+    Inverter $I(\cdot)$ model for this study together with its Feature Editor $H(\cdot)$ for improved editability and reconstruction.
 \end{enumerate}
 
 % ======================================================================================================
