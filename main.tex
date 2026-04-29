@@ -1,150 +1,41 @@
-% ==========================================================================================================
-% DOCUMENT SETUP
+\documentclass[10pt,conference]{IEEEtran}
 
-\documentclass[12pt]{report} % 12pt main font - Base Format Report/Thesis
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{url}
 
-% --- Packages ---
-\usepackage[round, authoryear]{natbib}  % citations
-\usepackage{enumitem}                    % bullet/numbered lists
-\usepackage{amsmath, amssymb}           % math formatting and symbols
-\usepackage{graphicx}                    % graphics/images inclusion
-\usepackage{setspace}                    % line spacing
-\usepackage{fontspec}                    % font customization
-\usepackage{ragged2e}                    % text alignment
-\usepackage{titlesec}                    % customize section/subsection
-\usepackage{hyperref}                    % hyperlinks
-\usepackage{pdflscape}                   % landscape pages
-\usepackage[letterpaper, left=1in, right=1in, top=1in, bottom=1in]{geometry} % document page size
-\usepackage{subcaption}
-\usepackage{float}
+\title{FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditing Encoder for Enhanced Few-shot Image Generation}
 
-
-\usepackage[english]{babel}              % language hyphenation
-\hyphenpenalty=1000
-\tolerance=1000
-
-\usepackage{chngcntr}                    % continuous equation numbering
-\counterwithout{equation}{chapter}
-
-\usepackage{fancyhdr}                     % header/footer formatting
-\fancypagestyle{plain}{
-  \fancyhf{}
-  \fancyhead[R]{\thepage}
-  \renewcommand{\headrulewidth}{0pt}
+\author{
+\IEEEauthorblockN{Joshua Libando}
+\IEEEauthorblockA{\textit{Department of Computer Science}\\
+\textit{College of Computing and Information Science}\\
+Caraga State University -- Main Campus\\
+Butuan City, Philippines}
+\and
+\IEEEauthorblockN{Sam Joash V. Antonio}
+\IEEEauthorblockA{\textit{Department of Computer Science}\\
+\textit{College of Computing and Information Science}\\
+Caraga State University -- Main Campus\\
+Butuan City, Philippines}
 }
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[R]{\thepage}
-\renewcommand{\headrulewidth}{0pt}
-
-% Set font to Candara as stated in the STUDENT CAPSTONE/THESIS GUIDELINES 
-\setmainfont{Candara}[Path=page/, Extension=.ttf,
-    UprightFont = *,
-    BoldFont = *b,
-    ItalicFont = *i,
-    BoldItalicFont = *z
-]
-
-% Figures Setup - Follows "Figure x (Bold) Desc (normal) 
-\usepackage[labelfont=bf,labelsep=space]{caption}
-\captionsetup[figure]{justification=centering}
-
-% Set Line Spacing
-\doublespacing
-
-% Set Document Alignment
-\justifying
-
-% Set Paragraph indentation: 0.25 inch (7 spaces)
-\setlength{\parindent}{0.25in}
-\setlength{\parskip}{0pt}
-
-% CHAPTER Headings — centered, bold, uppercase, 14pt, starts at top
-\titleformat{\chapter}[block]
-  {\normalfont\bfseries\centering\fontsize{14}{16}\selectfont} % Format: bold, centered, 14pt
-  {CHAPTER \thechapter} % Label "Chapter X"
-  {0.5em}                  % Space between label and title text
-  {\MakeUppercase}       % Make title uppercase
-\titlespacing*{\chapter}{0pt}{0pt}{36pt} % No vertical space before, Double Space After
-
-% SECTION Headings — bold, 13pt, capitalized lowercase, left-aligned
-\titleformat{\section}
-  {\normalfont\bfseries\fontsize{13}{15}\selectfont}
-  {\thesection}{1em}{}
-\titlespacing*{\section}{0pt}{24pt}{12pt}
-
-% SUBSECTION Headings — 12pt, bold, only first word capitalized
-\titleformat{\subsection}
-  {\normalfont\bfseries\fontsize{12}{14}\selectfont}
-  {\thesubsection}{1em}{}
-\titlespacing*{\subsection}{0pt}{12pt}{6pt}
-
-% ==========================================================================================================
-% DOCUMENT CONTENT
-
-
-% Title Page
-% \title{FeatureSAGE: Stable Attribute Group Editing With 
-% Integrated StyleFeatureEditing Encoder for Enhanced Few-shot Image Generation}
-% \author{Joshua Libando\\Sam Joash Antonio}
-
-\input{templates}
-
-% Page Style
-\doublespacing
 
 \begin{document}
 
-\setlength{\headheight}{14.5pt}
-\pagestyle{fancy}
-\pagenumbering{roman} % Roman numerals for front matter
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
 
+\input{chapters/preliminary-chapters/abstract}
 
-% Title Page
-% \maketitle
-\makethesistitlepage
-  {FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditing Encoder for Enhanced Few-shot Image Generation} 
-  {Thesis Proposal}
-  {Joshua Libando\\Sam Joash V. Antonio}
-  {Computer Science}
-  {Computing and Information Science (CCIS)}
-  {Caraga State University – Main Campus}
-  {Computer Science (BSCS)}
-% Preliminary Pages
+\input{chapters/chapter-1/introduction}
+\input{chapters/chapter-2/review_of_related_literature}
+\input{chapters/chapter-3/methodology}
+\input{chapters/chapter-4/results_and_discussion}
+\input{chapters/chapter-5/summary}
 
-% Approval Sheet
-
-% \include{chapters/preliminary-chapters/approval_sheet}
-
-% Dedication ==============================================================================================
-% \include{chapters/preliminary-chapters/dedication}
-
-% Acknowledgments =========================================================================================
-% \include{chapters/preliminary-chapters/acknowledgement}
-
-% Main Content
-\tableofcontents
-\listoffigures
-% \listoftables
-
-% Abstract ================================================================================================
-\include{chapters/preliminary-chapters/abstract}
-
-% Switch to Arabic numerals for chapters
-\clearpage
-\pagenumbering{arabic}
-
-\include{chapters/chapter-1/introduction}
-\include{chapters/chapter-2/review_of_related_literature}
-\include{chapters/chapter-3/methodology}
-\include{chapters/chapter-4/results_and_discussion}
-\include{chapters/chapter-5/summary}
-
-\bibliographystyle{plainnat}
+\bibliographystyle{IEEEtran}
 \bibliography{references}
-
-
-% \include{appendix}
-% \include{bionote}
 
 \end{document}

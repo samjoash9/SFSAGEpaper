@@ -1,89 +1,89 @@
-\section{Qualitative Evaluation}
+\subsection{Qualitative Evaluation}
 
-\subsection{Visual Comparison Across Models}
+\subsubsection{Visual Comparison Across Models}
 
-\begin{figure}[H]
+\begin{figure*}[t]
 \centering
 \setlength{\tabcolsep}{2pt}
 
 \begin{tabular}{ccccccc}
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/input_1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/1age_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/1age_output2.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/1sage_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/1sage_output2.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/1sfsage_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/1sfsage_output2.jpg}
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/input_1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/1age_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/1age_output2.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/1sage_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/1sage_output2.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/1sfsage_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/1sfsage_output2.jpg}
 \\
 Input & AGE & AGE & SAGE & SAGE & SFSAGE & SFSAGE
 \end{tabular}
 
 \caption{Comparison across AGE, SAGE, and the proposed SFSAGE model under one-shot setting, where a single reference image is used to condition the model during inference.}
 \label{fig:qualitative_comparison}
-\end{figure}
+\end{figure*}
 
 
-\begin{figure}[H]
+\begin{figure*}[t]
 \centering
 \setlength{\tabcolsep}{2pt}
 
 \begin{tabular}{ccccccc}
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/input_2.png} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/2age_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/2age_output2.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/2sage_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/2sage_output2.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/2sfsage_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/2sfsage_ouptut2.jpg}
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/input_2.png} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/2age_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/2age_output2.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/2sage_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/2sage_output2.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/2sfsage_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/2sfsage_ouptut2.jpg}
 \\
 Input & AGE & AGE & SAGE & SAGE & SFSAGE & SFSAGE
 \end{tabular}
 
 \caption{Comparison across AGE, SAGE, and the proposed SFSAGE model under one-shot setting with a different image input.}
 \label{fig:qualitative_input2}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[H]
+\begin{figure*}[t]
 \centering
 \setlength{\tabcolsep}{2pt}
 
 \begin{tabular}{ccccccc}
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/input3.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/age_af_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/age_af_output2.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/sage_af_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/sage_output2.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/sfsage_af_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/sfsage_af_ouptut2.jpg} \\
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/input3.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/age_af_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/age_af_output2.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/sage_af_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/sage_output2.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/sfsage_af_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/sfsage_af_ouptut2.jpg} \\
 Input & AGE & AGE & SAGE & SAGE & SFSAGE & SFSAGE
 \end{tabular}
 
 \caption{Comparison across AGE, SAGE, and the proposed SFSAGE model on the Animal Faces dataset under one-shot setting. Each model generates two outputs per input image to demonstrate edit diversity and semantic consistency.}
 \label{fig:qualitative_animalfaces}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[H]
+\begin{figure*}[t]
 \centering
 \setlength{\tabcolsep}{2pt}
 
 \begin{tabular}{ccccccc}
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/input4.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4age_af_output2.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4age_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4sage_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4sage_output2.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4sfsage_af_output1.jpg} &
-\includegraphics[width=0.14\textwidth,height=0.14\textwidth]{images/4sfsage_output2.jpg} \\
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/input4.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/4age_af_output2.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/4age_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/4sage_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/4sage_output2.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/4sfsage_af_output1.jpg} &
+\includegraphics[width=0.13\textwidth,height=0.13\textwidth]{images/4sfsage_output2.jpg} \\
 Input & AGE & AGE & SAGE & SAGE & SFSAGE & SFSAGE
 \end{tabular}
 
 \caption{Comparison across AGE, SAGE, and the proposed SFSAGE model under one-shot setting with a different dog input image. Each model generates two outputs per input to illustrate diversity and semantic consistency.}
 \label{fig:qualitative_input4}
-\end{figure}
+\end{figure*}
 
-\subsection{Visual Observations}
+\subsubsection{Visual Observations}
 
-\subsubsection{Flowers}
+\paragraph{Flowers}
 
 Figures \ref{fig:qualitative_comparison} and \ref{fig:qualitative_input2} describe the qualitative analysis of the results of the edited flowers 
 based on the baseline models AGE and SAGE, and the proposed model SFSAGE. The models are compared with regard to their ability to maintain the 
@@ -101,7 +101,7 @@ The model maintains higher clarity, with balanced contrast and natural color dis
 areas, which is somewhat settled by SAGE as it balances the contrast. Overall, the 65 generated flower images produced by SFSAGE are the sharpest, 
 most realistic, and visually consistent as compared to the other models being tested.
 
-\subsubsection{Animal Faces}
+\paragraph{Animal Faces}
 
 Figure \ref{fig:qualitative_animalfaces} provides a comparison of the outputs produced by the AGE, SAGE, and proposed SFSAGE model on the 
 Animal Faces data set using a picture of a dog as input. As observed, the outputs produced by the models have managed to maintain the color 

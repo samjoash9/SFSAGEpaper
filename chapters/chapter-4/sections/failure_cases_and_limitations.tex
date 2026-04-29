@@ -1,9 +1,9 @@
-\section{Failure Cases and Limitations}
+\subsection{Failure Cases and Limitations}
 
 During experimentation and evaluation of the FeatureSAGE framework, several limitations and failure cases were observed:
 
 \begin{enumerate}
-    \item Built using a pretrained StyleGAN2 generator, FeatureSAGE requires fine-tuning on specific data to enable accurate image reconstruction and generation. Because of this setup, its use remains limited to areas where such pre-trained models are already available. When the base model lacks diversity - say, missing certain categories - those gaps carry forward into results. Oddly enough, flaws embedded in the original network’s hidden representations often surface during editing tasks. Depending on training history, these quirks may distort outcomes or skew how traits appear across faces. As a result, changes made through the system can reflect old imbalances instead of producing balanced updates.
+    \item Built using a pretrained StyleGAN2 generator, FeatureSAGE requires fine-tuning on specific data to enable accurate image reconstruction and generation. Because of this setup, its use remains limited to areas where such pre-trained models are already available. When the base model lacks diversity - say, missing certain categories - those gaps carry forward into results. Oddly enough, flaws embedded in the original network's hidden representations often surface during editing tasks. Depending on training history, these quirks may distort outcomes or skew how traits appear across faces. As a result, changes made through the system can reflect old imbalances instead of producing balanced updates.
 
     \item Computation Overhead. Adding the StyleFeatureEditor inverter along with the Feature Editor demands more processing than the base SAGE setup. These parts boost reconstruction quality yet require greater resources. Performance gains come at a cost in speed. Though results improve, the system now takes longer per operation. Efficiency drops slightly due to added layers. Each forward pass grows heavier. More complex steps slow down inference. Trade-offs appear in timing versus output fidelity. Higher precision arrives with increased load. Processing time rises alongside capability. System throughput narrows somewhat. Resource demand climbs without drastic changes elsewhere.
 \end{enumerate}

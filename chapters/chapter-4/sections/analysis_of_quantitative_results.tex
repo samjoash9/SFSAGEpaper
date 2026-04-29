@@ -1,9 +1,9 @@
-\section{Analysis of Quantitative Results}
+\subsection{Analysis of Quantitative Results}
 
 This section analyzes the quantitative performance trends observed in Table~\ref{tab:quantitative_comparison_1024}, focusing on how the proposed 
-SFSAGE model compares against AGE and SAGE baselines across the Flowers and Animal Faces datasets at 1024×1024 resolution only using FID and LPIPS metrics.
+SFSAGE model compares against AGE and SAGE baselines across the Flowers and Animal Faces datasets at 1024$\times$1024 resolution only using FID and LPIPS metrics.
 
-\subsection{102 Flowers}
+\subsubsection{102 Flowers}
 
 On a high resolution setting (1024$\times$1024), SFSAGE obtains an FID of 45.60, which corresponds to a 15.8\% improvement over SAGE (54.17) and a 
 25.9\% improvement over AGE (61.57). This substantial FID reduction demonstrates improved distributional alignment with the real flower images in 
@@ -12,7 +12,7 @@ This represents a 7.0\% decrease relative to SAGE and a 2.5\% increase relative 
 0.4108 to 0.4528, indicating that perceptual diversity remains relatively consistent across the approaches. The results show that SFSAGE achieves 
 FID improvements of 15.8-25.9\% while maintaining LPIPS within 7.0\% of the baseline methods.
 
-\subsection{Animal Faces}
+\subsubsection{Animal Faces}
 
 On the Animal Faces HQ dataset at 1024$\times$1024, SFSAGE achieved an FID of 49.60, outperforming SAGE (60.92) by 18.6\% and AGE (62.13) by 20.2\%. 
 This reduction in FID demonstrates SFSAGE's superior distributional alignment with the real data distribution in the Inception feature space. In terms of 
