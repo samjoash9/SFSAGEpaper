@@ -1,10 +1,10 @@
 \section{Quantitative Results}
 
-\subsection{Quantitative Comparison Results between SFSAGE and Baselines}
+\subsection{Quantitative Comparison Between FeatureSAGE and Baselines}
 
 \begin{table}[h!]
 \centering
-\setlength{\tabcolsep}{15pt}
+\setlength{\tabcolsep}{12pt}
 \begin{tabular}{|l|l|cc|cc|}
 \hline
 \textbf{Resolution} & \textbf{Model} 
@@ -18,11 +18,10 @@
 & 61.57  & 0.4108 & 62.13 & 0.5033 \\ \cline{2-6}
 1024 & SAGE (Baseline) 
 & 54.17 & 0.4528 & 60.92 & 0.4867 \\ \cline{2-6}
-1024 & \textbf{SFSAGE (Ours)} 
+1024 & \textbf{FeatureSAGE (Ours)} 
 & 45.60 & 0.4209 & 49.60 & 0.4811 \\ \hline
 
 \end{tabular}
-\caption{Quantitative comparison of AGE, SAGE, and the proposed SFSAGE across Flowers and Animal Faces datasets at 1024$\times$1024 resolution. 
-Lower FID and higher LPIPS values indicate better performance.}
+\caption{Quantitative comparison of AGE, SAGE, and the proposed FeatureSAGE framework across the 102 Flowers and Animal Faces datasets at 1024~\(\times\)~1024 resolution. Lower FID indicates better distributional alignment with real images. Higher LPIPS is interpreted here as greater perceptual variation among generated outputs.}
 \label{tab:quantitative_comparison_1024}
 \end{table}

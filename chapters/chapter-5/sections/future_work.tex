@@ -1,13 +1,7 @@
-\section{future Work}
+\section{Future Work}
 
-\subsection{Efficiency Optimizations}
+Future research may focus on reducing the computational overhead introduced by the StyleFeatureEditor inverter and Feature Editor. More efficient inversion or feature-editing modules could preserve the FID improvements reported in this study while lowering GPU memory use and inference time.
 
-% Lightweight encoder designs.
+Another direction is to evaluate FeatureSAGE with generator backbones beyond StyleGAN2. Since the present study is limited to the StyleGAN2-based SAGE pipeline, testing other generator architectures would clarify whether the same feature-level editing strategy generalizes beyond the current framework.
 
-% Real-time inference optimizations.
-
-\subsection{Broader Applications}
-
-% Medical imaging with limited data.
-
-% Ethical AI and bias mitigation in generative models.
+Future work may also examine multi-level feature editing. The current implementation uses an intermediate feature tensor for feature injection; extending the approach to multiple feature levels could further test whether local detail preservation and semantic consistency can be improved without sacrificing perceptual variation.

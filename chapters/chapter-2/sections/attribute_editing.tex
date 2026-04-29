@@ -1,7 +1,7 @@
 \section{Attribute Editing in GAN Latent Spaces}
 
 Modern Generative Adversarial Networks (GANs) have shown that the latent codes controlling image generation often embed rich semantic structure. 
-In particular, many high-level attributes (e.g. age, smile, pose) correspond to almost-linear directions in the latent space \citep{shen2020interpretinglatentspacegans,härkönen2020ganspacediscoveringinterpretablegan}.
+In particular, many high-level attributes (e.g. age, smile, pose) correspond to almost-linear directions in the latent space \citep{shen2020interpretinglatentspacegans,harkonen2020ganspacediscoveringinterpretablegan}.
 Once a direction vector $d$ for an attribute is found , editing is done by simple latent arithmetic $w_{edit} = w+\alpha d$
 where $w$ is the original latent code $\alpha$ is a scalar step size, and $d$ is the learned attribute direction.
 For example, InterFaceGAN treats attributes as binary labels and trains a linear SVM in the latent space; the normal vector of the separating hyperplane becomes $d$ \citep{shen2020interpretinglatentspacegans}. 
@@ -16,13 +16,13 @@ Supervised methods use labeled data: for a given attribute one can train a linea
 There are two main approaches to finding attribute directions. Supervised methods use labeled data: for a given attribute one can train a linear classifier 
 (e.g. on whether images have glasses) on a set of latent vectors. The classifier's weight vector (normal to the decision boundary) becomes the edit direction. InterFaceGAN demonstrated this works for many facial attributes.
 Unsupervised methods do not require labels: GANSpace, for instance, collects many random latents and applies Principal Component Analysis to find dominant directions.
-These principal axes often correspond to pose, lighting, or object type. Other factorization techniques, like SeFa, and style-space channel-searchers similarly find promising axes with little or no supervision \citep{shen2020interpretinglatentspacegans,härkönen2020ganspacediscoveringinterpretablegan,shen2021closedformfactorizationlatentsemantics}.
+These principal axes often correspond to pose, lighting, or object type. Other factorization techniques, like SeFa, and style-space channel-searchers similarly find promising axes with little or no supervision \citep{shen2020interpretinglatentspacegans,harkonen2020ganspacediscoveringinterpretablegan,shen2021closedformfactorizationlatentsemantics}.
 
 Once a direction $d$ is chosen,  editing is simply walking along that direction in latent space. Concretely, after inverting or sampling a code $w$, one produces an edited image by generating from
 $w + \alpha d$ for various $\alpha$. 
 InterFaceGAN likewise shows that adding the gender vector shifts a face's apparent gender. 
 In general , Attribute Editing Models use the same principle of finding $d$ or $\Delta w$ and setting $w_{edit} = w + \alpha d$ to change
-attributes in an image \citep{härkönen2020ganspacediscoveringinterpretablegan,shen2020interpretinglatentspacegans,li2023preim3d3dconsistentprecise,wu2020stylespaceanalysisdisentangledcontrols}
+attributes in an image \citep{harkonen2020ganspacediscoveringinterpretablegan,shen2020interpretinglatentspacegans,li2023preim3d3dconsistentprecise,wu2020stylespaceanalysisdisentangledcontrols}
 
 Importantly, these methods rely on latent disentanglement: the idea that different factors are (at least partly) separable. 
 StyleGAN's design helps here: its intermediate latent $W$ is empirically more disentangled than the raw $Z$ space \citep{wu2020stylespaceanalysisdisentangledcontrols}.

@@ -1,27 +1,13 @@
 \section{Expected Outcome}
 
-The study is expected to significantly enhance latent code retrieval from real-world images. By integrating the StyleFeatureEditing module into 
-SAGE framework, results should show stronger reconstruction alongside easier modification without forcing a trade-off. Instead of relying on the 
-initial pSp-based encoder, this updated setup known as FeatureSAGE may handle follow-up jobs more effectively. Tasks like enriching datasets could 
-benefit greatly, particularly when only a handful of examples exist. Higher-quality inversions are likely to yield closer-to-original visuals while 
-preserving meaning-rich traits needed for edits. Another boost comes from adding the Feature Editor unit, which tends to sharpen output clarity. 
-It helps keep small textures intact and ensures the subject looks consistent even after changes take place.
+Based on the stated objectives, FeatureSAGE is expected to improve the SAGE pipeline by replacing the pSp-centered inversion stage with the StyleFeatureEditor inverter and Feature Editor. The expected improvement is not a change in the underlying StyleGAN2 generator or in the attribute group editing objective; rather, it is an improvement in how input images are represented before editing. By extracting both $W^+$ latent codes and intermediate feature tensors, the proposed framework is expected to preserve more local detail while retaining the ability to apply category-irrelevant edits.
 
-In order to evaluate FeatureSAGE, performance is checked on two known datasets, FUNIT Animal Faces and Flowers 102. Image variety and clarity are 
-reviewed through a common tool called Fréchet Inception Distance (FID). Instead of relying only on visuals, perceptual likeness is measured via 
-LPIPS scores that highlight fine differences between pictures. Keeping the person's look intact during edits receives attention using identity 
-similarity assessments. Comparisons unfold alongside recent methods in GAN-based editing and low-data image changes. These side-by-side tests 
-aim to show whether FeatureSAGE holds up more consistently across adjustments. Preserving who someone looks like matters just as much as making 
-realistic tweaks. Overall picture quality enters evaluation not as an afterthought, but woven into each comparison point.
-
-Based on the objectives outlined in this study, the proposed FeatureSAGE framework is expected to achieve the following measurable outcomes:
+The expected outcomes are evaluated on the FUNIT Animal Faces and 102 Flowers datasets under the same one-shot protocol used for the baseline methods. FID is used to measure how closely generated images align with real-image distributions, while LPIPS is used to examine perceptual variation among generated outputs. Within this evaluation design, the expected measurable outcomes are:
 
 \begin{enumerate}
-    \item \textbf{Lower FID}, reflecting enhanced visual realism and distributional alignment of real and synthetic images.
+    \item \textbf{Lower FID}, indicating improved visual realism and stronger distributional alignment between real and synthetic images.
 
-    \item \textbf{Higher Learned Perceptual Image Patch Similarity (LPIPS)}, reflecting increased perceptual diversity among edited images.
+    \item \textbf{Comparable or higher LPIPS as a diversity measure}, indicating that improved fidelity does not eliminate perceptual variation among generated samples.
 \end{enumerate}
 
-All of these results are collectively establish the strength of FeatureSAGE as a robust and universal instrument for few-shot image generation, 
-manipulation, and data enhancement in resource-limited learning systems. The research also contribute to the development of the edit-based 
-few-shot approach.
+Together, these outcomes test whether the FeatureSAGE modifications improve few-shot image generation while preserving the edit-based structure of the original SAGE framework.

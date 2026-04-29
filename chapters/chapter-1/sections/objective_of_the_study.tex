@@ -1,15 +1,12 @@
 \section{Objectives of the Study}
 
-The objective of this study is to develop and evaluate FeatureSAGE, a reliable few-shot image generator framework that 
-improves upon the SAGE framework by integrating a StyleFeatureEditor Inverter and Feature Editor
+The objective of this study is to develop and evaluate FeatureSAGE, a few-shot image generation framework that improves upon SAGE by integrating the StyleFeatureEditor inverter and Feature Editor.
 
-\textbf{Specifically , this study's object is as follows:}
+\textbf{Specifically, this study aims to:}
 \begin{enumerate}[label=\alph*.]
-    \item Integrate StyleFeatureEditing to SAGE framework: integrate the inverter and feature editor pair to improve generated image quality.
-    This aims to make a framework variant of SAGE that can be used for a more downstream (e.g. Data Augmentation) task via high reconstructability and editability without the usual tradeoff.
+    \item Integrate the StyleFeatureEditor inverter and Feature Editor into the SAGE framework to improve generated-image quality through stronger reconstruction and feature-level editing.
 
-    \item Evaluate reconstruction quality of the inverted images of Animal Faces and Flowers using FID and LPIPS.
+    \item Evaluate the generated outputs on the Animal Faces and 102 Flowers datasets using FID and LPIPS.
     
-    \item Benchmark FeatureSAGE against baseline methods, specifically SAGE and AGE, to demonstrate improvements in edit stability, identity preservation, and overall image quality.
-
+    \item Benchmark FeatureSAGE against AGE and SAGE to examine improvements in edit stability, category or identity consistency, and overall image quality.
 \end{enumerate}

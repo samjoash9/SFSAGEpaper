@@ -5,79 +5,99 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}Research Design}{35}{section.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Experimental Setup}{35}{subsection.3.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Few-Shot Setting Experimental Setting}{37}{subsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Hardware and System Requirements}{37}{subsection.3.1.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Hardware and system requirements used in the experimental setup.}}{37}{table.caption.6}\protected@file@percent }
+\newlabel{tab:hardware_system_requirements}{{3.1}{37}{Hardware and system requirements used in the experimental setup}{table.caption.6}{}}
 \citation{liu2019few}
 \citation{liu2019few}
 \citation{liu2019few}
-\citation{Nilsback08}
-\citation{Nilsback08}
-\citation{Nilsback08}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Few-Shot Experimental Setting}{38}{subsection.3.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Data Preprocessing}{38}{section.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Data Sources}{38}{subsection.3.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces \textit  {Sample images from the FUNIT Animal Faces dataset. Source: \citep  {liu2019few}}}}{38}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:FUNIT_animal_faces}{{3.1}{38}{\textit {Sample images from the FUNIT Animal Faces dataset. Source: \citep {liu2019few}}}{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces \textit  {Sample images from 102 Flower Dataset. Source \citep  {Nilsback08}}}}{39}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:102Flower}{{3.2}{39}{\textit {Sample images from 102 Flower Dataset. Source \citep {Nilsback08}}}{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Data Preprocessing Steps}{39}{subsection.3.2.2}\protected@file@percent }
+\citation{Nilsback08}
+\citation{Nilsback08}
+\citation{Nilsback08}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces \textit  {Sample images from the FUNIT Animal Faces dataset. Source: \citep  {liu2019few}}}}{39}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:FUNIT_animal_faces}{{3.1}{39}{\textit {Sample images from the FUNIT Animal Faces dataset. Source: \citep {liu2019few}}}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces \textit  {Sample images from the 102 Flowers dataset. Source: \citep  {Nilsback08}}}}{39}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:102Flower}{{3.2}{39}{\textit {Sample images from the 102 Flowers dataset. Source: \citep {Nilsback08}}}{figure.caption.8}{}}
+\citation{ding2023stableattributegroupediting}
 \citation{bobkov2024devildetailsstylefeatureeditordetailrich}
-\citation{ding2023stableattributegroupediting}
-\citation{ding2023stableattributegroupediting}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Data Preprocessing Steps}{40}{subsection.3.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Model Architecture}{40}{section.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Framework}{41}{subsection.3.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces FeatureSAGE framework}}{42}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:feature_sage_framework}{{3.3}{42}{FeatureSAGE framework}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Framework Overview}{41}{subsection.3.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces FeatureSAGE framework}}{42}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:feature_sage_framework}{{3.3}{42}{FeatureSAGE framework}{figure.caption.9}{}}
+\newlabel{eq:train-test-sets}{{1}{43}{Framework Overview}{equation.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Feature Extraction and Latent-Space Representation}{43}{subsection.3.3.2}\protected@file@percent }
+\newlabel{eq:psp-inversion}{{2}{43}{Feature Extraction and Latent-Space Representation}{equation.3.2}{}}
+\newlabel{eq:sfe-inversion}{{3}{43}{Feature Extraction and Latent-Space Representation}{equation.3.3}{}}
 \citation{ding2023stableattributegroupediting}
 \citation{ding2023stableattributegroupediting}
+\newlabel{eq:generator-feature-extraction}{{4}{44}{Feature Extraction and Latent-Space Representation}{equation.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Attribute Factorization}{44}{subsection.3.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces \textit  {Attribute Factorization Training Framework \citep  {ding2023stableattributegroupediting}}}}{44}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:attributge_fac_training}{{3.4}{44}{\textit {Attribute Factorization Training Framework \citep {ding2023stableattributegroupediting}}}{figure.caption.10}{}}
 \citation{ding2023stableattributegroupediting}
 \citation{ding2023stableattributegroupediting}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces \textit  {Attribute Factorization Training Framework \citep  {ding2023stableattributegroupediting}}}}{43}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:attributge_fac_training}{{3.4}{43}{\textit {Attribute Factorization Training Framework \citep {ding2023stableattributegroupediting}}}{figure.caption.9}{}}
-\citation{ding2023stableattributegroupediting}
-\citation{ding2023stableattributegroupediting}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces \textit  {Attribute Factorization Block, Derived from \citep  {ding2023stableattributegroupediting}}}}{44}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:attribute_factorization_block}{{3.5}{44}{\textit {Attribute Factorization Block, Derived from \citep {ding2023stableattributegroupediting}}}{figure.caption.10}{}}
-\citation{ding2023stableattributegroupediting}
+\newlabel{eq:class-embedding}{{5}{45}{Attribute Factorization}{equation.3.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces \textit  {Attribute Factorization Block, derived from \citep  {ding2023stableattributegroupediting}}}}{45}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:attribute_factorization_block}{{3.5}{45}{\textit {Attribute Factorization Block, derived from \citep {ding2023stableattributegroupediting}}}{figure.caption.11}{}}
+\newlabel{eq:category-irrelevant-residual}{{6}{45}{Attribute Factorization}{equation.3.6}{}}
+\newlabel{eq:residual-factorization}{{7}{46}{Attribute Factorization}{equation.3.7}{}}
+\newlabel{eq:category-irrelevant-edit}{{8}{46}{Attribute Factorization}{equation.3.8}{}}
+\newlabel{eq:sparse-dictionary-learning}{{9}{46}{Attribute Factorization}{equation.3.9}{}}
+\newlabel{eq:mlp-sparse-code}{{10}{46}{Attribute Factorization}{equation.3.10}{}}
 \citation{ding2023stableattributegroupediting}
 \citation{ding2023stableattributegroupediting}
 \citation{AGE}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces \textit  {Class Embedding Block , Adapted from \citep  {ding2023stableattributegroupediting}}}}{45}{figure.caption.11}\protected@file@percent }
-\newlabel{fig:class_embedding_block}{{3.6}{45}{\textit {Class Embedding Block , Adapted from \citep {ding2023stableattributegroupediting}}}{figure.caption.11}{}}
-\citation{zhang2015singularvaluedecompositionapplications}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Class Embedding Mapping}{47}{subsection.3.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces \textit  {Class Embedding Block, adapted from \citep  {ding2023stableattributegroupediting}}}}{47}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:class_embedding_block}{{3.6}{47}{\textit {Class Embedding Block, adapted from \citep {ding2023stableattributegroupediting}}}{figure.caption.12}{}}
+\newlabel{eq:svd-class-embedding}{{11}{47}{Class Embedding Mapping}{equation.3.11}{}}
 \citation{ding2023stableattributegroupediting}
 \citation{ding2023stableattributegroupediting}
+\newlabel{eq:unseen-class-embedding}{{12}{48}{Class Embedding Mapping}{equation.3.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.5}Adaptive Editing}{48}{subsection.3.3.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces \textit  {Adaptive Editing Block, from \citep  {ding2023stableattributegroupediting}}}}{48}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:adaptive_editing_block}{{3.7}{48}{\textit {Adaptive Editing Block, from \citep {ding2023stableattributegroupediting}}}{figure.caption.13}{}}
+\newlabel{eq:back-projection}{{13}{48}{Adaptive Editing}{equation.3.13}{}}
+\newlabel{eq:mean-absolute-sparse-code}{{14}{49}{Adaptive Editing}{equation.3.14}{}}
+\newlabel{eq:adaptive-gaussian}{{15}{49}{Adaptive Editing}{equation.3.15}{}}
+\newlabel{eq:adaptive-generation}{{16}{49}{Adaptive Editing}{equation.3.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.6}Feature Editing Decoder Block}{50}{subsection.3.3.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces \textit  {Feature Editing Decoder Block}}}{50}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:featureEditingBlock}{{3.8}{50}{\textit {Feature Editing Decoder Block}}{figure.caption.14}{}}
+\newlabel{eq:latent-difference}{{17}{50}{Feature Editing Decoder Block}{equation.3.17}{}}
+\newlabel{eq:feature-difference}{{18}{50}{Feature Editing Decoder Block}{equation.3.18}{}}
+\newlabel{eq:feature-editor-transform}{{19}{51}{Feature Editing Decoder Block}{equation.3.19}{}}
+\newlabel{eq:decoder-synthesis}{{20}{51}{Feature Editing Decoder Block}{equation.3.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.7}Training Strategy}{51}{subsection.3.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.8}Phase 1: Attribute Factorization Training}{51}{subsection.3.3.8}\protected@file@percent }
 \citation{ding2023stableattributegroupediting}
-\citation{ding2023stableattributegroupediting}
-\citation{ding2023stableattributegroupediting}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces \textit  {Adaptive Editing Block, from \citep  {ding2023stableattributegroupediting}}}}{47}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:adaptive_editing_block}{{3.7}{47}{\textit {Adaptive Editing Block, from \citep {ding2023stableattributegroupediting}}}{figure.caption.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces \textit  {Feature Editing Decoder Block}}}{48}{figure.caption.13}\protected@file@percent }
-\newlabel{fig:featureEditingBlock}{{3.8}{48}{\textit {Feature Editing Decoder Block}}{figure.caption.13}{}}
-\citation{ding2023stableattributegroupediting}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Training Strategy}{49}{subsection.3.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Phase 1: Attribute Factorization Training}{49}{subsection.3.3.3}\protected@file@percent }
-\citation{ding2023stableattributegroupediting}
-\citation{ding2023stableattributegroupediting}
+\newlabel{eq:sparsity-loss}{{21}{52}{Phase 1: Attribute Factorization Training}{equation.3.21}{}}
+\newlabel{eq:reconstruction-loss}{{22}{52}{Phase 1: Attribute Factorization Training}{equation.3.22}{}}
+\newlabel{eq:orthogonality-loss}{{23}{52}{Phase 1: Attribute Factorization Training}{equation.3.23}{}}
+\newlabel{eq:attribute-factorization-loss}{{24}{52}{Phase 1: Attribute Factorization Training}{equation.3.24}{}}
 \citation{bobkov2024devildetailsstylefeatureeditordetailrich}
-\@writefile{toc}{\contentsline {subsubsection}{Optimization Algorithm}{51}{subsubsection*.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Phase 2: Feature Editor Training}{51}{subsection.3.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.9}Phase 2: Feature Editor Training}{53}{subsection.3.3.9}\protected@file@percent }
+\newlabel{eq:feature-edit-loss}{{25}{53}{Phase 2: Feature Editor Training}{equation.3.25}{}}
+\newlabel{eq:feature-inversion-loss}{{26}{53}{Phase 2: Feature Editor Training}{equation.3.26}{}}
+\newlabel{eq:feature-editor-loss}{{27}{53}{Phase 2: Feature Editor Training}{equation.3.27}{}}
 \citation{heusel2017gans,wang2023attribute}
 \citation{heusel2017gans}
-\citation{borji2022pros}
-\citation{heusel2017gans}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Evaluation Protocol}{52}{section.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Evaluation Metrics}{52}{subsection.3.4.1}\protected@file@percent }
-\citation{heusel2017gans}
-\citation{borji2022pros,wang2023attribute}
-\citation{zhang2018unreasonable}
-\citation{zhang2018unreasonable}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Evaluation Protocol}{54}{section.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Evaluation Metrics}{54}{subsection.3.4.1}\protected@file@percent }
+\newlabel{eq:fid}{{28}{54}{Evaluation Metrics}{equation.3.28}{}}
 \citation{zhang2018unreasonable}
 \citation{AGE}
 \citation{ding2023stableattributegroupediting}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Baselines for Comparison}{54}{subsection.3.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Expected Outcome}{54}{section.3.5}\protected@file@percent }
+\newlabel{eq:lpips}{{29}{55}{Evaluation Metrics}{equation.3.29}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Baselines for Comparison}{55}{subsection.3.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Expected Outcome}{56}{section.3.5}\protected@file@percent }
 \@setckpt{chapters/chapter-3/methodology}{
-\setcounter{page}{56}
-\setcounter{equation}{1}
+\setcounter{page}{57}
+\setcounter{equation}{29}
 \setcounter{enumi}{2}
 \setcounter{enumii}{0}
 \setcounter{enumiii}{0}
@@ -92,13 +112,14 @@
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
 \setcounter{figure}{8}
-\setcounter{table}{0}
+\setcounter{table}{1}
 \setcounter{NAT@ctr}{0}
 \setcounter{parentequation}{0}
 \setcounter{section@level}{0}
 \setcounter{Item}{28}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{37}
+\setcounter{Hy@AnnotLevel}{0}
+\setcounter{bookmark@seq@number}{43}
 \setcounter{caption@flags}{2}
 \setcounter{continuedfloat}{0}
 \setcounter{subfigure}{0}

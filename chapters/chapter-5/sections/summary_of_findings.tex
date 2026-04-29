@@ -1,46 +1,15 @@
 \section{Summary of Findings}
 
-\subsection{Summary}
+This study developed and evaluated FeatureSAGE, a modification of the SAGE framework that integrates the StyleFeatureEditor inverter and Feature Editor into the few-shot attribute group editing pipeline. The findings are summarized according to the main contributions and evaluation objectives of the study.
 
-\paragraph{1. Integration of StyleFeatureEditor (SFE) Encoder} 
-FeatureSAGE integrates the StyleFeatureEditor Encoder into the original SAGE framework, replacing the pSp encoder 
-to enable improved latent representations that better capture distributional characteristics of the data. This 
-integration resulted in an FID of 45.60 on the 102 Flowers dataset and 49.60 on the Animal Faces dataset at 
-1024$\times$1024 resolution, representing improvements of 15.8\% and 18.6\% over SAGE, and 25.9\% and 20.2\% over AGE, respectively.
+\paragraph{1. Integration of the StyleFeatureEditor inverter.}
+FeatureSAGE replaces the pSp-centered inversion stage of SAGE with the StyleFeatureEditor inverter, allowing the framework to represent input images using both $W^+$ latent codes and intermediate feature tensors. This modification produced lower FID scores than both baselines on the two evaluated datasets. At 1024~\(\times\)~1024 resolution, FeatureSAGE obtained an FID of 45.60 on 102 Flowers and 49.60 on Animal Faces.
 
+\paragraph{2. Use of feature-level editing.}
+The Feature Editor modifies intermediate feature representations during the decoder stage, supporting detail preservation while latent-space edits control semantic variation. Qualitative comparisons show sharper petal boundaries, clearer flower structure, and more coherent animal-face texture and shading in the FeatureSAGE outputs compared with the displayed AGE and SAGE outputs.
 
-\paragraph{2. Integration of Feature Editor} 
-The Feature Editor module allows fine-grained and semantically consistent modifications by operating directly on 
-intermediate feature representations, enhancing the expressiveness of attribute edits. Its inclusion contributed 
-to sharper outputs with better color fidelity and structural coherence, as evidenced by SFSAGE's consistent 
-qualitative advantages over both AGE and SAGE across Flowers and Animal Faces datasets.
+\paragraph{3. Quantitative improvement over AGE and SAGE.}
+On the 102 Flowers dataset, FeatureSAGE improved FID by 15.8\% over SAGE and 25.9\% over AGE. On the Animal Faces dataset, FeatureSAGE improved FID by 18.6\% over SAGE and 20.2\% over AGE. These results show that the proposed inversion and feature-editing changes improved distributional alignment with real images under the one-shot setting.
 
-
-\paragraph{3. Resolution-Dependent and Dataset-Adaptive Editing} 
-FeatureSAGE adapts its editing strategies according to both image resolution and dataset characteristics, ensuring 
-appropriate trade-offs between edit diversity, stability, and realism. On the Flowers dataset, SFSAGE maintained an 
-LPIPS of 0.4209, within 7.0\% of SAGE (0.4528), while achieving superior FID. On Animal Faces, an LPIPS of 0.4811 
-remained within 4.4\% of the baseline methods, confirming that quality improvements did not significantly sacrifice 
-perceptual diversity.
-
-
-\paragraph{4. Comprehensive Benchmarking Against Baselines} 
-The framework demonstrates robust performance across structurally diverse datasets and provides a generalizable approach 
-to few-shot image generation. SFSAGE outperformed both AGE and SAGE on all FID metrics across both datasets, while 
-maintaining comparable LPIPS scores within a range of 0.4108 to 0.4528 on Flowers and 0.4811 to 0.5033 on Animal Faces, 
-confirming that distribution alignment improved without compromising output diversity.
-
-% \subsection{Empirical Outcomes}
-
-% Quantitative evaluation of the performance of the proposed FeatureSAGE framework indicated substantial performance gains 
-% on both datasets at 1024x1024 resolution. SFSAGE obtained an FID score of 45.60 on the 102 Flowers dataset, showing a 
-% relative improvement of 15.8\% when compared with SAGE and 25.9\% when compared with AGE, with an LPIPS value of 0.4209. 
-% For the Animal Faces dataset, SFSAGE obtained an FID of 49.60 on the dataset, showing relative improvements of 18.6\% and 
-% 20.2\% when compared with SAGE and AGE respectively, with an LPIPS score of 0.4811. From the experiments' results, it is 
-% clear that SFSAGE had substantial performance gains in aligning the distribution of samples with real data without compromising 
-% the perceptual diversity in 7.0\% of the baseline methods on both datasets. The results highlighted that SFSAGE performed best 
-% in terms of the quality produced, whereby the generated image had more sharpness, colors, and realism. SFSAGE performed remarkably 
-% on the Flowers dataset, whereby maintaining the finer details and colors on faces was great, and manipulability related to 
-% facial attributes also performed great with SFSAGE, whereby these attributes changed when changing orientations of faces of 
-% flowers. For the Animal Faces dataset, SFSAGE performed remarkably with maintaining color accuracy and texture, along with more 
-% coherence in terms of blurring of shading and fur, while the diversity of posing by this framework was not impressive enough.
+\paragraph{4. Preservation of perceptual variation.}
+FeatureSAGE maintained LPIPS values close to the baselines while achieving the best FID scores. On 102 Flowers, FeatureSAGE obtained an LPIPS of 0.4209, compared with 0.4528 for SAGE and 0.4108 for AGE. On Animal Faces, FeatureSAGE obtained an LPIPS of 0.4811, compared with 0.4867 for SAGE and 0.5033 for AGE. Thus, the improvement in FID did not remove perceptual variation among generated samples.
