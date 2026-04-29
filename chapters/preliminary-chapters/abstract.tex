@@ -1,20 +1,7 @@
 \chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT}
 
-Few-shot image generation remains challenging due to limited training data, which often leads to mode collapse and poor image quality. 
-Traditional Generative Adversarial Network (GAN) inversion methods struggle to balance reconstruction fidelity with editability, 
-particularly in attribute group editing frameworks where semantic consistency and fine-grained detail preservation are critical. The 
-Stable Attribute Group Editing (SAGE) framework, while effective for few-shot scenarios, relies on the pixel2style2pixel (pSp) encoder, 
-which produces entangled latent codes that compromise both reconstruction quality and downstream task performance. To address these 
-limitations, this study proposes FeatureSAGE, an enhanced few-shot image generation framework that integrates the StyleFeatureEditor (SFE) 
-encoder and Feature Editor module into the SAGE architecture. The SFE encoder jointly predicts both W$^{+}$ latent codes and intermediate 
-feature tensors, enabling high-fidelity inversion while maintaining editability. Experimental evaluation on the FUNIT Animal Faces and 102 
-Flowers datasets at 1024$\times$1024 resolution demonstrates that FeatureSAGE achieves substantial improvements over baseline methods. 
-On the Flowers dataset, FeatureSAGE obtains a Fréchet Inception Distance (FID) of 45.60, representing 15.8\% and 25.9\% improvements over 
-SAGE and AGE respectively, while maintaining perceptual diversity with an LPIPS of 0.4209. On the Animal Faces dataset, the framework 
-achieves an FID of 49.60 (18.6\% improvement over SAGE, 20.2\% over AGE) with an LPIPS of 0.4811. These findings establish that feature-level 
-editing combined with improved latent inversion can effectively address the fidelity-editability trade-off, advancing the state-of-the-art in 
-attribute group editing for data-scarce generative modeling scenarios.
+Few-shot image generation remains challenging because limited training data can lead to mode collapse, degraded image quality, and unstable semantic edits. Traditional Generative Adversarial Network (GAN) inversion methods also struggle to balance reconstruction fidelity with editability, particularly in attribute group editing frameworks where semantic consistency and fine-grained detail preservation are required. The Stable Attribute Group Editing (SAGE) framework addresses few-shot generation through latent attribute editing, but it relies on the pixel2style2pixel (pSp) encoder, which can produce entangled latent codes and lose local reconstruction details. To address this limitation, this study proposes FeatureSAGE, an enhanced few-shot image generation framework that integrates the StyleFeatureEditor (SFE) Inverter and Feature Editor into the SAGE architecture. The proposed framework represents images using both $W^{+}$ latent codes and intermediate feature tensors, enabling latent-space editing while preserving feature-level details. Experimental evaluation on the FUNIT Animal Faces and 102 Flowers datasets at 1024$\times$1024 resolution shows that FeatureSAGE improves distributional alignment over the AGE and SAGE baselines. On the Flowers dataset, FeatureSAGE obtains an FID of 45.60, corresponding to 15.8\% and 25.9\% improvements over SAGE and AGE, respectively, while reporting an LPIPS of 0.4209. On the Animal Faces dataset, FeatureSAGE achieves an FID of 49.60, corresponding to 18.6\% and 20.2\% improvements over SAGE and AGE, respectively, with an LPIPS of 0.4811. These results indicate that integrating feature-level editing with improved latent inversion strengthens few-shot attribute group editing without changing the underlying StyleGAN2 generator.
 
-% \vspace{0.5em}
-\noindent\textbf{Keywords:} Few-shot image generation, Generative Adversarial Networks, StyleGAN2, GAN inversion, StyleFeatureEditor, 
-attribute group editing, latent space, Fr\'echet Inception Distance, LPIPS, data augmentation
+\vspace{0.5em}
+\noindent\textbf{Keywords:} Few-shot image generation, GAN inversion, StyleGAN2, StyleFeatureEditor, attribute group editing

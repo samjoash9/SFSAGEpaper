@@ -1,8 +1,7 @@
 \section{Conclusion}
 
-% Restate the problem and proposed solution.
+This study addressed the problem of improving few-shot image generation in SAGE by replacing its pSp-based inversion path with a StyleFeatureEditor Inverter and Feature Editor. The original research problem asked whether improved inversion and feature-level editing could preserve image details, support stable semantic edits, and improve generated image quality for novel classes in the Flowers and Animal Faces datasets. Based on the reported results, the answer is affirmative: FeatureSAGE achieved lower FID than both AGE and SAGE on the two evaluated datasets while maintaining comparable LPIPS values.
 
-% Summarize how FeatureSAGE addresses the limitations of SAGE.
+The first objective, integrating StyleFeatureEditor into SAGE, was achieved by incorporating the StyleFeatureEditor Inverter and Feature Editor into the FeatureSAGE architecture. The second objective, evaluating reconstruction and generation quality using FID and LPIPS, was addressed through the quantitative evaluation at 1024$\times$1024 resolution. FeatureSAGE achieved an FID of 45.60 and LPIPS of 0.4209 on 102 Flowers, and an FID of 49.60 and LPIPS of 0.4811 on Animal Faces. The third objective, benchmarking against AGE and SAGE, was also achieved: FeatureSAGE improved FID by 15.8\% over SAGE and 25.9\% over AGE on 102 Flowers, and by 18.6\% over SAGE and 20.2\% over AGE on Animal Faces.
 
-% Final remarks on the impact for few-shot image generation and editing.
-
+Overall, the study contributes an enhanced SAGE-based framework that combines latent-space attribute editing with feature-level detail preservation. The findings show that this integration improves distributional alignment and qualitative image coherence in one-shot generation while retaining perceptual variation. However, the framework remains dependent on a pretrained StyleGAN2 generator and requires greater computation because of the additional inversion and feature-editing stages.

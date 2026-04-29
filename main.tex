@@ -1,7 +1,7 @@
-% ==========================================================================================================
+﻿% ==========================================================================================================
 % DOCUMENT SETUP
 
-\documentclass[12pt]{report} % 12pt main font - Base Format Report/Thesis
+\documentclass[12pt]{report}
 
 % --- Packages ---
 \usepackage[round, authoryear]{natbib}  % citations
@@ -14,7 +14,7 @@
 \usepackage{titlesec}                    % customize section/subsection
 \usepackage{hyperref}                    % hyperlinks
 \usepackage{pdflscape}                   % landscape pages
-\usepackage[letterpaper, left=1in, right=1in, top=1in, bottom=1in]{geometry} % document page size
+\usepackage[letterpaper, left=1in, right=1in, top=1in, bottom=1in, headheight=14.5pt]{geometry}
 \usepackage{subcaption}
 \usepackage{float}
 
@@ -46,8 +46,20 @@
 ]
 
 % Figures Setup - Follows "Figure x (Bold) Desc (normal) 
-\usepackage[labelfont=bf,labelsep=space]{caption}
+\usepackage[labelfont=bf,labelsep=period]{caption}
 \captionsetup[figure]{justification=centering}
+\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
+\renewcommand{\thetable}{\thechapter-\arabic{table}}
+\renewcommand{\contentsname}{TABLE OF CONTENTS}
+\renewcommand{\listfigurename}{LIST OF FIGURES}
+\renewcommand{\listtablename}{LIST OF TABLES}
+\renewcommand{\bibname}{REFERENCES}
+\addto\captionsenglish{%
+  \renewcommand{\contentsname}{Table of Contents}%
+  \renewcommand{\listfigurename}{List of Figures}%
+  \renewcommand{\listtablename}{List of Tables}%
+}
+\setcounter{tocdepth}{2}
 
 % Set Line Spacing
 \doublespacing
@@ -59,21 +71,21 @@
 \setlength{\parindent}{0.25in}
 \setlength{\parskip}{0pt}
 
-% CHAPTER Headings — centered, bold, uppercase, 14pt, starts at top
+% Chapter headings.
 \titleformat{\chapter}[block]
-  {\normalfont\bfseries\centering\fontsize{14}{16}\selectfont} % Format: bold, centered, 14pt
-  {CHAPTER \thechapter} % Label "Chapter X"
-  {0.5em}                  % Space between label and title text
-  {\MakeUppercase}       % Make title uppercase
-\titlespacing*{\chapter}{0pt}{0pt}{36pt} % No vertical space before, Double Space After
+  {\normalfont\bfseries\centering\fontsize{14}{16}\selectfont}
+  {CHAPTER \thechapter.}
+  {0.5em}
+  {\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{0pt}{36pt}
 
-% SECTION Headings — bold, 13pt, capitalized lowercase, left-aligned
+% Section headings.
 \titleformat{\section}
   {\normalfont\bfseries\fontsize{13}{15}\selectfont}
   {\thesection}{1em}{}
 \titlespacing*{\section}{0pt}{24pt}{12pt}
 
-% SUBSECTION Headings — 12pt, bold, only first word capitalized
+% Subsection headings.
 \titleformat{\subsection}
   {\normalfont\bfseries\fontsize{12}{14}\selectfont}
   {\thesubsection}{1em}{}
@@ -83,11 +95,6 @@
 % DOCUMENT CONTENT
 
 
-% Title Page
-% \title{FeatureSAGE: Stable Attribute Group Editing With 
-% Integrated StyleFeatureEditing Encoder for Enhanced Few-shot Image Generation}
-% \author{Joshua Libando\\Sam Joash Antonio}
-
 \input{templates}
 
 % Page Style
@@ -95,37 +102,45 @@
 
 \begin{document}
 
-\setlength{\headheight}{14.5pt}
 \pagestyle{fancy}
-\pagenumbering{roman} % Roman numerals for front matter
+\pagenumbering{gobble}
 
 
 % Title Page
 % \maketitle
 \makethesistitlepage
-  {FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditing Encoder for Enhanced Few-shot Image Generation} 
-  {Thesis Proposal}
+  {FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}
+  {Thesis}
   {Joshua Libando\\Sam Joash V. Antonio}
   {Computer Science}
-  {Computing and Information Science (CCIS)}
-  {Caraga State University – Main Campus}
+  {Computing and Information Sciences (CCIS)}
+  {Caraga State University -- Main Campus}
   {Computer Science (BSCS)}
+  {April 2026}
+\clearpage
+\pagenumbering{roman}
+\setcounter{page}{2}
+\pagestyle{fancy}
 % Preliminary Pages
 
 % Approval Sheet
 
-% \include{chapters/preliminary-chapters/approval_sheet}
+\include{chapters/preliminary-chapters/approval_sheet}
 
 % Dedication ==============================================================================================
-% \include{chapters/preliminary-chapters/dedication}
+\include{chapters/preliminary-chapters/dedication}
 
 % Acknowledgments =========================================================================================
-% \include{chapters/preliminary-chapters/acknowledgement}
+\include{chapters/preliminary-chapters/acknowledgement}
 
 % Main Content
 \tableofcontents
+\clearpage
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
 \listoffigures
-% \listoftables
+\clearpage
+\addcontentsline{toc}{chapter}{LIST OF TABLES}
+\listoftables
 
 % Abstract ================================================================================================
 \include{chapters/preliminary-chapters/abstract}

@@ -1,72 +1,47 @@
 \section{Research Design}
 
-This paper, “FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditing Encoder for Enhanced Few-Shot Image Generation,” 
-adopts a quantitative approach with an experimental research design to evaluate improvements to the existing SAGE framework. In particular, 
-we integrate the GAN inversion module of SAGE with the StyleFeatureEditor (SFE), incorporating its Feature Editor module to enhance latent 
-inversion and attribute editing functionality under a one-shot setting, where attribute manipulation is conditioned on a single reference 
-image per test instance. The research employs a quantitative methodology using established automated metrics for objective evaluation. 
-Reconstruction quality is assessed using Fréchet Inception Distance (FID) and Learned Perceptual Image Patch Similarity (LPIPS).
+This paper, ``FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-Shot Image Generation,'' adopts a quantitative approach with an experimental research design to evaluate improvements to the existing SAGE framework. In particular, the study integrates the GAN inversion module of SAGE with StyleFeatureEditor (SFE), incorporating its Feature Editor module to enhance latent inversion and attribute editing functionality under a one-shot setting, where attribute manipulation is conditioned on a single reference image per test instance. The research employs a quantitative methodology using established automated metrics for objective evaluation. Reconstruction quality is assessed using Fr\'echet Inception Distance (FID) and Learned Perceptual Image Patch Similarity (LPIPS).
 
-% =============================================================================
 \subsection{Experimental Setup}
 
-The experimental setup is designed to evaluate the effectiveness of the proposed FeatureSAGE framework in comparison 
-to the existing SAGE method. The evaluation follows a quantitative, experimental research design that involves controlled 
-changes to a single independent variable and the measurement of multiple dependent variables using standardized metrics.
+The experimental setup is designed to evaluate the effectiveness of the proposed FeatureSAGE framework in comparison to the existing SAGE method. The evaluation follows a quantitative, experimental research design that involves controlled changes to a single independent variable and the measurement of multiple dependent variables using standardized metrics.
 
 \begin{itemize}
     \item \textbf{Independent Variable}
     \begin{itemize}
         \item GAN Inversion Method: The primary manipulation involves substituting the original Pixel2Style2Pixel (pSp) encoder used in SAGE with the proposed StyleFeatureEditor (SFE) encoder, which includes an integrated feature editing module for enhanced semantic attribute control.
     \end{itemize}
+
     \item \textbf{Dependent Variable}
     To objectively evaluate the effectiveness of the GAN inversion and editing pipeline, the following metrics are employed:
     \begin{itemize}
         \item Reconstruction Quality
         \begin{enumerate}
-            \item Fréchet Inception Distance (FID): Measures distribution-level similarity between generated and real images.
+            \item Fr\'echet Inception Distance (FID): Measures distribution-level similarity between generated and real images.
             \item Learned Perceptual Image Patch Similarity (LPIPS): Measures perceptual similarity between original and reconstructed images based on deep features.
         \end{enumerate}
     \end{itemize}
+
     \item \textbf{Controlled Variables}
     \begin{enumerate}
-        \item Generator Architecture : A fixed, pretrained StyleGAN2 generator is used in both configurations for consistent image synthesis capabilities.
-        \item Training Dataset : Both configurations use the same datasets (FUNIT Animal Faces and 102 Flower) with the same preprocessing and data-splitting.
-        \item Evaluation Protocol : Use the sample unseen categories from the train-test spliting data for few-shot testing in both configurations. Evaluation is conducted using identical random seeds, few-shot sample counts (e.g., 1-shot, 5-shot), and query sets.
-        \item Loss Functions : Reconstruction and editing losses are applied consistently across both systems.
-        \item Optimization Settings : Both models utilize the same Optimizer type, Learning rate , Batch size and Training epochs 
-        \item Evaluation Metrics : All quantitative metrics (FID and LPIPS) are computed using the same implementation and parameters for consistency.
-        \item Hardware \& Software Environment : All experiments are conducted using the same hardware and PyTorch environment to avoid performance inconsistencies.
+        \item Generator Architecture: A fixed, pretrained StyleGAN2 generator is used in both configurations for consistent image synthesis capabilities.
+        \item Training Dataset: Both configurations use the same datasets, FUNIT Animal Faces and 102 Flowers, with the same preprocessing and data-splitting.
+        \item Evaluation Protocol: The same unseen categories from the train-test split data are used for one-shot testing in both configurations. Evaluation is conducted using identical random seeds, sample counts, and query sets.
+        \item Loss Functions: Reconstruction and editing losses are applied consistently across both systems.
+        \item Optimization Settings: Both models utilize the same optimizer type, learning rate, batch size, and training epochs.
+        \item Evaluation Metrics: All quantitative metrics, FID and LPIPS, are computed using the same implementation and parameters for consistency.
+        \item Hardware and Software Environment: All experiments are conducted using the same hardware and PyTorch environment to avoid performance inconsistencies. The system specifications are reported in Section~\ref{sec:hardware_system_requirements}.
     \end{enumerate}
+
     \item \textbf{Experimental Conditions}
-    
+
     Two experimental configurations are used:
     \begin{itemize}
         \item SAGE (Baseline): Employs the original pSp encoder with StyleGAN2.
         \item FeatureSAGE (Proposed): Integrates StyleFeatureEditor (SFE) encoder and a Feature Editor.
     \end{itemize}
-
-    \item \textbf{Hardware specifications}:
-    All experiments were conducted on a virtual machine instance with GPU pass‐through, hosted
-    on institutional cloud infrastructure:
-
-    Listed below are the hardware specifications of the device that will be used for training:
-    \begin{itemize}
-        \item GPU : NVIDIA GRID V100D‐32A (virtualized Tesla V100) 16 GB HBM2
-        \item CPU : QEMU Virtual CPU version 2.5+ 2 processors @ 2.19 GHz
-        \item RAM : 32.0 GB
-    \end{itemize}
 \end{itemize}
 
-% =========================================================================================
+\subsection{Few-Shot Experimental Setting}
 
-\subsection{Few-Shot Setting Experimental Setting}
-
-In this study, the term \emph{few-shot} refers to the number of reference images available per target class (or identity) used to construct 
-class-level latent representations for attribute group editing and downstream evaluation. A \textbf{1-shot} setting utilizes a single reference image 
-per target class, representing an extreme data-scarce scenario in which attribute editing and inversion must be performed with minimal visual 
-information. This one-shot configuration is applied consistently across all datasets and experimental conditions for both the baseline SAGE 
-and the proposed FeatureSAGE framework. By explicitly controlling the evaluation to a single reference image per class, the experimental 
-protocol enables a systematic assessment of FeatureSAGE’s robustness, stability, and generalization capability under severe data limitations. 
-The few-shot constraint is applied during test-time adaptation and evaluation on unseen classes, while the StyleGAN2 generator and attribute 
-directions are learned from large-scale seen-category data.
+In this study, the term \emph{few-shot} refers to the number of reference images available per target class or identity used to construct class-level latent representations for attribute group editing and downstream evaluation. A one-shot setting utilizes a single reference image per target class, representing an extreme data-scarce scenario in which attribute editing and inversion must be performed with minimal visual information. This one-shot configuration is applied consistently across all datasets and experimental conditions for both the baseline SAGE and the proposed FeatureSAGE framework. By explicitly controlling the evaluation to a single reference image per class, the experimental protocol enables a systematic assessment of FeatureSAGE's robustness, stability, and generalization capability under severe data limitations. The few-shot constraint is applied during test-time adaptation and evaluation on unseen classes, while the StyleGAN2 generator and attribute directions are learned from large-scale seen-category data.
