@@ -1,14 +1,14 @@
 \section{Hardware and System Requirements}
 \label{sec:hardware_system_requirements}
 
-All experiments were conducted on a virtual machine instance with GPU pass-through hosted on institutional cloud infrastructure. The same hardware and software environment was used for the baseline and proposed configurations so that differences in FID and LPIPS could be attributed to the inversion and editing pipeline rather than to system-level variation.
+All experiments were conducted on a virtual machine instance with GPU pass-through hosted on the Caraga State University ICTC supercomputer server. The same hardware and software environment was used for the baseline and proposed configurations so that differences in FID and LPIPS could be attributed to the inversion and editing pipeline rather than to system-level variation.
 
 \begin{itemize}
     \item \textbf{CPU:} QEMU Virtual CPU version 2.5+ with two processors operating at 2.19 GHz.
     \item \textbf{RAM:} 32.0 GB system memory.
     \item \textbf{GPU:} NVIDIA GRID V100D-32A, a virtualized Tesla V100 GPU with 16 GB HBM2 memory.
-    \item \textbf{Storage:} The exact storage capacity was not specified in the implementation details. The environment must store the FUNIT Animal Faces and 102 Flowers datasets, pretrained StyleGAN2 generator checkpoints, pSp and StyleFeatureEditor checkpoints, generated images, and evaluation outputs.
-    \item \textbf{Software environment:} The implementation used a PyTorch environment with a pretrained StyleGAN2 generator, the pSp encoder baseline, the StyleFeatureEditor Inverter and Feature Editor, MTCNN-based preprocessing for Animal Faces, Adam optimization, mixed-precision training, Inception-v3 features for FID, and deep network features for LPIPS. The operating system was not explicitly specified in the implementation details.
+    \item \textbf{Storage:} 1 TB server HDD storage. The environment stores the FUNIT Animal Faces and 102 Flowers datasets, pretrained StyleGAN2 generator checkpoints, pSp and StyleFeatureEditor checkpoints, generated images, and evaluation outputs.
+    \item \textbf{Software environment:} The implementation used Linux Ubuntu 24.04 LTS with a PyTorch environment, a pretrained StyleGAN2 generator, the pSp encoder baseline, the StyleFeatureEditor Inverter and Feature Editor, MTCNN-based preprocessing for Animal Faces, Adam optimization, mixed-precision training, Inception-v3 features for FID, and deep network features for LPIPS.
 \end{itemize}
 
 The 16 GB V100-class GPU is particularly important because FeatureSAGE performs multiple generator and inversion passes and injects intermediate feature tensors during synthesis. Mixed precision was enabled during Feature Editor training to reduce memory usage while preserving the same experimental protocol across comparisons.

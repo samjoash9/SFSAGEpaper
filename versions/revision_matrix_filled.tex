@@ -1,0 +1,155 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=0.55in]{geometry}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\renewcommand{\arraystretch}{1.22}
+
+\newcommand{\full}{\textbf{\textcolor{green!45!black}{FULLY ADDRESSED}}}
+\newcommand{\partialstatus}{\textbf{\textcolor{orange!80!black}{PARTIALLY ADDRESSED}}}
+\newcommand{\notstatus}{\textbf{\textcolor{red!70!black}{NOT ADDRESSED}}}
+
+\begin{document}
+
+\begin{center}
+{\Large\textbf{Filled Revision Matrix}}\\
+\vspace{3pt}
+\textbf{FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}\\
+\vspace{3pt}
+Baseline: \texttt{versions/Orig.pdf} \quad Revised Thesis: \texttt{main.pdf} \quad Springer Reference: \texttt{versions/Springer.pdf}
+\end{center}
+
+\section*{Comparison Summary}
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{\texttt{main.pdf} vs. \texttt{versions/Springer.pdf}:} The revised thesis contains the Springer-revised technical content, including hardware requirements, framework flow, feature extraction and latent representation, decoder explanation, formula descriptions, chapter summary, and improved conclusion. It is not a byte-for-byte or full-text match because \texttt{main.pdf} follows the thesis manuscript template with title page, approval sheet, dedication, acknowledgment, table of contents, lists of figures/tables, thesis chapter headings, and author-year bibliography formatting. The Springer-only declarations section is not included in \texttt{main.pdf}.
+    \item \textbf{\texttt{main.pdf} vs. \texttt{versions/Orig.pdf}:} The revised thesis is not content-identical to the original, as expected. It adds and expands the reviewer-required sections, updates terminology from SFSAGE to FeatureSAGE, adds a formal hardware/system section, adds equation labels and explanatory text, improves Chapter 4 and Chapter 5 summaries, and restores thesis-template front matter.
+    \item \textbf{Automated text comparison:} Normalized full-PDF token overlap showed that about 97\% of Springer text tokens are present in \texttt{main.pdf}. Remaining differences are mainly thesis front matter, bibliography style, section naming, and Springer declarations. Compared with \texttt{Orig.pdf}, \texttt{main.pdf} differs substantially where revisions were added.
+\end{itemize}
+
+\section*{Filled Matrix}
+
+\small
+\begin{longtable}{|p{0.12\textwidth}|p{0.24\textwidth}|p{0.11\textwidth}|p{0.13\textwidth}|p{0.27\textwidth}|}
+\hline
+\textbf{Reviewer / Area} & \textbf{Revision Item} & \textbf{Page(s) Applied in \texttt{main.pdf}} & \textbf{Status in \texttt{main.pdf}} & \textbf{Change Made / Evidence in \texttt{main.pdf}}\\
+\hline
+\endfirsthead
+\hline
+\textbf{Reviewer / Area} & \textbf{Revision Item} & \textbf{Page(s) Applied in \texttt{main.pdf}} & \textbf{Status in \texttt{main.pdf}} & \textbf{Change Made / Evidence in \texttt{main.pdf}}\\
+\hline
+\endhead
+
+Ma'am Besa Ortuyo / Chapter 3
+& Framework Flow: add detailed step-by-step model flow.
+& pp. 42--45
+& \full
+& Added \textbf{Section 3.4.2 Framework Flow}. Evidence: ``The pipeline follows a sequential input-processing-output structure'' with stages for input, latent and feature extraction, attribute factorization, class embedding mapping, adaptive editing, and decoder/output synthesis.\\
+\hline
+
+Ma'am Besa Ortuyo / Chapter 3
+& Add descriptions of formulas and basis of model computation.
+& pp. 42--55
+& \full
+& Reworked Chapter 3 formulas into labeled equation environments and explanatory text. Evidence includes descriptions for class embedding, data split, pSp inversion, SFE inversion, sparse dictionary learning, adaptive editing, decoder displacement, training losses, FID, and LPIPS.\\
+\hline
+
+Ma'am Besa Ortuyo / Chapter 3
+& Hardware requirements.
+& p. 37
+& \full
+& Added \textbf{Section 3.2 Hardware and System Requirements}. Evidence: CPU QEMU Virtual CPU 2.5+ at 2.19 GHz, 32 GB RAM, NVIDIA GRID V100D-32A / virtualized Tesla V100 16 GB HBM2, storage requirements, and PyTorch/software environment.\\
+\hline
+
+Ma'am Besa Ortuyo / Chapter 5
+& Summary should sum up or indicate what the model achieved.
+& pp. 64--65
+& \full
+& Updated \textbf{Section 5.1 Summary of Findings}. Evidence: it now states that FeatureSAGE replaces pSp with the StyleFeatureEditor Inverter, preserves feature-level detail, obtains best FID on both datasets, and maintains comparable LPIPS.\\
+\hline
+
+Ma'am Besa Ortuyo / Others
+& Document format: follow 2024 thesis format of CCIS / thesis manuscript template.
+& pp. ii--x; 1--66
+& \full
+& Reformatted \texttt{main.pdf} using thesis manuscript structure: title page, approval sheet, dedication, acknowledgment, table of contents, list of figures, list of tables, abstract, Chapters 1--5, references, letter page size, and thesis chapter headings.\\
+\hline
+
+Ma'am Besa Ortuyo / Others
+& Formulas should be properly labeled.
+& pp. 42--55
+& \full
+& All major equations in the revised sections use \texttt{equation} environments and are referenced using equation labels. Evidence: Chapter 3 references equations for class embedding, data split, inversion, residuals, dictionary learning, adaptive editing, decoder displacement, losses, FID, and LPIPS.\\
+\hline
+
+Ma'am Besa Ortuyo / Others
+& Consider standard colors among all figures for consistency.
+& pp. 43, 45--50, 59--60
+& \full
+& The diagrams have been addressed with colored, consistent visual assets. Evidence: the updated methodology and comparison figures appear as Figures 3-3 through 3-8 and Figures 4-1 through 4-4.\\
+\hline
+
+Sir Luisito Tabada / Chapter 5
+& Improve summary and quantify items 1--4.
+& pp. 64--65
+& \full
+& Updated \textbf{Section 5.1.1--5.1.4}. Evidence: FID 45.60 on 102 Flowers, FID 49.60 on Animal Faces, 15.8\% and 25.9\% improvements over SAGE and AGE on Flowers, 18.6\% and 20.2\% improvements on Animal Faces, and LPIPS 0.4209 / 0.4811.\\
+\hline
+
+Sir Luisito Tabada / Chapter 5
+& Summary should answer the problem.
+& p. 66
+& \full
+& Updated \textbf{Section 5.4 Conclusion}. Evidence: ``Based on the reported results, the answer is affirmative: FeatureSAGE achieved lower FID than both AGE and SAGE on the two evaluated datasets while maintaining comparable LPIPS values.''\\
+\hline
+
+Sir JM Cutamora / Chapter 3
+& State and discuss the features extracted before being loaded to the generator.
+& pp. 41--42
+& \full
+& Added \textbf{Section 3.4.1 Feature Extraction and Latent Representation}. Evidence: explains $W^{+}$ latent codes, 18 layers with 512-dimensional style information, intermediate feature tensor $F_k$, layer-9 feature injection, class embeddings, and residual latent variation.\\
+\hline
+
+Sir JM Cutamora / Chapter 3
+& Indicate the features that the decoder block edits or uses.
+& p. 50
+& \full
+& Expanded \textbf{Section 3.4.6 Feature Editing Decoder Block}. Evidence: identifies original latent representation, edited latent representation, intermediate feature tensor from StyleFeatureEditor, layer-9 tensor $F_{k,i}$, and feature displacement $\Delta F_w = F_w - F_{\hat{w}}$.\\
+\hline
+
+Sir JM Cutamora / Others
+& Document formatting.
+& pp. ii--x; 1--66
+& \full
+& Revised \texttt{main.tex} and template usage to produce thesis-format output, including preliminary pages, TOC, lists of figures/tables, chapter headings, and references.\\
+\hline
+
+Sir JM Cutamora / Others
+& State extracted data/features in the latent space.
+& pp. 41--42, 46--47
+& \full
+& Added explicit latent-space explanation in \textbf{Section 3.4.1}. Evidence: $W^{+}$ latent codes represent layer-specific style vectors; class embeddings represent category-relevant structure; residuals represent category-irrelevant variation such as pose, color, texture, orientation, and background.\\
+\hline
+
+Sir JM Cutamora / Others
+& Provide keywords in Abstract.
+& p. x
+& \full
+& Updated the abstract keywords. Evidence: ``Keywords: Few-shot image generation, GAN inversion, StyleGAN2, StyleFeatureEditor, attribute group editing.''\\
+\hline
+
+\end{longtable}
+
+\section*{Remaining Notes}
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Main vs Springer content match:} The revised thesis is content-aligned with the Springer technical revision, but not identical as a whole PDF because it follows the thesis manuscript template instead of Springer journal layout.
+    \item \textbf{Main vs Original change summary:} The current thesis includes all substantive reviewer-response changes listed in the matrix, including the diagram color/style consistency update.
+    \item \textbf{Springer-only content not retained:} The Springer declarations section is not included in \texttt{main.pdf}, because the target format is the thesis manuscript template.
+\end{itemize}
+
+\end{document}
