@@ -1,33 +1,22 @@
-\documentclass[10pt,conference]{IEEEtran}
+\documentclass[pdflatex,sn-basic,Numbered]{sn-jnl}
 
-\usepackage{cite}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
-\usepackage{url}
+\usepackage{booktabs}
 
-\title{FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}
+\title[FeatureSAGE]{FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}
 
-\author{
-\IEEEauthorblockN{Joshua Libando}
-\IEEEauthorblockA{\textit{Department of Computer Science}\\
-\textit{College of Computing and Information Science}\\
-Caraga State University -- Main Campus\\
-Butuan City, Philippines}
-\and
-\IEEEauthorblockN{Sam Joash V. Antonio}
-\IEEEauthorblockA{\textit{Department of Computer Science}\\
-\textit{College of Computing and Information Science}\\
-Caraga State University -- Main Campus\\
-Butuan City, Philippines}
-}
+\author*[1]{\fnm{Joshua} \sur{Libando}}
+
+\author[1]{\fnm{Sam Joash V.} \sur{Antonio}}
+
+\affil*[1]{\orgdiv{Department of Computer Science, College of Computing and Information Science}, \orgname{Caraga State University -- Main Campus}, \orgaddress{\city{Butuan City}, \country{Philippines}}}
+
+\input{chapters/preliminary-chapters/abstract}
 
 \begin{document}
 
 \maketitle
-\thispagestyle{empty}
-\pagestyle{empty}
-
-\input{chapters/preliminary-chapters/abstract}
 
 \input{chapters/chapter-1/introduction}
 \input{chapters/chapter-2/review_of_related_literature}
@@ -35,7 +24,17 @@ Butuan City, Philippines}
 \input{chapters/chapter-4/results_and_discussion}
 \input{chapters/chapter-5/summary}
 
-\bibliographystyle{IEEEtran}
+\section*{Declarations}
+
+\subsection*{Data availability}
+The study uses the publicly available FUNIT Animal Faces and 102 Flowers datasets cited in the manuscript.
+
+\subsection*{Funding}
+Funding information was not specified in the manuscript.
+
+\subsection*{Conflict of interest}
+Conflict-of-interest information was not specified in the manuscript.
+
 \bibliography{references}
 
 \end{document}
