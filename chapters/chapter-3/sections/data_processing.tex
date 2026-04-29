@@ -1,4 +1,5 @@
 \subsection{Data Preprocessing}
+\label{sec:data_preprocessing}
 
 
 \subsubsection{Data Sources}
@@ -35,13 +36,13 @@ This research draws from a range of publicly available datasets with a varied sc
 
 \subsubsection{Data Preprocessing Steps}
 
-For all datasets, we will apply the following preprocessing steps:
+For all datasets, the following preprocessing steps are applied:
 
 \begin{itemize}
-    \item Resizing and Normalization: Images will be resized to 256$\times$256 for efficiency (and 512$\times$512 for high-res experiments) and pixel values will be normalized to the range [-1,1] for input to StyleGAN2.
-    \item Filtering: We will remove any extremely low-quality or mislabeled images.
+    \item Resizing and Normalization: Images are resized according to the generator and evaluation setting, including the reported 1024$\times$1024 experiments where applicable, and pixel values are normalized to the range $[-1,1]$ for input to StyleGAN2.
+    \item Filtering: Extremely low-quality or mislabeled images are removed.
     \begin{itemize}
-        \item For FUNIT Animal Faces, use a face detector, MTCNN (Multi-Task Cascaded Convolutional Networks), to crop and horizontally align faces so the eyes are leveled.
+        \item For FUNIT Animal Faces, MTCNN (Multi-Task Cascaded Convolutional Networks) is used to crop and horizontally align faces so the eyes are leveled.
     \end{itemize}
 
     \item Train-Test Splitting : We assess our approach on four standard few-shot image domains, partitioning each into "seen" classes for model fitting and "unseen" classes for testing:
@@ -51,5 +52,5 @@ For all datasets, we will apply the following preprocessing steps:
       \item \textbf{Flowers.} We assign 85 categories to the training (seen) split and reserve 17 categories for the test (unseen) split.
     \end{itemize}
     
-    \item Augmentation: No data augmentation will be used beyond centering and flipping, since we focus on the evaluation of given domains. All datasets and preprocessing pipelines are documented for reproducibility.
+    \item Augmentation: No data augmentation is used beyond centering and flipping, since the evaluation focuses on the given domains. All datasets and preprocessing pipelines are documented for reproducibility.
 \end{itemize}

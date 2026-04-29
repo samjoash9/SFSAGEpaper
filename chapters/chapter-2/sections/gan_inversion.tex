@@ -18,7 +18,7 @@ How GAN inversion works \cite{richardson2021encodingstylestyleganencoder,alaluf2
     For example, pixel2\-style2pixel (pSp) uses a ResNet + feature pyramid, producing style vectors via map2style blocks for each scale.
     Encoder4Editing (e4e) is similar but outputs one base style plus per-layer offsets.
     ReStyle applies such encoders iteratively, and StyleFeatureEditor uses a two-branch encoder for both $W^+$ and feature-latents.
-    \item Loss functions: Encoders are trained to minimize a combination of losses on reconstruction. Common losses are pixel-wise L2, perceptual (LPIPS) loss, and often an identity or feature loss to preserve semantics (e.g. using ArcFace or self-supervised features).Many methods also add regularization: for example, e4e adds L2 penalties on offsets to keep the final code near $W$, and some use adversarial (latent discriminator) loss to keep codes within the true latent distribution.
+    \item Loss functions: Encoders are trained to minimize a combination of losses on reconstruction. Common losses are pixel-wise L2, perceptual (LPIPS) loss, and often an identity or feature loss to preserve semantics (e.g. using ArcFace or self-supervised features). Many methods also add regularization: for example, e4e adds L2 penalties on offsets to keep the final code near $W$, and some use adversarial (latent discriminator) loss to keep codes within the true latent distribution.
     \item Inference and editing: At test time, given image $x$,  the encoder predicts a latent code (or code+offsets or code+features). This code is fed into the fixed generator $G$  to reconstruct $x$.  For editing, one modifies the latent (e.g. by style mixing or adding semantic direction vectors) and uses $G$ to synthesize the edited image.
 \end{itemize}
 
@@ -54,7 +54,7 @@ The result is an encoder that strikes a balance: it produces reconstructions nea
 e4e still outputs an extended style code, but with built-in bias towards $W$. In practice one can edit e4e codes using the same methods (adding latent directions, style mixing), and edits tend to be more robust. For faces, e4e also incorporates a cosine identity loss (ArcFace or general ResNet) to preserve identity under reconstruction.
 
 e4e greatly improves editability. It was shown to maintain coherent attribute manipulations (age, expression, pose) on real images better than pSp, with only a minor increase in reconstruction error.
-ts inference speed is still one forward pass (plus negligible overhead from the latent discriminator at training time). It generalizes to multiple domains (faces, cars, etc.) by using a domain-agnostic feature extractor for identity.
+Its inference speed is still one forward pass (plus negligible overhead from the latent discriminator at training time). It generalizes to multiple domains (faces, cars, etc.) by using a domain-agnostic feature extractor for identity.
 
 To achieve editability, e4e accepts a small drop in reconstruction fidelity. Very fine details may be slightly lost compared to pSp. Also, the progressive training and latent GAN add complexity, and tuning the trade-off weights requires care. 
  The notion of "proximity to $W$ " is somewhat loosely defined , so extremely out-of-distribution images (e.g. non-human faces) may still not be perfectly encoded.
@@ -63,10 +63,13 @@ To achieve editability, e4e accepts a small drop in reconstruction fidelity. Ver
 \subsubsection{ReStyle}
 
 ReStyle (ICCV 2021) focuses on improving inversion accuracy by iterative refinement. Instead of a single encoder pass, ReStyle's encoder is applied multiple times in a feedback loop. Starting from an initial latent (the average 
-$w$ vector), ReStyle repeatedly concatenates the original image with the generator's current reconstruction and feeds them into the encoder. At each iteration $t$, the encoder predicts a residual $\Delta w^{(t)}$ to add to the current latent.
-\[
-\text{At step t,} w^{(t)} = w^{(t-1)} + E(x,G(w^{(t-1)}))
-\],
+$w$ vector), ReStyle repeatedly concatenates the original image with the generator's current reconstruction and feeds them into the encoder. At each iteration $t$, the encoder predicts a residual $\Delta w^{(t)}$ to add to the current latent:
+\begin{equation}
+    w^{(t)} =
+    w^{(t-1)} + E\left(x,G(w^{(t-1)})\right).
+    \label{eq:restyle-update}
+\end{equation}
+Equation~\eqref{eq:restyle-update} defines the ReStyle refinement step, where $E(\cdot)$ predicts the residual update from the original image $x$ and the current reconstruction $G(w^{(t-1)})$.
 
 with $w^{(0)}$,  set to the average latent, and $G(w)$ , the current output image. 
  The encoder is trained to minimize reconstruction loss at each step (summing L2+LPIPS over all iterations).

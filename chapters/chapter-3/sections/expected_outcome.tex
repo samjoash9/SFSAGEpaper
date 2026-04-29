@@ -1,27 +1,16 @@
 \subsection{Expected Outcome}
+\label{sec:expected_outcome}
 
-The study is expected to significantly enhance latent code retrieval from real-world images. By integrating the StyleFeatureEditing module into 
-SAGE framework, results should show stronger reconstruction alongside easier modification without forcing a trade-off. Instead of relying on the 
-initial pSp-based encoder, this updated setup known as FeatureSAGE may handle follow-up jobs more effectively. Tasks like enriching datasets could 
-benefit greatly, particularly when only a handful of examples exist. Higher-quality inversions are likely to yield closer-to-original visuals while 
-preserving meaning-rich traits needed for edits. Another boost comes from adding the Feature Editor unit, which tends to sharpen output clarity. 
-It helps keep small textures intact and ensures the subject looks consistent even after changes take place.
+Based on the research design, FeatureSAGE is expected to improve latent code retrieval from real-world images by replacing the pSp-based inversion path of SAGE with the StyleFeatureEditor Inverter and Feature Editor. The expected technical effect is stronger reconstruction and more stable editing because the framework represents each image using both $W^{+}$ latent codes and intermediate feature tensors. The $W^{+}$ code supports semantic attribute manipulation, while the feature tensor preserves fine visual details that may be weakened by latent-only inversion.
 
-In order to evaluate FeatureSAGE, performance is checked on two known datasets, FUNIT Animal Faces and Flowers 102. Image variety and clarity are 
-reviewed through a common tool called Fr\'echet Inception Distance (FID). Instead of relying only on visuals, perceptual likeness is measured via 
-LPIPS scores that highlight fine differences between pictures. Keeping the person's look intact during edits receives attention using identity 
-similarity assessments. Comparisons unfold alongside recent methods in GAN-based editing and low-data image changes. These side-by-side tests 
-aim to show whether FeatureSAGE holds up more consistently across adjustments. Preserving who someone looks like matters just as much as making 
-realistic tweaks. Overall picture quality enters evaluation not as an afterthought, but woven into each comparison point.
+The framework is evaluated on the FUNIT Animal Faces and 102 Flowers datasets under the one-shot setting. Performance is assessed using Fr\'echet Inception Distance (FID) for distributional alignment and Learned Perceptual Image Patch Similarity (LPIPS) for perceptual variation. These metrics are used consistently across AGE, SAGE, and FeatureSAGE to determine whether the proposed inversion and feature-editing changes improve generated image quality without removing useful output diversity.
 
-Based on the objectives outlined in this study, the proposed FeatureSAGE framework is expected to achieve the following measurable outcomes:
+The expected measurable outcomes are as follows:
 
 \begin{enumerate}
-    \item \textbf{Lower FID}, reflecting enhanced visual realism and distributional alignment of real and synthetic images.
+    \item \textbf{Lower FID}, reflecting improved visual realism and closer distributional alignment between generated and real images.
 
-    \item \textbf{Higher Learned Perceptual Image Patch Similarity (LPIPS)}, reflecting increased perceptual diversity among edited images.
+    \item \textbf{Comparable LPIPS}, reflecting that improvements in FID should not come from collapsing outputs into overly similar samples.
 \end{enumerate}
 
-All of these results are collectively establish the strength of FeatureSAGE as a robust and universal instrument for few-shot image generation, 
-manipulation, and data enhancement in resource-limited learning systems. The research also contribute to the development of the edit-based 
-few-shot approach.
+Together, these outcomes support the study's goal of evaluating whether feature-level inversion and editing can strengthen SAGE for few-shot image generation and generative data augmentation in resource-limited settings.

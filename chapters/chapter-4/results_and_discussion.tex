@@ -1,16 +1,13 @@
 \section{Results and Discussion}
 
-% CHAPTER INTRODUCTION
 This chapter presents the experimental results of the proposed FeatureSAGE framework and compares its 
-performance with the baseline SAGE model on few-shot image generation tasks. The experiments are carried 
-out on two datasets, FUNIT Animal Faces and 102 Flowers, with a 1-shot image generation task to evaluate the 
-ability of the proposed framework when faced with a limited amount of data. In order to evaluate the 
-performance in high and low resolution settings, the experiments are conducted at 1024x1024 resolution only. 
-The quality of the generated images and their perceptual similarity to real images are measured 
-using Fr\'echet Inception Distance (FID) and Learned Perceptual Image Patch Similarity (LPIPS), respectively. 
-A comparison between the SAGE model with a pSp inverter and the FeatureSAGE framework with StyleFeatureEditor 
-and feature editing is expected to shed light on the effect of improved latent inversion on 
-image quality and editability.
+performance with AGE and SAGE on one-shot image generation tasks. The experiments are conducted on two datasets, 
+FUNIT Animal Faces and 102 Flowers, using a single reference image per target class. The reported evaluation is 
+performed at 1024$\times$1024 resolution. Image quality and distributional alignment are measured using 
+Fr\'echet Inception Distance (FID), while Learned Perceptual Image Patch Similarity (LPIPS) is reported to 
+describe perceptual variation among generated outputs. The comparison evaluates whether replacing the pSp-based 
+SAGE inversion path with the StyleFeatureEditor Inverter and Feature Editor improves few-shot generation quality 
+while maintaining usable edit diversity.
 
 \input{chapters/chapter-4/sections/quantitative_results}
 
@@ -19,3 +16,7 @@ image quality and editability.
 \input{chapters/chapter-4/sections/qualitative_evaluation}
 
 \input{chapters/chapter-4/sections/failure_cases_and_limitations}
+
+\subsection{Chapter Summary}
+
+The results show that FeatureSAGE achieved the lowest FID on both evaluated datasets. On 102 Flowers, FeatureSAGE obtained an FID of 45.60, improving over SAGE by 15.8\% and over AGE by 25.9\%. On Animal Faces, FeatureSAGE obtained an FID of 49.60, improving over SAGE by 18.6\% and over AGE by 20.2\%. These outcomes indicate stronger distributional alignment with the real image data after integrating the StyleFeatureEditor Inverter and Feature Editor into the SAGE pipeline. LPIPS remained within a narrow range relative to the baselines, with 0.4209 on Flowers and 0.4811 on Animal Faces, indicating that the FID gains did not remove perceptual variation from the generated outputs. Qualitative comparisons further show that FeatureSAGE produced sharper flower structures, more coherent color and contrast, and more stable animal-face structure, although the method still carries computational overhead and remains dependent on the pretrained StyleGAN2 generator.

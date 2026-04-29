@@ -1,13 +1,5 @@
-\subsection{future Work}
+\subsection{Future Work}
 
-\subsubsection{Efficiency Optimizations}
+Future research should focus on reducing the computational overhead introduced by the StyleFeatureEditor Inverter and Feature Editor. Since FeatureSAGE requires additional feature extraction, feature editing, and feature injection steps, optimization should target faster inference and lower GPU memory usage while preserving the reconstruction and editing advantages observed in this study.
 
-% Lightweight encoder designs.
-
-% Real-time inference optimizations.
-
-\subsubsection{Broader Applications}
-
-% Medical imaging with limited data.
-
-% Ethical AI and bias mitigation in generative models.
+Further work may also examine alternative base generators beyond StyleGAN2. Because FeatureSAGE depends on the availability and quality of a pretrained generator, testing other generator backbones could clarify how much of the framework's performance depends on the StyleGAN2 latent and feature spaces. Another direction is to study multi-level feature editing, where feature tensors from more than one generator layer are considered, to determine whether consistency between fine details and higher-level structure can be improved without increasing instability.

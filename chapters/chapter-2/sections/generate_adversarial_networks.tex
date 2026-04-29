@@ -1,4 +1,4 @@
-\subsection{Generative Adevrsarial Networks}
+\subsection{Generative Adversarial Networks}
 
 Generative Adversarial Networks (GANs) is a novel framework for training generative models via an adversarial process
 which was first introduced by \cite{GAN}.
@@ -21,15 +21,20 @@ The goal of $G$ is to map the "latent" noise distribution into the data sample $
 The discriminator $D$ takes a data sample $x$ as input and outputs a probability $D(x)$ estimating the likelihood that
 $x$ is a real sample rather than one produced by $G$ \cite{salehi2020generativeadversarialnetworksgans,cohen2022generativeadversarialnetworks,Creswell_2018}.
 
-The adversarial training process in GANs is governed by a minimax optimization. Formally, \cite{GAN} define the value function:
-\begin{align*}
+The adversarial training process in GANs is governed by a minimax optimization. Formally, \cite{GAN} define the value function as
+\begin{equation}
+\begin{aligned}
 V(D,G) ={}& \mathbb{E}_{x \sim p_{\text{data}}(x)}[\log D(x)]\\
-&+ \mathbb{E}_{z \sim p_z(z)}[\log(1 - D(G(z)))]
-\end{align*}
+&+ \mathbb{E}_{z \sim p_z(z)}[\log(1 - D(G(z)))] ,
+\end{aligned}
+\label{eq:gan-value-function}
+\end{equation}
 and train $D$ and $G$ in a two-player game:
-\[
-\min_{G} \max_{D} V(D,G)
-\]
+\begin{equation}
+    \min_{G} \max_{D} V(D,G).
+    \label{eq:gan-minimax}
+\end{equation}
+Equation~\eqref{eq:gan-value-function} defines the adversarial objective: the discriminator increases the probability of assigning real labels to samples from $p_{\text{data}}$ and fake labels to generated samples $G(z)$, while the generator attempts to reduce this distinction through the minimax optimization in Equation~\eqref{eq:gan-minimax}.
 
 $D$ and $G$ are alternatively updated via minibatch stochastic gradient descent during the GAN training process. 
 $D$ is trained to maximize the probability of predicting whether an input from both training example and sample from G are real or fake,

@@ -11,9 +11,13 @@ Instead of feeding the latent code $\mathbf{z}$ directly into the generator,
 StyleGAN first maps $\mathbf{z}\sim\mathcal{N}(0,I)$ to an intermediate latent $\mathbf{w}=f(\mathbf{z})$ using an 8-layer fully-connected network \cite{karras2019stylebasedgeneratorarchitecturegenerative}.
 This $\mathbf{w}$ lives in a new "style" space $\mathcal{W}$ that is learned to be less entangled than the original latent space. 
 Learned affine transforms then convert $\mathbf{w}$ into per-layer style parameters $(y_s,y_b)$ that modulate each convolution via Adaptive Instance Normalization (AdaIN) \cite{karras2019stylebasedgeneratorarchitecturegenerative,karras2020analyzingimprovingimagequality}.
-Concretely, for each feature map $x_i$ in a convolutional layer, StyleGAN applies:\[
-\text{AdaIN}(x_i, y) = y_{s,i} \left( \frac{x_i - \mu(x_i)}{\sigma(x_i)} \right) + y_{b,i}
-\], where $y_s$ and $y_b$ (scalars for channel $i$) are derived from $\mathbf{w}$.
+Concretely, for each feature map $x_i$ in a convolutional layer, StyleGAN applies
+\begin{equation}
+    \mathrm{AdaIN}(x_i,y) =
+    y_{s,i}\left(\frac{x_i-\mu(x_i)}{\sigma(x_i)}\right)+y_{b,i}.
+    \label{eq:adain}
+\end{equation}
+In Equation~\eqref{eq:adain}, $y_{s,i}$ and $y_{b,i}$ are the style scale and bias for channel $i$ derived from $\mathbf{w}$, while $\mu(x_i)$ and $\sigma(x_i)$ are the mean and standard deviation of feature map $x_i$.
  In practice, StyleGAN's mapping network $f$ (an eight-layer MLP) produces $\mathbf{w}$, and then each convolutional layer is modulated by the corresponding $(y_s,y_b)$ pair.
  This allows scale-specific control of features: coarse spatial styles 
  (e.g. pose or overall shape) are set by early layers, while fine-grained details (e.g. color, texture) are set by later layers \cite{Melnik_2024,karras2019stylebasedgeneratorarchitecturegenerative}.
@@ -31,7 +35,7 @@ The architectural differences from a standard GAN can be summarized as:
 
 \begin{itemize}
   \item Intermediate latent space and mapping network: StyleGAN learns a mapping $f: \mathbf{z}\to \mathbf{w}$ (eight-layer MLP) so that $\mathbf{w}$ in space $\mathcal{W}$ is disentangled
-  \item Style modulation via AdaIN: Style vectors from $\mathbf{w}$ provide per-layer \\ scale/bias that modulate each convolution by AdaIN, as in the formula above.
+  \item Style modulation via AdaIN: Style vectors from $\mathbf{w}$ provide per-layer scale and bias terms that modulate each convolution by AdaIN, as shown in Equation~\eqref{eq:adain}.
   \item Noise injection: Learned Gaussian noise is added to each layer to control stochastic details
   \item Learned constant input: The generator begins from a fixed learned 4x4 tensor instead of random noise
   \item Progressive growing: StyleGAN adopts the progressive training strategy from ProGAN [Karras et al., 2018], starting at 4x4 resolution and gradually adding layers to reach high resolution \cite{karras2018progressivegrowinggansimproved}.
@@ -45,9 +49,13 @@ Therefore, StyleGAN2 "bakes" the style modulation into the convolution weights a
 In practice, this works as follows: let $w_{ijk}$ be the convolution weight connecting input channel $i$ to output channel $j$ (at spatial position $k$).
 Given a style scale $s_i$ (from $\mathbf{w}$) for channel $i$, StyleGAN2 first multiplies $w_{ijk}$ by $s_i$ (modulation), yielding $w'_{ijk}=s_i w_{ijk}$.
 It then computes the output standard deviation $\sigma_j$ of the convolution and demodulates by dividing by $\sigma_j$:
-\[
-w''_{i,s,j,k} = \frac{w'_{ijk}}{\sqrt{\sum_{i'} (w'_{ijk})^2 + \epsilon}}
-\]. This eliminates the need for explicit instance normalization after the convolution. 
+\begin{equation}
+    w''_{ijk} =
+    \frac{w'_{ijk}}
+    {\sqrt{\sum_{i',k}(w'_{i'jk})^2+\epsilon}}.
+    \label{eq:stylegan2-demodulation}
+\end{equation}
+Equation~\eqref{eq:stylegan2-demodulation} normalizes the modulated convolution weights for each output channel, eliminating the need for explicit instance normalization after the convolution. 
 The result is that each convolutional layer can apply the style $s_i$ directly to its weights, 
 with the demodulation automatically preserving unit variance. This modification removes the "blob" artifacts common in StyleGAN outputs and leads to crisper, more natural images.
 
