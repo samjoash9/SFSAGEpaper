@@ -1,8 +1,8 @@
-﻿\section{Qualitative Evaluation}
+\subsection{Qualitative Evaluation}
 
-\subsection{Visual Comparison Across Models}
+\subsubsection{Visual Comparison Across Models}
 
-\begin{figure}[H]
+\begin{figure*}[!t]
 \centering
 \setlength{\tabcolsep}{2pt}
 
@@ -20,10 +20,10 @@ Input & AGE & AGE & SAGE & SAGE & FeatureSAGE & FeatureSAGE
 
 \caption{Comparison across AGE, SAGE, and the proposed FeatureSAGE model under one-shot setting, where a single reference image is used to condition the model during inference.}
 \label{fig:qualitative_comparison}
-\end{figure}
+\end{figure*}
 
 
-\begin{figure}[H]
+\begin{figure*}[!t]
 \centering
 \setlength{\tabcolsep}{2pt}
 
@@ -41,9 +41,9 @@ Input & AGE & AGE & SAGE & SAGE & FeatureSAGE & FeatureSAGE
 
 \caption{Comparison across AGE, SAGE, and the proposed FeatureSAGE model under one-shot setting with a different image input.}
 \label{fig:qualitative_input2}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[H]
+\begin{figure*}[!t]
 \centering
 \setlength{\tabcolsep}{2pt}
 
@@ -60,9 +60,9 @@ Input & AGE & AGE & SAGE & SAGE & FeatureSAGE & FeatureSAGE
 
 \caption{Comparison across AGE, SAGE, and the proposed FeatureSAGE model on the Animal Faces dataset under one-shot setting. Each model generates two outputs per input image to demonstrate edit diversity and semantic consistency.}
 \label{fig:qualitative_animalfaces}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[H]
+\begin{figure*}[!t]
 \centering
 \setlength{\tabcolsep}{2pt}
 
@@ -79,11 +79,11 @@ Input & AGE & AGE & SAGE & SAGE & FeatureSAGE & FeatureSAGE
 
 \caption{Comparison across AGE, SAGE, and the proposed FeatureSAGE model under one-shot setting with a different dog input image. Each model generates two outputs per input to illustrate diversity and semantic consistency.}
 \label{fig:qualitative_input4}
-\end{figure}
+\end{figure*}
 
-\subsection{Visual Observations}
+\subsubsection{Visual Observations}
 
-\subsubsection{Flowers}
+\paragraph{Flowers}
 
 Figures \ref{fig:qualitative_comparison} and \ref{fig:qualitative_input2} describe the qualitative analysis of the results of the edited flowers 
 based on the baseline models AGE and SAGE, and the proposed model FeatureSAGE. The models are compared with regard to their ability to maintain the 
@@ -101,7 +101,7 @@ The model maintains higher clarity, with balanced contrast and natural color dis
 areas, which is somewhat settled by SAGE as it balances the contrast. Overall, the generated flower images produced by FeatureSAGE are the sharpest, 
 most realistic, and visually consistent as compared to the other models being tested.
 
-\subsubsection{Animal Faces}
+\paragraph{Animal Faces}
 
 Figure \ref{fig:qualitative_animalfaces} provides a comparison of the outputs produced by the AGE, SAGE, and proposed FeatureSAGE model on the 
 Animal Faces data set using a picture of a dog as input. As observed, the outputs produced by the models have managed to maintain the color 

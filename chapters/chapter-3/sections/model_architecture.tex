@@ -1,14 +1,14 @@
-\section{Model Architecture}
+\subsection{Model Architecture}
 
 This study proposes a modified SAGE framework named \textbf{FeatureSAGE}, which integrates several modules to enhance few-shot image generation. The architecture combines a pretrained StyleGAN2 backbone, a StyleFeatureEditor Inverter and Feature Editor, and SAGE's attribute group editing mechanism. The design aims to enable fine-grained, disentangled, and class-consistent image synthesis from limited input data. The main modules are as follows:
 
 \begin{enumerate}
     \item \textbf{StyleGAN2 Generator:} As in SAGE, the synthesis module of a pretrained StyleGAN2 generator is used to generate images from inverted latent codes. In FeatureSAGE, the generator also receives edited intermediate feature tensors from the Feature Editor so that the output image is conditioned by both latent-space edits and feature-level details.
 
-    \item \textbf{StyleFeatureEditor Inverter and Feature Editor:} StyleFeatureEditor (SFE) by \citet{bobkov2024devildetailsstylefeatureeditordetailrich} enables editing in both $W^{+}$ latents and $F$-latents. This allows the model to reconstruct finer image details and preserve them during editing. In FeatureSAGE, SFE is integrated into the GAN inversion module $I(\cdot)$ of the original SAGE framework to improve latent inversion and attribute editing. According to \citet{ding2023stableattributegroupediting}, reconstruction with pSp, ReStyle, and HyperStyle may lose local details, reducing the accuracy of reconstructed images by more than 5\% compared with standard data. This motivates the use of the StyleFeatureEditor Inverter $I(\cdot)$ and Feature Editor $H(\cdot)$ as the inversion and feature-editing components of the proposed framework.
+    \item \textbf{StyleFeatureEditor Inverter and Feature Editor:} StyleFeatureEditor (SFE) by \cite{bobkov2024devildetailsstylefeatureeditordetailrich} enables editing in both $W^{+}$ latents and $F$-latents. This allows the model to reconstruct finer image details and preserve them during editing. In FeatureSAGE, SFE is integrated into the GAN inversion module $I(\cdot)$ of the original SAGE framework to improve latent inversion and attribute editing. According to \cite{ding2023stableattributegroupediting}, reconstruction with pSp, ReStyle, and HyperStyle may lose local details, reducing the accuracy of reconstructed images by more than 5\% compared with standard data. This motivates the use of the StyleFeatureEditor Inverter $I(\cdot)$ and Feature Editor $H(\cdot)$ as the inversion and feature-editing components of the proposed framework.
 \end{enumerate}
 
-\subsection{Feature Extraction and Latent Representation}
+\subsubsection{Feature Extraction and Latent Representation}
 \label{sec:feature_extraction_latent}
 
 FeatureSAGE extracts three types of representations before image synthesis. First, each input image is encoded into a $W^{+}$ latent code. The $W^{+}$ space contains layer-specific StyleGAN2 style vectors; in this study, it is represented as 18 layers with 512-dimensional style information per layer. This representation is important because it supports semantic attribute editing while preserving the layer-wise structure used by StyleGAN2.
@@ -34,30 +34,19 @@ The training and test sets are denoted as
 
 where $C_s$ denotes seen categories, $C_u$ denotes unseen categories, $S$ is the number of seen-category samples used in training, and $U$ is the number of unseen-category samples used for testing. Equation~\eqref{eq:data_split} defines the data split used by the one-shot evaluation protocol.
 
-\subsection{Framework Flow}
+\subsubsection{Framework Flow}
 \label{sec:framework_flow}
 
-\newgeometry{
-    top=1cm,
-    bottom=1cm,
-    left=1cm,
-    right=1cm
-}
-
-\begin{landscape}
-    \begin{figure}[p]
-        \centering
-        \includegraphics[
-            width=\linewidth,
-            height=\textheight,
-            keepaspectratio
-        ]{images/framework.png}
-        \caption{FeatureSAGE framework}
-        \label{fig:feature_sage_framework}
-    \end{figure}
-\end{landscape}
-
-\restoregeometry
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[
+        width=\textwidth,
+        height=0.58\textheight,
+        keepaspectratio
+    ]{images/framework.png}
+    \caption{FeatureSAGE framework}
+    \label{fig:feature_sage_framework}
+\end{figure*}
 
 Figure~\ref{fig:feature_sage_framework} shows the complete FeatureSAGE framework. The pipeline follows a sequential input-processing-output structure:
 
@@ -96,12 +85,12 @@ Using the latent editor, random directions are sampled from the sparse dictionar
 
 Equation~\eqref{eq:editing_pair} provides the editing pair used in Feature Editor training. The images $x_{i,\mathrm{psp}}^{C_s}$ and $\hat{x}_{i,\mathrm{psp}}^{C_s}$ supply the reconstruction and edited targets, while $F_w$ and $F_{\hat{w}}$ provide the feature-space difference used by the decoder.
 
-\subsection{Attribute Factorization}
+\subsubsection{Attribute Factorization}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\linewidth]{images/SFSAGE.drawio.png}
-    \caption{Attribute Factorization Training Framework \citep{ding2023stableattributegroupediting}}
+    \caption{Attribute Factorization Training Framework \cite{ding2023stableattributegroupediting}}
     \label{fig:attributge_fac_training}
 \end{figure}
 
@@ -110,7 +99,7 @@ To enable disentangled editing, FeatureSAGE retains the SAGE attribute factoriza
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\linewidth]{images/AttributeFac.drawio.png}
-    \caption{Attribute Factorization Block, derived from \citep{ding2023stableattributegroupediting}}
+    \caption{Attribute Factorization Block, derived from \cite{ding2023stableattributegroupediting}}
     \label{fig:attribute_factorization_block}
 \end{figure}
 
@@ -130,12 +119,15 @@ Equation~\eqref{eq:residual_latent} subtracts the category embedding from the im
 
 In Equation~\eqref{eq:dictionary_residual}, $A$ is the global dictionary of category-irrelevant attribute directions and $n_i$ is the sparse code that selects which directions are active for sample $i$. The edited residual is added back to the class embedding to obtain an edited latent code.
 
-Category-irrelevant attributes are features that influence how an object appears but are not essential to its identity or class membership. For example, a cat remains a cat even if its color, orientation, background, texture, or expression changes. Following \citet{ding2023stableattributegroupediting}, category-irrelevant editing is defined as
+Category-irrelevant attributes are features that influence how an object appears but are not essential to its identity or class membership. For example, a cat remains a cat even if its color, orientation, background, texture, or expression changes. Following \cite{ding2023stableattributegroupediting}, category-irrelevant editing is defined as
 
 \begin{equation}
-    \mathrm{edit}_{ir}(G(W_i^{C_s})) =
-    G\left(W_i^{C_s} + \alpha \Delta W^{ir}, H(F_{k,i}, \Delta W^{ir})\right)
-    = \hat{X}_i^{C_s}.
+    \begin{aligned}
+    \mathrm{edit}_{ir}(G(W_i^{C_s})) &=
+    G\left(W_i^{C_s} + \alpha \Delta W^{ir},\right.\\
+    &\quad \left.H(F_{k,i}, \Delta W^{ir})\right) \\
+    &= \hat{X}_i^{C_s}.
+    \end{aligned}
     \label{eq:category_irrelevant_edit}
 \end{equation}
 
@@ -150,7 +142,7 @@ Given a latent code $W_i^{C_s}$ and its class embedding $e^{C_s}$, the category-
 
 Equation~\eqref{eq:wplus_residual} is the same residual principle as Equation~\eqref{eq:residual_latent}, written for the $W^{+}$ latent tensor.
 
-According to \citet{ding2023stableattributegroupediting}, a global dictionary $A \in \mathbb{R}^{18 \times 512 \times l}$ and a sparse representation $n_i \in \mathbb{R}^{18 \times l}$ are learned from $\Delta W_i^{ir}$ using sparse dictionary learning:
+According to \cite{ding2023stableattributegroupediting}, a global dictionary $A \in \mathbb{R}^{18 \times 512 \times l}$ and a sparse representation $n_i \in \mathbb{R}^{18 \times l}$ are learned from $\Delta W_i^{ir}$ using sparse dictionary learning:
 
 \begin{equation}
     \min_{n_i} \|n_i\|_0 \quad \mathrm{s.t.} \quad \Delta W_i^{ir} = A n_i.
@@ -168,16 +160,16 @@ In practice, the sparse code is estimated through a multilayer perceptron:
 
 Equation~\eqref{eq:mlp_sparse_code} makes the sparse dictionary learning step differentiable and trainable within the attribute factorization module.
 
-\subsection{Class Embedding Mapping}
+\subsubsection{Class Embedding Mapping}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\linewidth]{images/Class_embedding_mapping.drawio.png}
-    \caption{Class Embedding Block, adapted from \citep{ding2023stableattributegroupediting}}
+    \caption{Class Embedding Block, adapted from \cite{ding2023stableattributegroupediting}}
     \label{fig:class_embedding_block}
 \end{figure}
 
-Compared with Attribute Group Editing (AGE) by \citet{AGE}, which randomly samples editing directions from $A$, SAGE uses class embedding mapping. The class embedding mapping block in Figure~\ref{fig:class_embedding_block} identifies the latent directions that have the strongest effect on the target attribute group and uses them to guide later edits. This part of the framework remains unchanged from SAGE.
+Compared with Attribute Group Editing (AGE) by \cite{AGE}, which randomly samples editing directions from $A$, SAGE uses class embedding mapping. The class embedding mapping block in Figure~\ref{fig:class_embedding_block} identifies the latent directions that have the strongest effect on the target attribute group and uses them to guide later edits. This part of the framework remains unchanged from SAGE.
 
 Let $B$ denote the set of class embeddings from $S$ seen categories. Since these embeddings are based on average latent codes, they may still contain minor interference from category-irrelevant attributes. Singular value decomposition (SVD) is applied to identify the most informative directions:
 
@@ -197,12 +189,12 @@ For an unseen category $C_u$, the class embedding is estimated by projecting its
 
 Equation~\eqref{eq:unseen_class_embedding} defines $\hat{e}^{C_u}$ as the category-relevant embedding of unseen category $C_u$, where $N_u$ is the number of available unseen-category latent codes and $\{W_i^{C_u}\}_{i=1}^{N_u}$ are the corresponding latent representations.
 
-\subsection{Adaptive Editing}
+\subsubsection{Adaptive Editing}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\linewidth]{images/adaptive.drawio.png}
-    \caption{Adaptive Editing Block, from \citep{ding2023stableattributegroupediting}}
+    \caption{Adaptive Editing Block, from \cite{ding2023stableattributegroupediting}}
     \label{fig:adaptive_editing_block}
 \end{figure}
 
@@ -237,7 +229,7 @@ Assuming that the sparse representations of similar categories follow a Gaussian
 
 Equation~\eqref{eq:featuresage_synthesis} defines the final FeatureSAGE synthesis step. The term $\hat{e}^{C_u}$ preserves category-relevant structure, $A_{C_u}\tilde{n}_j$ introduces category-irrelevant variation, $\alpha$ controls edit intensity, and $H(\cdot)$ provides the edited feature tensor used by the generator.
 
-\subsection{Feature Editing Decoder Block}
+\subsubsection{Feature Editing Decoder Block}
 
 \begin{figure}[ht]
     \centering
@@ -259,11 +251,11 @@ Equation~\eqref{eq:feature_displacement} compares the generator feature tensor o
 
 The decoder therefore modifies the intermediate feature representation rather than replacing the full image. The edited feature tensor $H(F_{k,i}, \Delta F_w)$ is injected back into StyleGAN2 at layer 9, while the edited $W^{+}$ latent controls the global semantic direction of synthesis. This combination allows the generator to transform the input features into an output image with improved detail preservation and controlled attribute variation.
 
-\subsection{Training Strategy}
+\subsubsection{Training Strategy}
 
 In the training stage, StyleGAN2 is first trained with images from the seen categories. The StyleFeatureEditor Inverter and the pSp encoder are also trained. To reduce resource consumption, the proposed framework is trained in two phases.
 
-\subsection{Phase 1: Attribute Factorization Training}
+\subsubsection{Phase 1: Attribute Factorization Training}
 
 Phase 1 trains the attribute factorization block for disentangled sampling of category-irrelevant directions. The loss functions used in this phase are as follows:
 
@@ -298,15 +290,15 @@ The total attribute factorization loss is
     \label{eq:attribute_factorization_loss}
 \end{equation}
 
-where $\lambda_1$ and $\lambda_2$ weight the orthogonality and sparsity terms. Equation~\eqref{eq:attribute_factorization_loss} balances reconstruction fidelity, disentanglement, and sparse semantic editing \citep{ding2023stableattributegroupediting}.
+where $\lambda_1$ and $\lambda_2$ weight the orthogonality and sparsity terms. Equation~\eqref{eq:attribute_factorization_loss} balances reconstruction fidelity, disentanglement, and sparse semantic editing \cite{ding2023stableattributegroupediting}.
 
-\subsubsection{Optimization Algorithm}
+\paragraph{Optimization Algorithm}
 
-Training is done using the Adam optimizer with the same configuration as \citet{ding2023stableattributegroupediting}: a fixed learning rate of $1 \times 10^{-4}$, $\lambda_1 = 5 \times 10^{-4}$, $\lambda_2 = 5 \times 10^{-3}$, $\theta_0 = 5 \times 10^{-1}$, and $\theta_1 = -1$.
+Training is done using the Adam optimizer with the same configuration as \cite{ding2023stableattributegroupediting}: a fixed learning rate of $1 \times 10^{-4}$, $\lambda_1 = 5 \times 10^{-4}$, $\lambda_2 = 5 \times 10^{-3}$, $\theta_0 = 5 \times 10^{-1}$, and $\theta_1 = -1$.
 
-\subsection{Phase 2: Feature Editor Training}
+\subsubsection{Phase 2: Feature Editor Training}
 
-Phase 2 trains the Feature Editor $H$ using editing pairs generated with a pretrained pSp encoder. Following \citet{bobkov2024devildetailsstylefeatureeditordetailrich}, the model generates an image pair $(X, \hat{X})$: pSp takes input image $X$ and predicts $w$, which is edited by a sampled direction using the adaptive editing method from SAGE. This process allows the Feature Editor to learn feature changes associated with category-irrelevant attributes. To avoid degrading output quality when training only on synthetic edits, $H$ is also trained with a classical inversion task where the edit displacement is set to zero.
+Phase 2 trains the Feature Editor $H$ using editing pairs generated with a pretrained pSp encoder. Following \cite{bobkov2024devildetailsstylefeatureeditordetailrich}, the model generates an image pair $(X, \hat{X})$: pSp takes input image $X$ and predicts $w$, which is edited by a sampled direction using the adaptive editing method from SAGE. This process allows the Feature Editor to learn feature changes associated with category-irrelevant attributes. To avoid degrading output quality when training only on synthetic edits, $H$ is also trained with a classical inversion task where the edit displacement is set to zero.
 
 The editing loss is defined as
 

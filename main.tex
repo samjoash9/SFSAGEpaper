@@ -1,166 +1,49 @@
-﻿% ==========================================================================================================
-% DOCUMENT SETUP
+\documentclass[10pt,conference]{IEEEtran}
 
-\documentclass[12pt]{report}
-
-% --- Packages ---
-\usepackage[round, authoryear]{natbib}  % citations
-\usepackage{enumitem}                    % bullet/numbered lists
-\usepackage{amsmath, amssymb}           % math formatting and symbols
-\usepackage{graphicx}                    % graphics/images inclusion
-\usepackage{setspace}                    % line spacing
-\usepackage{fontspec}                    % font customization
-\usepackage{ragged2e}                    % text alignment
-\usepackage{titlesec}                    % customize section/subsection
-\usepackage{indentfirst}                 % indent first paragraph after headings
-\usepackage{hyperref}                    % hyperlinks
-\usepackage{pdflscape}                   % landscape pages
-\usepackage[letterpaper, left=1in, right=1in, top=1in, bottom=1in, headheight=14.5pt]{geometry}
-\usepackage{subcaption}
-\usepackage{float}
-
-
-\usepackage[english]{babel}              % language hyphenation
-\hyphenpenalty=1000
-\tolerance=1000
-
-\usepackage{chngcntr}                    % continuous equation numbering
-\counterwithout{equation}{chapter}
-
-\usepackage{fancyhdr}                     % header/footer formatting
-\fancypagestyle{plain}{
-  \fancyhf{}
-  \fancyhead[R]{\thepage}
-  \renewcommand{\headrulewidth}{0pt}
-}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[R]{\thepage}
-\renewcommand{\headrulewidth}{0pt}
-
-% Set font to Candara as stated in the STUDENT CAPSTONE/THESIS GUIDELINES 
-\setmainfont{Candara}[Path=page/, Extension=.ttf,
-    UprightFont = *,
-    BoldFont = *b,
-    ItalicFont = *i,
-    BoldItalicFont = *z
-]
-
-% Figures Setup - Follows "Figure x (Bold) Desc (normal) 
-\usepackage[labelfont=bf,labelsep=period]{caption}
-\captionsetup[figure]{justification=centering}
-\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
-\renewcommand{\thetable}{\thechapter-\arabic{table}}
-\renewcommand{\contentsname}{TABLE OF CONTENTS}
-\renewcommand{\listfigurename}{LIST OF FIGURES}
-\renewcommand{\listtablename}{LIST OF TABLES}
-\renewcommand{\bibname}{REFERENCES}
-\addto\captionsenglish{%
-  \renewcommand{\contentsname}{Table of Contents}%
-  \renewcommand{\listfigurename}{List of Figures}%
-  \renewcommand{\listtablename}{List of Tables}%
-}
-\setcounter{tocdepth}{2}
-
-% Set Line Spacing
-\doublespacing
-
-% Set Document Alignment
-\justifying
-
-% Set Paragraph indentation: 0.25 inch (7 spaces)
-\setlength{\parindent}{0.25in}
-\setlength{\parskip}{0pt}
-
-% Chapter headings.
-\titleformat{\chapter}[block]
-  {\normalfont\bfseries\centering\fontsize{14}{16}\selectfont}
-  {CHAPTER \thechapter.}
-  {0.5em}
-  {\MakeUppercase}
-\titlespacing{\chapter}{0pt}{0pt}{36pt}
-
-% Section headings.
-\titleformat{\section}
-  {\normalfont\bfseries\fontsize{13}{15}\selectfont}
-  {\thesection}{1em}{}
-\titlespacing{\section}{0pt}{24pt}{12pt}
-
-% Subsection headings.
-\titleformat{\subsection}
-  {\normalfont\bfseries\fontsize{12}{14}\selectfont}
-  {\thesubsection}{1em}{}
-\titlespacing{\subsection}{0pt}{12pt}{6pt}
-
-% ==========================================================================================================
-% DOCUMENT CONTENT
-
-
-\input{templates}
-
-% Page Style
-\doublespacing
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{url}
 
 \begin{document}
 
-\pagestyle{fancy}
-\pagenumbering{gobble}
+\title{FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}
 
+\author{
+\IEEEauthorblockN{Joshua Libando}
+\IEEEauthorblockA{\textit{Department of Computer Science}\\
+\textit{College of Computing and Information Sciences}\\
+Caraga State University -- Main Campus\\
+Butuan City, Philippines}
+\and
+\IEEEauthorblockN{Sam Joash V. Antonio}
+\IEEEauthorblockA{\textit{Department of Computer Science}\\
+\textit{College of Computing and Information Sciences}\\
+Caraga State University -- Main Campus\\
+Butuan City, Philippines}
+}
 
-% Title Page
-% \maketitle
-\makethesistitlepage
-  {FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}
-  {Thesis}
-  {Joshua Libando\\Sam Joash V. Antonio}
-  {Computer Science}
-  {Computing and Information Sciences (CCIS)}
-  {Caraga State University -- Main Campus}
-  {Computer Science (BSCS)}
-  {April 2026}
-\clearpage
-\pagenumbering{roman}
-\setcounter{page}{2}
-\pagestyle{fancy}
-% Preliminary Pages
+\maketitle
 
-% Approval Sheet
+\begin{abstract}
+\input{chapters/preliminary-chapters/abstract}
+\end{abstract}
 
-% \include{chapters/preliminary-chapters/approval_sheet}
+\begin{IEEEkeywords}
+Few-shot image generation, GAN inversion, StyleGAN2, StyleFeatureEditor, attribute group editing
+\end{IEEEkeywords}
 
-% Dedication ==============================================================================================
-% \include{chapters/preliminary-chapters/dedication}
+\input{chapters/chapter-1/introduction}
+\input{chapters/chapter-2/review_of_related_literature}
+\input{chapters/chapter-3/methodology}
+\input{chapters/chapter-4/results_and_discussion}
+\input{chapters/chapter-5/summary}
 
-% Acknowledgments =========================================================================================
-% \include{chapters/preliminary-chapters/acknowledgement}
-
-% Main Content
-\tableofcontents
-\clearpage
-\addcontentsline{toc}{chapter}{LIST OF FIGURES}
-\listoffigures
-\clearpage
-\addcontentsline{toc}{chapter}{LIST OF TABLES}
-\listoftables
-
-% Abstract ================================================================================================
-\include{chapters/preliminary-chapters/abstract}
-
-% Switch to Arabic numerals for chapters
-\clearpage
-\pagenumbering{arabic}
-
-\include{chapters/chapter-1/introduction}
-\include{chapters/chapter-2/review_of_related_literature}
-\include{chapters/chapter-3/methodology}
-\include{chapters/chapter-4/results_and_discussion}
-\include{chapters/chapter-5/summary}
-
-\bibliographystyle{plainnat}
+\bibliographystyle{IEEEtran}
 \bibliography{references}
-
-
-% \include{appendix}
-% \include{bionote}
 
 \end{document}

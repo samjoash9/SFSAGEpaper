@@ -1,8 +1,8 @@
-\section{Research Design}
+\subsection{Research Design}
 
 This paper, ``FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-Shot Image Generation,'' adopts a quantitative approach with an experimental research design to evaluate improvements to the existing SAGE framework. In particular, the study integrates the GAN inversion module of SAGE with StyleFeatureEditor (SFE), incorporating its Feature Editor module to enhance latent inversion and attribute editing functionality under a one-shot setting, where attribute manipulation is conditioned on a single reference image per test instance. The research employs a quantitative methodology using established automated metrics for objective evaluation. Reconstruction quality is assessed using Fr\'echet Inception Distance (FID) and Learned Perceptual Image Patch Similarity (LPIPS).
 
-\subsection{Experimental Setup}
+\subsubsection{Experimental Setup}
 
 The experimental setup is designed to evaluate the effectiveness of the proposed FeatureSAGE framework in comparison to the existing SAGE method. The evaluation follows a quantitative, experimental research design that involves controlled changes to a single independent variable and the measurement of multiple dependent variables using standardized metrics.
 
@@ -42,6 +42,6 @@ The experimental setup is designed to evaluate the effectiveness of the proposed
     \end{itemize}
 \end{itemize}
 
-\subsection{Few-Shot Experimental Setting}
+\subsubsection{Few-Shot Experimental Setting}
 
 In this study, the term \emph{few-shot} refers to the number of reference images available per target class or identity used to construct class-level latent representations for attribute group editing and downstream evaluation. A one-shot setting utilizes a single reference image per target class, representing an extreme data-scarce scenario in which attribute editing and inversion must be performed with minimal visual information. This one-shot configuration is applied consistently across all datasets and experimental conditions for both the baseline SAGE and the proposed FeatureSAGE framework. By explicitly controlling the evaluation to a single reference image per class, the experimental protocol enables a systematic assessment of FeatureSAGE's robustness, stability, and generalization capability under severe data limitations. The few-shot constraint is applied during test-time adaptation and evaluation on unseen classes, while the StyleGAN2 generator and attribute directions are learned from large-scale seen-category data.
