@@ -1,41 +1,25 @@
-\documentclass[10pt,conference]{IEEEtran}
+\documentclass[pdflatex,sn-basic,Numbered]{sn-jnl}
 
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{cite}
-\usepackage{amsmath,amssymb}
 \usepackage{graphicx}
-\usepackage{textcomp}
-\usepackage{xcolor}
-\usepackage{url}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+
+\raggedbottom
 
 \begin{document}
 
-\title{FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}
+\title[FeatureSAGE]{FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}
 
-\author{
-\IEEEauthorblockN{Joshua Libando}
-\IEEEauthorblockA{\textit{Department of Computer Science}\\
-\textit{College of Computing and Information Sciences}\\
-Caraga State University -- Main Campus\\
-Butuan City, Philippines}
-\and
-\IEEEauthorblockN{Sam Joash V. Antonio}
-\IEEEauthorblockA{\textit{Department of Computer Science}\\
-\textit{College of Computing and Information Sciences}\\
-Caraga State University -- Main Campus\\
-Butuan City, Philippines}
-}
+\author*[1]{\fnm{Joshua} \sur{Libando}}
+\author[1]{\fnm{Sam Joash V.} \sur{Antonio}}
+
+\affil*[1]{\orgdiv{Department of Computer Science}, \orgname{College of Computing and Information Sciences, Caraga State University -- Main Campus}, \orgaddress{\city{Butuan City}, \country{Philippines}}}
+
+\abstract{\input{chapters/preliminary-chapters/abstract}}
+
+\keywords{Few-shot image generation, GAN inversion, StyleGAN2, StyleFeatureEditor, attribute group editing}
 
 \maketitle
-
-\begin{abstract}
-\input{chapters/preliminary-chapters/abstract}
-\end{abstract}
-
-\begin{IEEEkeywords}
-Few-shot image generation, GAN inversion, StyleGAN2, StyleFeatureEditor, attribute group editing
-\end{IEEEkeywords}
 
 \input{chapters/chapter-1/introduction}
 \input{chapters/chapter-2/review_of_related_literature}
@@ -43,7 +27,12 @@ Few-shot image generation, GAN inversion, StyleGAN2, StyleFeatureEditor, attribu
 \input{chapters/chapter-4/results_and_discussion}
 \input{chapters/chapter-5/summary}
 
-\bibliographystyle{IEEEtran}
+\section*{Declarations}
+
+\noindent\textbf{Funding} Not applicable.
+
+\noindent\textbf{Conflict of interest} The authors declare that they have no conflict of interest.
+
 \bibliography{references}
 
 \end{document}
