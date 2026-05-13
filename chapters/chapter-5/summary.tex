@@ -1,9 +1,11 @@
-\section{Conclusion and Recommendations}
+\section{Conclusion}
 
-\input{chapters/chapter-5/sections/summary_of_findings}
+This paper presented FeatureSAGE, a SAGE-based few-shot image generation framework that integrates the StyleFeatureEditor Inverter and Feature Editor to improve latent inversion and feature-level detail preservation. The method keeps the pretrained StyleGAN2 generator and the SAGE attribute group editing mechanism, but represents each image using both $W^{+}$ latents and intermediate feature tensors.
 
-\input{chapters/chapter-5/sections/limitations}
+The results answer the study objectives affirmatively. At 1024$\times$1024 resolution, FeatureSAGE achieved an FID of 45.60 and LPIPS of 0.4209 on 102 Flowers, improving FID by 15.8\% over SAGE and 25.9\% over AGE. On Animal Faces, it achieved an FID of 49.60 and LPIPS of 0.4811, improving FID by 18.6\% over SAGE and 20.2\% over AGE. The LPIPS values remained close to the baselines, indicating that the FID improvements were obtained while retaining comparable perceptual variation.
 
-\input{chapters/chapter-5/sections/future_work}
+Overall, FeatureSAGE strengthens one-shot attribute group editing by combining latent-space control with feature-level detail preservation. Its limitations are the need for a suitable pretrained StyleGAN2 generator and the additional computation introduced by the SFE-based inversion and editing path. Future work should examine faster inference, alternative generator backbones, and multi-level feature editing while preserving class-consistent few-shot synthesis.
 
-\input{chapters/chapter-5/sections/conclusion}
+For practical use, the results suggest that feature-level editing is most valuable when the target task rewards coherent class-preserving samples rather than maximal pose or appearance spread. The framework therefore fits data augmentation scenarios where synthetic images must remain visually close enough to the target category to support downstream learning.
+
+The final paper therefore preserves the original research narrative: few-shot synthesis remains limited by the tension between reconstruction fidelity, editability, and class consistency; SAGE supplies a stable attribute group editing framework; and FeatureSAGE improves that framework by replacing latent-only inversion with joint latent and feature editing.

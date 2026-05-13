@@ -1,13 +1,72 @@
 \section{Results and Discussion}
 
-This chapter presents the experimental results of the proposed FeatureSAGE framework and compares its performance with AGE and SAGE on one-shot image generation tasks. The experiments are conducted on two datasets, FUNIT Animal Faces and 102 Flowers, using a single reference image per target class. The reported evaluation is performed at 1024$\times$1024 resolution. Image quality and distributional alignment are measured using Fr\'echet Inception Distance (FID), while Learned Perceptual Image Patch Similarity (LPIPS) is reported to describe perceptual variation among generated outputs. The comparison evaluates whether replacing the pSp-based SAGE inversion path with the StyleFeatureEditor Inverter and Feature Editor improves few-shot generation quality while maintaining usable edit diversity.
+Table~\ref{tab:quantitative_comparison_1024} compares AGE, SAGE, and FeatureSAGE under the one-shot protocol. FeatureSAGE obtains the lowest FID on both datasets, indicating improved distributional alignment after replacing the pSp-based SAGE inversion path with feature-level inversion and editing.
 
-\input{chapters/chapter-4/sections/quantitative_results}
+\begin{table}[!t]
+\centering
+\caption{Quantitative comparison at 1024$\times$1024 resolution. Lower FID is better; LPIPS is reported as generated-sample perceptual variation.}
+\label{tab:quantitative_comparison_1024}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Model} & \multicolumn{2}{c}{\textbf{Flowers}} & \multicolumn{2}{c}{\textbf{Animal}} \\
+ & \textbf{FID} & \textbf{LPIPS} & \textbf{FID} & \textbf{LPIPS} \\
+\hline
+AGE & 61.57 & 0.4108 & 62.13 & 0.5033 \\
+SAGE & 54.17 & 0.4528 & 60.92 & 0.4867 \\
+\textbf{FeatureSAGE} & \textbf{45.60} & 0.4209 & \textbf{49.60} & 0.4811 \\
+\hline
+\end{tabular}
+\end{table}
 
-\input{chapters/chapter-4/sections/analysis_of_quantitative_results}
+On 102 Flowers, FeatureSAGE reaches an FID of 45.60, improving over SAGE by 15.8\% and AGE by 25.9\%. Its LPIPS of 0.4209 is lower than SAGE by 7.0\% and higher than AGE by 2.5\%, showing that the FID gain does not collapse the outputs into a narrow perceptual range. On Animal Faces, FeatureSAGE reaches an FID of 49.60, improving over SAGE by 18.6\% and AGE by 20.2\%. Its LPIPS of 0.4811 remains close to SAGE (0.4867) and AGE (0.5033), within 4.4\% of both baselines.
 
-\input{chapters/chapter-4/sections/qualitative_evaluation}
+The different LPIPS directions across datasets are consistent with the qualitative behavior. On Flowers, FeatureSAGE reduces some of the broader variation produced by SAGE while improving realism and petal coherence. On Animal Faces, the LPIPS reduction relative to AGE is small, but the samples show less structural drift. Thus, the main measured gain is not higher diversity; it is better distributional alignment while keeping generated outputs perceptually varied enough to remain useful for few-shot augmentation.
 
-\input{chapters/chapter-4/sections/failure_cases_and_limitations}
+The improvement is also consistent across both domains rather than being isolated to a single dataset. Flowers provide a fine-grained object domain where color and shape variation can easily change class appearance, while Animal Faces test aligned facial structure and texture. FeatureSAGE improves FID in both settings, suggesting that the SFE-based path benefits the SAGE editing process in more than one structured visual domain. The retained LPIPS range further indicates that the model does not simply average away variation to obtain cleaner images.
 
-\input{chapters/chapter-4/sections/chapter_summary}
+These results address the four research questions stated in the introduction. First, the lower FID values support the claim that SFE-based inversion and feature editing improve the generated distribution relative to the pSp-based SAGE path. Second, the comparable LPIPS values show that the change does not remove perceptual variation under the one-shot setting. Third, the qualitative samples indicate more reliable structure and fewer unstable local edits, particularly in flower edges and animal-face regions. Fourth, the comparison with AGE and SAGE shows that the improvement is measured against editing-based few-shot generators rather than against unrelated synthesis methods.
+
+\begin{figure*}[!t]
+\centering
+\setlength{\tabcolsep}{1.5pt}
+\scriptsize
+\begin{tabular}{ccccccc}
+Input & AGE & AGE & SAGE & SAGE & FeatureSAGE & FeatureSAGE\\
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/input_1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/1age_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/1age_output2.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/1sage_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/1sage_output2.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/1sfsage_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/1sfsage_output2.jpg}\\
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/input_2.png} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/2age_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/2age_output2.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/2sage_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/2sage_output2.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/2sfsage_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/2sfsage_ouptut2.jpg}\\
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/input3.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/age_af_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/age_af_output2.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/sage_af_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/sage_output2.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/sfsage_af_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/sfsage_af_ouptut2.jpg}\\
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/input4.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/4age_af_output2.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/4age_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/4sage_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/4sage_output2.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/4sfsage_af_output1.jpg} &
+\includegraphics[width=0.095\textwidth,height=0.095\textwidth]{images/4sfsage_output2.jpg}
+\end{tabular}
+\caption{Qualitative comparison on Flowers (top two rows) and Animal Faces (bottom two rows).}
+\label{fig:qualitative_comparison}
+\end{figure*}
+
+The qualitative comparison in Fig.~\ref{fig:qualitative_comparison} supports the quantitative trend. On Flowers, FeatureSAGE better preserves sharp petal edges, contrast, and color coherence than the baselines, although some input-specific color details such as combined pistil colors are not always reproduced exactly. On Animal Faces, all methods preserve broad color and texture, but FeatureSAGE produces more stable shape, eye structure, fur shading, and pose consistency. AGE and SAGE sometimes show greater orientation diversity, while FeatureSAGE favors structural coherence and realism.
+
+These observations also identify the remaining failure modes. FeatureSAGE can still miss fine input-specific color patterns, and its stronger consistency can reduce extreme pose variation relative to AGE. This means the model is better interpreted as improving stable, class-preserving variation rather than maximizing every possible form of diversity. The main system limitations are the dependence on a pretrained StyleGAN2 generator and the added computational cost of the SFE inverter, feature extraction, feature editing, and feature injection steps. Thus, FeatureSAGE improves fidelity and stability within the tested StyleGAN2 domains, but scaling to other generators or faster inference remains future work.
+
+The findings should therefore be interpreted within the stated scope. The experiments do not claim that FeatureSAGE solves few-shot generation for arbitrary domains, nor do they evaluate diffusion or transformer-based generators. Instead, the results show that within a StyleGAN2 and SAGE setting, replacing latent-only inversion with joint latent-feature editing improves distributional alignment while preserving a usable degree of perceptual variation.

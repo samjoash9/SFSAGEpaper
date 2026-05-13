@@ -1,41 +1,111 @@
-\documentclass[10pt,conference]{IEEEtran}
+\documentclass[10pt,a4paper]{article}
 
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{cite}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{mathptmx}
+  \usepackage[scaled=0.92]{helvet}
+  \newcommand{\sciititlefont}{\fontfamily{phv}\selectfont}
+\else
+  \usepackage{fontspec}
+  \setmainfont{Times New Roman}
+  \setsansfont{Arial}
+  \newcommand{\sciititlefont}{\sffamily}
+\fi
+
+\usepackage[a4paper,left=20mm,right=20mm,top=20mm,bottom=20mm]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{url}
+\usepackage{cite}
+\usepackage{caption}
+\usepackage{titlesec}
+
+\definecolor{sciired}{RGB}{128,0,0}
+
+\setlength{\columnsep}{10mm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\pagestyle{empty}
+\sloppy
+
+\titleformat{\section}
+  {\normalfont\bfseries\fontsize{10}{12}\selectfont}
+  {\thesection.}{0.65em}{\MakeUppercase}
+\titleformat{\subsection}
+  {\normalfont\bfseries\fontsize{10}{12}\selectfont}
+  {\thesubsection}{0.65em}{}
+\titleformat{\subsubsection}
+  {\normalfont\bfseries\itshape\fontsize{10}{12}\selectfont}
+  {\thesubsubsection}{0.65em}{}
+\titlespacing*{\section}{0pt}{10pt}{1pt}
+\titlespacing*{\subsection}{0pt}{8pt}{1pt}
+\titlespacing*{\subsubsection}{0pt}{6pt}{1pt}
+
+\captionsetup{
+  font=normalsize,
+  labelfont=normalfont,
+  labelsep=period,
+  justification=raggedright,
+  singlelinecheck=false
+}
+\captionsetup[figure]{name=Fig.}
+\captionsetup[table]{name=Table}
+
+\renewcommand{\refname}{References}
+\makeatletter
+\renewenvironment{thebibliography}[1]
+  {\section{\refname}%
+   \small
+   \list{\@biblabel{\@arabic\c@enumiv}}%
+     {\settowidth\labelwidth{\@biblabel{#1}}%
+      \leftmargin\labelwidth
+      \advance\leftmargin\labelsep
+      \usecounter{enumiv}%
+      \let\p@enumiv\@empty
+      \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+   \sloppy
+   \clubpenalty4000
+   \widowpenalty4000
+   \sfcode`\.=\@m}
+  {\def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}%
+   \endlist}
+\makeatother
+
+\newcommand{\papertitle}{FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}
+\newcommand{\paperkeywords}{Few-shot image generation; GAN inversion; StyleGAN2; StyleFeatureEditor; attribute group editing}
+
+\newcommand{\makeSCIITitle}{%
+\twocolumn[
+  \begin{@twocolumnfalse}
+    \vspace*{-31pt}
+    \begin{center}
+      {\sciititlefont\bfseries\color{sciired}\fontsize{12}{14}\selectfont
+      Students' Congress on Innovation, Informatics, and Computing (SCII-Com '26)\par}
+      \vspace{38pt}
+      {\sciititlefont\bfseries\fontsize{12}{14}\selectfont\papertitle\par}
+      \vspace{7pt}
+      {\fontsize{10}{12}\selectfont Joshua Libando\textsuperscript{1}, Sam Joash V. Antonio\textsuperscript{2}\par}
+      \vspace{1pt}
+      {\fontsize{10}{12}\selectfont\textsuperscript{1,2}Department of Computer Science, College of Computing and Information Sciences\par}
+      {\fontsize{10}{12}\selectfont Caraga State University - Main Campus, Butuan City, Philippines\par}
+    \end{center}
+    \vspace{22pt}
+    {\fontsize{10}{12}\selectfont\itshape
+    \noindent\textbf{\upshape Abstract:} \input{chapters/preliminary-chapters/abstract}\par}
+    \vspace{10pt}
+    {\fontsize{10}{12}\selectfont
+    \noindent\textbf{Keywords:} \paperkeywords\par}
+    \vspace{20pt}
+  \end{@twocolumnfalse}
+]}
 
 \begin{document}
 
-\title{FeatureSAGE: Stable Attribute Group Editing With Integrated StyleFeatureEditor Encoder for Enhanced Few-shot Image Generation}
-
-\author{
-\IEEEauthorblockN{Joshua Libando}
-\IEEEauthorblockA{\textit{Department of Computer Science}\\
-\textit{College of Computing and Information Sciences}\\
-Caraga State University -- Main Campus\\
-Butuan City, Philippines}
-\and
-\IEEEauthorblockN{Sam Joash V. Antonio}
-\IEEEauthorblockA{\textit{Department of Computer Science}\\
-\textit{College of Computing and Information Sciences}\\
-Caraga State University -- Main Campus\\
-Butuan City, Philippines}
-}
-
-\maketitle
-
-\begin{abstract}
-\input{chapters/preliminary-chapters/abstract}
-\end{abstract}
-
-\begin{IEEEkeywords}
-Few-shot image generation, GAN inversion, StyleGAN2, StyleFeatureEditor, attribute group editing
-\end{IEEEkeywords}
+\makeSCIITitle
 
 \input{chapters/chapter-1/introduction}
 \input{chapters/chapter-2/review_of_related_literature}
@@ -43,7 +113,7 @@ Few-shot image generation, GAN inversion, StyleGAN2, StyleFeatureEditor, attribu
 \input{chapters/chapter-4/results_and_discussion}
 \input{chapters/chapter-5/summary}
 
-\bibliographystyle{IEEEtran}
+\bibliographystyle{unsrt}
 \bibliography{references}
 
 \end{document}

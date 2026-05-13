@@ -1,13 +1,136 @@
 \section{Methodology}
 
-\input{chapters/chapter-3/sections/research_design}
+\subsection{Research Design and Data}
 
-\input{chapters/chapter-3/sections/hardware_system_requirements}
+The study uses a quantitative experimental design that changes one component of SAGE: the GAN inversion path. The baseline SAGE configuration uses pSp, while FeatureSAGE replaces it with the StyleFeatureEditor Inverter and Feature Editor. All comparisons use the same pretrained StyleGAN2 generator, datasets, preprocessing, one-shot setting, random seeds, sample counts, optimizer settings, and metric implementations. Experiments were run on a virtualized NVIDIA GRID V100D-32A environment with 32 GB RAM, Ubuntu 24.04 LTS, PyTorch, Adam optimization, and mixed precision.
 
-\input{chapters/chapter-3/sections/data_processing}
+Two datasets are used. FUNIT Animal Faces contains 117,484 aligned 512$\times$512 animal-face images across 149 classes, split into 119 seen and 30 unseen classes \cite{liu2019few}. The 102 Flowers dataset contains 102 flower categories with 40--258 images per class, split into 85 seen and 17 unseen classes \cite{Nilsback08}. Images are resized and normalized for the StyleGAN2 and evaluation setting; Animal Faces images are aligned with MTCNN. The term \emph{one-shot} refers to a single reference image per unseen target class during test-time generation.
 
-\input{chapters/chapter-3/sections/model_architecture}
+The independent variable is the inversion and editing path: pSp for SAGE and SFE plus Feature Editor for FeatureSAGE. Dependent variables are reconstruction and generation quality as measured by FID and LPIPS. Controlled variables include the pretrained generator, seen/unseen class splits, preprocessing, edit sampling procedure, training iterations, optimizer configuration, and evaluation implementation. This control is necessary because the reported differences are intended to isolate the effect of feature-level inversion and editing rather than changes in the generator or data protocol.
 
-\input{chapters/chapter-3/sections/evaluation_protocol}
+\begin{figure*}[!t]
+\centering
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{cc}
+\includegraphics[width=0.47\textwidth]{images/funit_animal_faces_dataset.png} &
+\includegraphics[width=0.47\textwidth]{images/flowers_dataset.png}
+\end{tabular}
+\caption{Representative samples from the Animal Faces and 102 Flowers datasets used for few-shot evaluation.}
+\label{fig:dataset_samples}
+\end{figure*}
 
-\input{chapters/chapter-3/sections/expected_outcome}
+Figure~\ref{fig:dataset_samples} illustrates the two evaluation domains. The split into seen and unseen categories follows the few-shot generation setting: seen classes provide latent statistics and attribute dictionaries, while unseen classes test whether those learned directions can transfer from a single reference. No additional augmentation beyond centering, alignment where applicable, resizing, normalization, and simple flipping is introduced, since the purpose is to measure the effect of the inversion and feature-editing path rather than the effect of a data-expansion pipeline.
+
+\subsection{FeatureSAGE Architecture}
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=0.88\textwidth]{images/framework.png}
+    \caption{FeatureSAGE integrates the StyleFeatureEditor Inverter and Feature Editor into the SAGE attribute group editing pipeline.}
+    \label{fig:feature_sage_framework}
+\end{figure*}
+
+Figure~\ref{fig:feature_sage_framework} summarizes the proposed pipeline. SAGE represents each category using a class embedding and edits category-irrelevant directions in $W^{+}$. For a class $C$ with $N_C$ latent codes, the category-relevant embedding is
+\begin{equation}
+    e^{C} = \frac{1}{N_C}\sum_{i=1}^{N_C} w_i^{C}.
+    \label{eq:class_embedding_mean}
+\end{equation}
+In the baseline, pSp predicts $w_i^{C_s}\in W^{+}$ for seen-category samples. FeatureSAGE instead uses the SFE inverter
+\begin{equation}
+    I(X_i^{C_s}) = \left(w_{i,\mathrm{sfe}}^{C_s}, F_{k,i}^{C_s}\right),
+    \label{eq:sfe_inversion}
+\end{equation}
+where $F_{k,i}^{C_s}$ is the intermediate feature tensor injected at generator layer 9. This representation preserves the layer-wise editability of $W^{+}$ while retaining feature-level detail for the decoder.
+
+FeatureSAGE keeps the SAGE attribute factorization mechanism. For a seen sample, the category-irrelevant residual is
+\begin{equation}
+    \Delta W_i^{ir} = W_i^{C_s} - e^{C_s}, \qquad
+    \widehat{\Delta W_i^{ir}} = A n_i,
+    \label{eq:dictionary_residual}
+\end{equation}
+where $A$ is the global dictionary of category-irrelevant directions and $n_i$ is a sparse code. SVD is applied to seen-class embeddings to obtain the category-relevant dictionary $B_f$. For an unseen class $C_u$, SAGE estimates
+\begin{equation}
+    \hat{e}^{C_u} = \frac{1}{N_u}\sum_{i=1}^{N_u} B_f B_f^T W_i^{C_u}.
+    \label{eq:unseen_class_embedding}
+\end{equation}
+Adaptive editing then selects directions from seen categories closest to $C_u$, samples a sparse edit code $\tilde{n}_j$, and synthesizes the output as
+\begin{equation}
+    X_j^{C_u} =
+    G\left(\hat{e}^{C_u} + \alpha A_{C_u}\tilde{n}_j,
+    H(F_{k,i}, \alpha A_{C_u}\tilde{n}_j)\right).
+    \label{eq:featuresage_synthesis}
+\end{equation}
+Here $\alpha$ controls edit strength, $A_{C_u}$ is the adaptive category-irrelevant dictionary, and $H(\cdot)$ edits the intermediate feature tensor before generator synthesis.
+
+The architectural change is deliberately localized. Attribute factorization, class embedding mapping, and adaptive editing remain aligned with SAGE so that the comparison focuses on inversion and decoding. In the pSp-based baseline, the reconstruction detail available for later editing is limited by the predicted $W^{+}$ code. In FeatureSAGE, the SFE inverter adds $F_{k,i}$, allowing the decoder to carry local feature evidence through the edit. This is especially relevant for fine-grained regions such as petal boundaries, fur texture, facial contours, and color transitions, where latent-only edits may preserve the general class while weakening local realism.
+
+\begin{figure*}[!t]
+\centering
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{cc}
+\includegraphics[width=0.47\textwidth]{images/AttributeFac.drawio.png} &
+\includegraphics[width=0.47\textwidth]{images/Class_embedding_mapping.drawio.png}\\
+\includegraphics[width=0.47\textwidth]{images/adaptive.drawio.png} &
+\includegraphics[width=0.47\textwidth]{images/featureEditordrawio.drawio.png}
+\end{tabular}
+\caption{Core modules retained or adapted in FeatureSAGE: attribute factorization, class embedding mapping, adaptive editing, and the feature editing decoder.}
+\label{fig:featuresage_modules}
+\end{figure*}
+
+The module flow in Fig.~\ref{fig:featuresage_modules} has four roles. Attribute factorization learns a sparse dictionary of category-irrelevant directions from seen categories. Class embedding mapping filters unseen-category latents through category-relevant directions so that one-shot references are not treated as full class distributions. Adaptive editing selects directions associated with similar seen categories and samples them to generate non-category variation. The Feature Editing Decoder receives both the edited latent and the SFE feature tensor, computes the feature displacement, and injects the edited feature map into StyleGAN2 so that the output follows the semantic edit while retaining local detail.
+
+This design also preserves methodological reproducibility. The class embedding in Equation~\eqref{eq:class_embedding_mean} defines the category-relevant center, Equation~\eqref{eq:dictionary_residual} defines the residual used for dictionary learning, Equation~\eqref{eq:unseen_class_embedding} defines one-shot class estimation for unseen categories, and Equation~\eqref{eq:featuresage_synthesis} defines the final synthesis step. The same sequence is applied to AGE, SAGE, and FeatureSAGE where applicable; the proposed model differs only in the feature-aware representation and decoder.
+
+\subsection{Training and Evaluation Protocol}
+
+Training follows two phases. First, the attribute factorization block is trained with the SAGE objective
+\begin{equation}
+\begin{aligned}
+    L_{\mathrm{af}} &=
+    \|G(e^{C_s}+A n_i)-x_i^{C_s}\|_2
+    + \lambda_1 \|B^T A\|_F^2 \\
+    &\quad + \lambda_2\|\sigma(\theta_0 n_i-\theta_1)\|_1 .
+\end{aligned}
+\label{eq:attribute_factorization_loss}
+\end{equation}
+The terms respectively preserve reconstruction, encourage orthogonality between category-relevant and category-irrelevant directions, and enforce sparse activation. The optimizer is Adam with learning rate $1\times10^{-4}$, $\lambda_1=5\times10^{-4}$, $\lambda_2=5\times10^{-3}$, $\theta_0=5\times10^{-1}$, and $\theta_1=-1$ \cite{ding2023stableattributegroupediting}.
+
+Second, the Feature Editor $H$ is trained on SAGE-style editing pairs and a zero-displacement inversion task. Its objective is
+\begin{equation}
+    L_{\mathrm{fe}} =
+    (L_2+\lambda_{\mathrm{lpips}}L_{\mathrm{lpips}})_{\mathrm{edit}}
+    +(L_2+\lambda_{\mathrm{lpips}}L_{\mathrm{lpips}})_{\mathrm{inv}} .
+    \label{eq:feature_editor_loss}
+\end{equation}
+The Feature Editor is trained for 15,000 iterations using Adam at $1\times10^{-4}$, $\lambda_{l2}=10$, $\lambda_{\mathrm{lpips}}=0.8$, an additional LPIPS scaling factor of 0.5, mixed precision, and dictionary length 100.
+
+During adaptive editing, residual directions are projected back into sparse-code space as $\hat{n}_i=A^\dagger\Delta W_i^{ir}$. The model averages absolute sparse activations across the $t_C$ most similar seen categories and selects the top $t_A$ directions per $W^{+}$ layer to form $A_{C_u}$. For the decoder, the feature displacement is computed from the original and edited generator features,
+\begin{equation}
+    \Delta F_w = F_w - F_{\hat{w}},
+    \label{eq:feature_displacement}
+\end{equation}
+and $H(F_{k,i},\Delta F_w)$ produces the injected feature tensor. This step is the architectural difference from SAGE: SAGE edits only the latent code, while FeatureSAGE edits the latent and the feature representation jointly.
+
+AGE, SAGE, and FeatureSAGE are evaluated at 1024$\times$1024 resolution using FID and LPIPS. FID measures distributional alignment from Inception-v3 features \cite{heusel2017gans}:
+\begin{equation}
+    \mathrm{FID} =
+    \|\mu_r - \mu_g\|_2^2 +
+    \mathrm{Tr}\left(\Sigma_r + \Sigma_g - 2(\Sigma_r\Sigma_g)^{1/2}\right).
+    \label{eq:fid}
+\end{equation}
+Lower FID indicates better alignment between generated and real feature distributions. LPIPS is reported as a perceptual variation measure among generated outputs, with the same implementation used for all methods \cite{zhang2018unreasonable}.
+
+The metrics are interpreted jointly. FID alone can improve if generated samples become visually cleaner but less varied, while LPIPS alone can be high for outputs that vary but drift away from the intended category. The desired result is therefore a lower FID with LPIPS remaining close to the baselines. This is the evaluation criterion used in the results section when judging whether FeatureSAGE improves quality without removing useful output variation.
+
+LPIPS compares deep feature activations rather than raw pixels and is computed as
+\begin{equation}
+    \mathrm{LPIPS}(x,x') =
+    \sum_l \frac{1}{H_l W_l}\sum_{h,w}
+    \left\|w_l \odot d_{hw}^{l}\right\|_2^2 .
+\label{eq:lpips}
+\end{equation}
+Here $d_{hw}^{l}=\hat{y}_{hw}^{l}(x)-\hat{y}_{hw}^{l}(x')$, $\hat{y}_{hw}^{l}$ denotes normalized features at layer $l$, $w_l$ is the learned channel weighting, and $H_l,W_l$ are feature-map dimensions \cite{zhang2018unreasonable}. In this paper, LPIPS is used to describe perceptual variation among generated samples rather than paired reconstruction error. This distinction is important because the proposed method is expected to reduce FID without making generated samples visually identical.
+
+The baselines are evaluated under the same one-shot query setting. AGE starts from a class embedding and samples category-irrelevant attribute directions from its learned dictionary \cite{AGE}. SAGE improves this process by estimating a stable class embedding and selecting directions from related seen classes \cite{ding2023stableattributegroupediting}. FeatureSAGE follows the same editing protocol as SAGE but substitutes the inversion and decoder path with SFE-based latent and feature editing. Therefore, the comparison measures whether feature-level detail preservation improves an otherwise controlled SAGE pipeline.
+
+All results are reported without introducing new post-processing or additional training data. The generated images used for FID and LPIPS are produced by the corresponding model configuration and evaluated against the same dataset split. This avoids confounding the effect of FeatureSAGE with changes in sample filtering, manual selection, or evaluation subsets.
