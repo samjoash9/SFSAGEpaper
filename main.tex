@@ -37,6 +37,9 @@
 \fancyhf{}
 \fancyhead[R]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
+\makeatletter
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{empty}}{}{}
+\makeatother
 
 % Set font to Candara as stated in the STUDENT CAPSTONE/THESIS GUIDELINES 
 \setmainfont{Candara}[Path=page/, Extension=.ttf,
