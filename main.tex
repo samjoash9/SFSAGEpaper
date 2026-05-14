@@ -1,7 +1,7 @@
 ﻿% ==========================================================================================================
 % DOCUMENT SETUP
 
-\documentclass[12pt]{report}
+\documentclass[12pt,oneside]{report}
 
 % --- Packages ---
 \usepackage[round, authoryear]{natbib}  % citations
@@ -15,22 +15,38 @@
 \usepackage{indentfirst}                 % indent first paragraph after headings
 \usepackage{hyperref}                    % hyperlinks
 \usepackage{pdflscape}                   % landscape pages
-\usepackage[letterpaper, left=1in, right=1in, top=1in, bottom=1in, headheight=14.5pt]{geometry}
+\usepackage[letterpaper, left=1.5in, right=1in, top=1in, bottom=1in, headheight=14.5pt, headsep=0.25in]{geometry}
 \usepackage{subcaption}
 \usepackage{float}
+\usepackage{tocloft}
+
+\renewcommand{\cftdotsep}{10000}
+\renewcommand{\cftchapleader}{\hfill}
+\renewcommand{\cftsecleader}{\hfill}
+\renewcommand{\cftsubsecleader}{\hfill}
+\renewcommand{\cftfigleader}{\hfill}
+\renewcommand{\cfttableader}{\hfill}
 
 
 \usepackage[english]{babel}              % language hyphenation
 \hyphenpenalty=1000
 \tolerance=1000
+\emergencystretch=2em
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
 
-\usepackage{chngcntr}                    % continuous equation numbering
-\counterwithout{equation}{chapter}
+\usepackage{amsmath}
+
+\renewcommand{\theequation}{\arabic{equation}}
+
+\makeatletter
+\def\tagform@#1{\textnormal{Equation~(#1)}}
+\makeatother
 
 \usepackage{fancyhdr}                     % header/footer formatting
 \fancypagestyle{plain}{
   \fancyhf{}
-  \fancyhead[R]{\thepage}
   \renewcommand{\headrulewidth}{0pt}
 }
 \pagestyle{fancy}
@@ -46,9 +62,11 @@
     BoldItalicFont = *z
 ]
 
-% Figures Setup - Follows "Figure x (Bold) Desc (normal) 
-\usepackage[labelfont=bf,labelsep=period]{caption}
-\captionsetup[figure]{justification=centering}
+% Caption setup: bold label only, with table captions above and figure captions below.
+\usepackage[labelfont=bf,labelsep=space]{caption}
+\captionsetup{font={stretch=1},skip=6pt}
+\captionsetup[figure]{justification=centering,singlelinecheck=true,position=bottom}
+\captionsetup[table]{justification=raggedright,singlelinecheck=false,position=top}
 \renewcommand{\thefigure}{\thechapter-\arabic{figure}}
 \renewcommand{\thetable}{\thechapter-\arabic{table}}
 \renewcommand{\contentsname}{TABLE OF CONTENTS}
@@ -56,11 +74,16 @@
 \renewcommand{\listtablename}{LIST OF TABLES}
 \renewcommand{\bibname}{REFERENCES}
 \addto\captionsenglish{%
-  \renewcommand{\contentsname}{Table of Contents}%
-  \renewcommand{\listfigurename}{List of Figures}%
-  \renewcommand{\listtablename}{List of Tables}%
+  \renewcommand{\contentsname}{TABLE OF CONTENTS}%
+  \renewcommand{\listfigurename}{LIST OF FIGURES}%
+  \renewcommand{\listtablename}{LIST OF TABLES}%
+  \renewcommand{\bibname}{REFERENCES}%
 }
 \setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+\urlstyle{same}
+\setlength{\bibsep}{\baselineskip}
+\setlist{topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
 
 % Set Line Spacing
 \doublespacing
@@ -78,7 +101,7 @@
   {CHAPTER \thechapter.}
   {0.5em}
   {\MakeUppercase}
-\titlespacing{\chapter}{0pt}{0pt}{36pt}
+\titlespacing{\chapter}{0pt}{0pt}{2\baselineskip}
 
 % Section headings.
 \titleformat{\section}
@@ -91,6 +114,12 @@
   {\normalfont\bfseries\fontsize{12}{14}\selectfont}
   {\thesubsection}{1em}{}
 \titlespacing{\subsection}{0pt}{12pt}{6pt}
+
+% Sub-subsection headings.
+\titleformat{\subsubsection}
+  {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+  {\thesubsubsection}{1em}{}
+\titlespacing{\subsubsection}{0pt}{12pt}{6pt}
 
 % ==========================================================================================================
 % DOCUMENT CONTENT
@@ -124,27 +153,33 @@
 \pagestyle{fancy}
 % Preliminary Pages
 
-% Approval Sheet
+\begingroup
+\singlespacing
 
-% \include{chapters/preliminary-chapters/approval_sheet}
+% Approval Sheet ==========================================================================================
+\include{chapters/preliminary-chapters/approval_sheet}
 
 % Dedication ==============================================================================================
-% \include{chapters/preliminary-chapters/dedication}
+\include{chapters/preliminary-chapters/dedication}
 
 % Acknowledgments =========================================================================================
-% \include{chapters/preliminary-chapters/acknowledgement}
-
-% Main Content
-\tableofcontents
-\clearpage
-\addcontentsline{toc}{chapter}{LIST OF FIGURES}
-\listoffigures
-\clearpage
-\addcontentsline{toc}{chapter}{LIST OF TABLES}
-\listoftables
+\include{chapters/preliminary-chapters/acknowledgement}
 
 % Abstract ================================================================================================
 \include{chapters/preliminary-chapters/abstract}
+
+% Main Content Lists ======================================================================================
+\tableofcontents
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
+\listoffigures
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{LIST OF TABLES}
+\listoftables
+
+\endgroup
 
 % Switch to Arabic numerals for chapters
 \clearpage
@@ -156,8 +191,15 @@
 \include{chapters/chapter-4/results_and_discussion}
 \include{chapters/chapter-5/summary}
 
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{REFERENCES}
+\begingroup
+\singlespacing
+\setlength{\bibsep}{\baselineskip}
 \bibliographystyle{plainnat}
 \bibliography{references}
+\endgroup
 
 
 % \include{appendix}

@@ -1,29 +1,30 @@
 \newcommand{\makethesistitlepage}[8]{%
   \begin{titlepage}
     \thispagestyle{empty}
+    \singlespacing
+    \normalfont\normalsize\bfseries
     \centering
 
-    {\bfseries #1 \par} % Thesis Title
-    \vspace{1cm}
+    {#1 \par} % Thesis Title
+    \vspace{6\baselineskip}
 
-    {\textbf{A #2 by} \par} % Proposal Type
-    \vspace{2cm}
+    {A #2 by \par} % Proposal Type
+    \vspace{6\baselineskip}
 
-    {\textbf{#3} \par} % Researchers Name(s)
+    {\begin{tabular}{c}#3\end{tabular}\par} % Researchers Name(s)
     
-    \vspace{3cm}
+    \vspace{6\baselineskip}
 
-    {\textbf{Submitted to the Department of #4} \par} % Researcher Department
+    {Submitted to the Department of #4 \par} % Researcher Department
     
-    {\textbf{College of #5} \par} % Researcher College
+    {College of #5 \par} % Researcher College
     
-    {\textbf{#6} \par} % Researcher University
+    {#6 \par} % Researcher University
 
-    \vspace{3cm}
+    \vspace{6\baselineskip}
 
-    {\textbf{In Partial Fulfillment} \par}
-    {\textbf{of the Requirements for the Degree} \par}
-    {\textbf{Bachelor of Science in #7} \par} % Researcher Degree
+    {In Partial Fulfillment of the Requirements for the Degree \par}
+    {Bachelor of Science in #7 \par} % Researcher Degree
 
     \vfill
     {#8 \par}
