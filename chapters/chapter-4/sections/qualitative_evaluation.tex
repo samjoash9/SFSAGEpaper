@@ -1,8 +1,10 @@
 \section{Qualitative Evaluation}
 
-This section examines representative generated images to complement the quantitative findings. It first presents visual comparisons across the evaluated models and then discusses the observed differences in image consistency, clarity, and diversity.
+This section examines representative generated images to complement the quantitative findings. Each figure is presented together with a concise discussion of the observed differences across AGE, SAGE, and the proposed FeatureSAGE model. The outputs are grouped by dataset: 102 Flowers and Animal Faces.
 
-\subsection{Visual Comparison Across Models}
+\subsection{102 Flowers}
+
+The qualitative behavior of the edited flowers across AGE, SAGE, and the proposed FeatureSAGE model is shown in Figures~\ref{fig:qualitative_comparison} and~\ref{fig:qualitative_input2}. The models are compared with regard to their ability to maintain colors properly, the sharpness of the images, the level of contrast, and realism.
 
 \begin{figure}[H]
 \centering
@@ -24,6 +26,7 @@ Input & AGE & AGE & SAGE & SAGE & FeatureSAGE & FeatureSAGE
 \label{fig:qualitative_comparison}
 \end{figure}
 
+As shown in Figure~\ref{fig:qualitative_comparison}, the proposed model performs well in the retention of the pink petal colors from the input images and shows stronger semantic consistency than the baselines. The proposed model does, however, fail to fully reproduce the combined red and yellow colors of the pistil from the input images. On the other hand, the proposed model produces sharper petals than the input images and remains competitive despite minor inconsistencies. The level of contrast in the proposed model results in the sharpest flower among all the models.
 
 \begin{figure}[H]
 \centering
@@ -45,6 +48,12 @@ Input & AGE & AGE & SAGE & SAGE & FeatureSAGE & FeatureSAGE
 \label{fig:qualitative_input2}
 \end{figure}
 
+The advantages of FeatureSAGE are further highlighted by Figure~\ref{fig:qualitative_input2}. The sharpness in petal edges is better retained by the model compared to AGE and SAGE, which allows for a more photo-realistic and organic rendering. More varied outputs have also resulted from FeatureSAGE; for instance, in one generated image, the flower is presented with a slight tilt, reflecting strong attribute manipulation. The model maintains higher clarity, with balanced contrast and natural color distribution, while AGE looks slightly pale with reduced contrast in areas, which is somewhat settled by SAGE as it balances the contrast. Overall, the generated flower images produced by FeatureSAGE are the sharpest, most realistic, and visually consistent as compared to the other models being tested.
+
+\subsection{Animal Faces}
+
+The qualitative behavior on the Animal Faces dataset across AGE, SAGE, and FeatureSAGE is shown in Figures~\ref{fig:qualitative_animalfaces} and~\ref{fig:qualitative_input4}. The comparison focuses on color and texture preservation, pose consistency, and overall realism.
+
 \begin{figure}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
@@ -63,6 +72,8 @@ Input & AGE & AGE & SAGE & SAGE & FeatureSAGE & FeatureSAGE
 \caption[One-shot comparison on the Animal Faces dataset]{Comparison across AGE, SAGE, and the proposed FeatureSAGE model on the Animal Faces dataset under one-shot setting. Each model generates two outputs per input image to demonstrate edit diversity and semantic consistency.}
 \label{fig:qualitative_animalfaces}
 \end{figure}
+
+As observed in Figure~\ref{fig:qualitative_animalfaces}, the outputs produced by all models manage to maintain the color and texture of the input data, implying that the basic characteristics of the reference image are preserved. Considering clarity and image properties, all the outputs can be considered similar, since there is minimal blurring effect and texture preservation on the fur of the input image. Consistency and overall properties, however, differ significantly: there is more diversity apparent in the outputs produced by AGE and SAGE, with slight differences in orientation between the two outcomes produced by each model. The more consistent results produced by the proposed FeatureSAGE model, on the contrary, demonstrate success toward maintaining integrity while providing semantic edits. Minor enhancements in realism are also observed, whereby the output from FeatureSAGE shows slightly more coherent shading and blending of the fur patterns. This indicates that although all these models demonstrate the ability to sustain basic attributes like color and texture, the FeatureSAGE model has the best consistency in output.
 
 \begin{figure}[H]
 \centering
@@ -83,44 +94,4 @@ Input & AGE & AGE & SAGE & SAGE & FeatureSAGE & FeatureSAGE
 \label{fig:qualitative_input4}
 \end{figure}
 
-\subsection{Visual Observations}
-
-The following observations interpret the qualitative outputs by dataset. The discussion highlights how each method preserves visual attributes and where the proposed FeatureSAGE framework differs from the AGE and SAGE baselines.
-
-\subsubsection{Flowers}
-
-Figures \ref{fig:qualitative_comparison} and \ref{fig:qualitative_input2} describe the qualitative analysis of the results of the edited flowers 
-based on the baseline models AGE and SAGE, and the proposed model FeatureSAGE. The models are compared with regard to their ability to maintain the 
-colors properly, the sharpness of the images, the level of contrast, and realism. As shown in Figure \ref{fig:qualitative_comparison}, the proposed 
-model performs well in the retention of the pink petal colors from the input images. It also performs much better based on the level of semantic 
-consistency. Note that the proposed model also fails to represent the combined red and yellow colors of the pistil from the input images. On the 
-other hand, the proposed model performs much better than both the input images in the sharpness of the petal. Although there are inconsistencies 
-from the input images, the proposed model also performs much better. In addition, the level of contrast in the proposed model results in the sharpest 
-flower among all the models. 
-
-Further, the advantages of FeatureSAGE are highlighted by Figure \ref{fig:qualitative_input2}. The sharpness in petal edges 
-is better retained by the model compared to AGE and SAGE, which allows for a more photo-realistic and organic rendering. More varied outputs have 
-also resulted from FeatureSAGE; for instance, in one generated image, the flower is presented with a slight tilt, reflecting strong attribute manipulation. 
-The model maintains higher clarity, with balanced contrast and natural color distribution, while AGE slightly looks pale with reduced contrast in 
-areas, which is somewhat settled by SAGE as it balances the contrast. Overall, the generated flower images produced by FeatureSAGE are the sharpest, 
-most realistic, and visually consistent as compared to the other models being tested.
-
-\subsubsection{Animal Faces}
-
-Figure \ref{fig:qualitative_animalfaces} provides a comparison of the outputs produced by the AGE, SAGE, and proposed FeatureSAGE model on the 
-Animal Faces data set using a picture of a dog as input. As observed, the outputs produced by the models have managed to maintain the color 
-and texture of the input data, implying success by these models in maintaining basic characteristics produced by each model. Considering the 
-clarity and image properties, all the outputs produced by these models can be considered similar, since there is minimal blurring effect and 
-texture preservation on the fur of the input image. Consistency and overall properties, on the other hand, differ significantly, since there 
-is more diversity apparent in the outputs produced by the AGE and SAGE models, with a slight difference in orientation between the two outcomes 
-produced by each model. The more consistent results produced by the proposed FeatureSAGE model, on the contrary, demonstrate success toward 
-maintaining integrity while providing semantic edits. Also, there are some minor enhancements in the realism of the output, whereby the output 
-from FeatureSAGE shows slightly more coherent shading and blending of the fur patterns. This indicates that although all these models demonstrate 
-the ability to sustain basic attributes like color and texture, the FeatureSAGE model has the best consistency in output.
-
-Figure \ref{fig:qualitative_input4} shows similar behavior to the third image input for FeatureSAGE, where it maintains consistency in terms of pose within the results, 
-showing that it does not have great variability compared to AGE and SAGE, which have more diverse orientations. At the same time, it may be 
-noted that FeatureSAGE is better at maintaining consistency of shape and structure for eyes, thus improving realism. It is also observed that the 
-results from FeatureSAGE have better clarity and contrast, improving image quality, particularly for fur texture and shading. On the other hand, 
-it may be noted that AGE performs best in terms of diversity among all models, particularly for pose variation. Yet, it is observed that this 
-diversity may also decrease image clarity.
+Figure~\ref{fig:qualitative_input4} shows behavior similar to the previous animal-face input for FeatureSAGE, where it maintains consistency in terms of pose within the results, indicating that it does not exhibit great variability compared to AGE and SAGE, which produce more diverse orientations. At the same time, FeatureSAGE is better at maintaining consistency of shape and structure for the eyes, thus improving realism. The results from FeatureSAGE also show better clarity and contrast, improving image quality, particularly for fur texture and shading. On the other hand, AGE performs best in terms of diversity among all models, particularly for pose variation; however, this diversity may also decrease image clarity.

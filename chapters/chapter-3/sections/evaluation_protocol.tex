@@ -6,7 +6,7 @@ This section defines how the proposed framework and baseline models are assessed
 
 The models are evaluated using quantitative metrics for reconstruction quality, distributional alignment, and perceptual variation under the one-shot test-time setup. The same metric implementations and evaluation parameters are used for AGE, SAGE, and FeatureSAGE.
 
-\begin{enumerate}
+\begin{enumerate}[listparindent=\parindent, parsep=0pt]
     \item \textbf{Fr\'echet Inception Distance (FID)}
 
     Fr\'echet Inception Distance (FID) is used to evaluate the distributional similarity between generated images and real images \citep{heusel2017gans, wang2023attribute}. Instead of comparing images directly at the pixel level, FID compares high-level features extracted from a pretrained Inception-v3 network. This makes the metric suitable for measuring both image fidelity and sample diversity in few-shot image generation \citep{borji2022pros}. The real and generated feature distributions are modeled as multivariate Gaussian distributions, and FID is computed as
