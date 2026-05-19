@@ -68,6 +68,7 @@ $w$ vector), ReStyle repeatedly concatenates the original image with the generat
 w^{(t)} = w^{(t-1)} + E(x,\,G(w^{(t-1)}))
 \label{eq:restyle_update}
 \end{equation}
+\equationdescription{ReStyle residual update}
 
 with $w^{(0)}$ set to the average latent, and $G(w)$ the current output image. 
  The encoder is trained to minimize reconstruction loss at each step (summing L2+LPIPS over all iterations).

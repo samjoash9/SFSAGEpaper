@@ -6,7 +6,7 @@ This study evaluated whether integrating the StyleFeatureEditor Inverter and Fea
 
 FeatureSAGE replaces the pSp-based inversion path of SAGE with the StyleFeatureEditor Inverter, allowing the framework to represent each image through both $W^{+}$ latent codes and intermediate feature tensors. This directly addresses the research problem concerning inversion fidelity and detail preservation. At 1024$\times$1024 resolution, FeatureSAGE achieved an FID of 45.60 on 102 Flowers and 49.60 on Animal Faces.
 
-\subsection{Use of the Feature Editor for feature-level detail preservation}
+\subsection[Feature Editor for detail preservation]{Use of the Feature Editor for feature-level detail preservation}
 
 The Feature Editor modifies intermediate feature tensors together with the edited latent code. This supports the decoder block by preserving local detail while allowing semantic attribute edits. Qualitative comparisons show sharper petal structures, stronger contrast, and more coherent animal-face structure for FeatureSAGE compared with AGE and SAGE.
 

@@ -26,11 +26,13 @@ The adversarial training process in GANs is governed by a minimax optimization. 
 V(D,G) = \mathbb{E}_{x \sim p_{\text{data}}(x)}[\log D(x)] + \mathbb{E}_{z \sim p_z(z)}[\log(1 - D(G(z)))]
 \label{eq:gan_value_function}
 \end{equation}
+\equationdescription{GAN value function}
 and train $D$ and $G$ in a two-player game:
 \begin{equation}
 \min_{G} \max_{D} V(D,G)
 \label{eq:gan_minimax}
 \end{equation}
+\equationdescription{GAN minimax objective}
 
 $D$ and $G$ are alternatively updated via minibatch stochastic gradient descent during the GAN training process. 
 $D$ is trained to maximize the probability of predicting whether an input from both training example and sample from G are real or fake,

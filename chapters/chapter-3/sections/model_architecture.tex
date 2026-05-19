@@ -21,6 +21,7 @@ Third, the framework computes class-level and attribute-level latent representat
     e^{C} = \frac{1}{N_C}\sum_{i=1}^{N_C} w_i^{C}.
     \label{eq:class_embedding_mean}
 \end{equation}
+\equationdescription{Class embedding mean}
 
 Equation~\eqref{eq:class_embedding_mean} represents the category-relevant component because it summarizes the shared structure of a class. The residual between an image latent and its class embedding is then used to represent category-irrelevant variation, such as pose, color, texture, orientation, and background. These residuals are the basis for attribute factorization and adaptive editing.
 
@@ -31,6 +32,7 @@ The training and test sets are denoted as
     D_{\mathrm{test}} = \{x_i^{C_u}\}_{i=1}^{U},
     \label{eq:data_split}
 \end{equation}
+\equationdescription{Train-test data split}
 
 where $C_s$ denotes seen categories, $C_u$ denotes unseen categories, $S$ is the number of seen-category samples used in training, and $U$ is the number of unseen-category samples used for testing. Equation~\eqref{eq:data_split} defines the data split used by the one-shot evaluation protocol.
 
@@ -76,6 +78,7 @@ For the baseline training pair, a pretrained pixel2style2pixel encoder $\mathrm{
     w_i^{C_s} = \mathrm{pSp}(X_i^{C_s}), \qquad w_i^{C_s} \in W^{+}.
     \label{eq:psp_inversion}
 \end{equation}
+\equationdescription{pSp inversion}
 
 Equation~\eqref{eq:psp_inversion} defines the pSp inversion step used to obtain the baseline latent code. In FeatureSAGE, the StyleFeatureEditor Inverter predicts both the latent code and intermediate feature tensor:
 
@@ -83,6 +86,7 @@ Equation~\eqref{eq:psp_inversion} defines the pSp inversion step used to obtain 
     I(X_i^{C_s}) = \left(w_{i,\mathrm{sfe}}^{C_s}, F_{k,i}^{C_s}\right).
     \label{eq:sfe_inversion}
 \end{equation}
+\equationdescription{StyleFeatureEditor inversion}
 
 Equation~\eqref{eq:sfe_inversion} is used because SFE explicitly represents both global style information through $w_{i,\mathrm{sfe}}^{C_s}$ and local detail through $F_{k,i}^{C_s}$.
 
@@ -93,6 +97,7 @@ Using the latent editor, random directions are sampled from the sparse dictionar
     (\hat{x}_{i,\mathrm{psp}}^{C_s}, F_{\hat{w}}) = G(\hat{w}_i^{C_s}).
     \label{eq:editing_pair}
 \end{equation}
+\equationdescription{Editing pair synthesis}
 
 Equation~\eqref{eq:editing_pair} provides the editing pair used in Feature Editor training. The images $x_{i,\mathrm{psp}}^{C_s}$ and $\hat{x}_{i,\mathrm{psp}}^{C_s}$ supply the reconstruction and edited targets, while $F_w$ and $F_{\hat{w}}$ provide the feature-space difference used by the decoder.
 
@@ -120,6 +125,7 @@ In the Attribute Factorization block shown in Figure~\ref{fig:attribute_factoriz
     \Delta w_i^{ir} = w_i^{C_s} - e^{C_s}.
     \label{eq:residual_latent}
 \end{equation}
+\equationdescription{Residual latent component}
 
 Equation~\eqref{eq:residual_latent} subtracts the category embedding from the image latent code, leaving variation that is not essential to the category identity. The residual is then approximated through dictionary directions and sparse coefficients:
 
@@ -127,6 +133,7 @@ Equation~\eqref{eq:residual_latent} subtracts the category embedding from the im
     \widehat{\Delta w_i^{ir}} = A n_i.
     \label{eq:dictionary_residual}
 \end{equation}
+\equationdescription{Dictionary residual approximation}
 
 In Equation~\eqref{eq:dictionary_residual}, $A$ is the global dictionary of category-irrelevant attribute directions and $n_i$ is the sparse code that selects which directions are active for sample $i$. The edited residual is added back to the class embedding to obtain an edited latent code.
 
@@ -138,6 +145,7 @@ Category-irrelevant attributes are features that influence how an object appears
     = \hat{X}_i^{C_s}.
     \label{eq:category_irrelevant_edit}
 \end{equation}
+\equationdescription{Category-irrelevant edit}
 
 Equation~\eqref{eq:category_irrelevant_edit} expresses the main editing operation. The scalar $\alpha$ controls edit strength, $\Delta W^{ir}$ is the category-irrelevant direction, $H(\cdot)$ edits the feature tensor, and $\hat{X}_i^{C_s}$ is the edited output image.
 
@@ -147,6 +155,7 @@ Given a latent code $W_i^{C_s}$ and its class embedding $e^{C_s}$, the category-
     \Delta W_i^{ir} = W_i^{C_s} - e^{C_s}.
     \label{eq:wplus_residual}
 \end{equation}
+\equationdescription{W+ residual}
 
 Equation~\eqref{eq:wplus_residual} is the same residual principle as Equation~\eqref{eq:residual_latent}, written for the $W^{+}$ latent tensor.
 
@@ -156,6 +165,7 @@ According to \citet{ding2023stableattributegroupediting}, a global dictionary $A
     \min_{n_i} \|n_i\|_0 \quad \mathrm{s.t.} \quad \Delta W_i^{ir} = A n_i.
     \label{eq:sparse_dictionary_learning}
 \end{equation}
+\equationdescription{Sparse dictionary learning objective}
 
 Equation~\eqref{eq:sparse_dictionary_learning} uses the $L_0$ constraint to encourage each sample to activate only a small number of dictionary directions, making each direction more semantically meaningful.
 
@@ -165,6 +175,7 @@ In practice, the sparse code is estimated through a multilayer perceptron:
     n_i = \mathrm{MLP}(\Delta W_i^{ir}).
     \label{eq:mlp_sparse_code}
 \end{equation}
+\equationdescription{MLP sparse code}
 
 Equation~\eqref{eq:mlp_sparse_code} makes the sparse dictionary learning step differentiable and trainable within the attribute factorization module.
 
@@ -185,6 +196,7 @@ Let $B$ denote the set of class embeddings from $S$ seen categories. Since these
     B = U_B \Sigma_B V_B^{*}.
     \label{eq:svd_class_embedding}
 \end{equation}
+\equationdescription{SVD class embedding}
 
 In Equation~\eqref{eq:svd_class_embedding}, $U_B$ contains the left singular vectors, $\Sigma_B$ contains the singular values in descending order, and $V_B^{*}$ is the conjugate transpose of the right singular vector matrix. The top-$t_B$ directions in $U_B$ are selected as the final category-relevant attribute dictionary $B_f \in \mathbb{R}^{18 \times 512 \times t_B}$.
 
@@ -194,6 +206,7 @@ For an unseen category $C_u$, the class embedding is estimated by projecting its
     \hat{e}^{C_u} = \frac{1}{N_u}\sum_{i=1}^{N_u} B_f B_f^T W_i^{C_u}.
     \label{eq:unseen_class_embedding}
 \end{equation}
+\equationdescription{Unseen class embedding projection}
 
 Equation~\eqref{eq:unseen_class_embedding} defines $\hat{e}^{C_u}$ as the category-relevant embedding of unseen category $C_u$, where $N_u$ is the number of available unseen-category latent codes and $\{W_i^{C_u}\}_{i=1}^{N_u}$ are the corresponding latent representations.
 
@@ -212,6 +225,7 @@ Figure~\ref{fig:adaptive_editing_block} shows the adaptive editing block of Feat
     \hat{n}_i = A^{\dagger}\Delta W_i^{ir}.
     \label{eq:back_project_sparse}
 \end{equation}
+\equationdescription{Sparse-code back projection}
 
 In Equation~\eqref{eq:back_project_sparse}, $A^{\dagger}$ denotes the pseudo-inverse of $A$, and $\hat{n}_i$ estimates how strongly each dictionary direction contributes to sample $i$.
 
@@ -223,6 +237,7 @@ The mean absolute activation across the selected similar seen categories is then
     \frac{1}{N_{S_t}}\sum_{i=1}^{N_{S_t}} |\hat{n}_i^{C_{S_t}}|.
     \label{eq:mean_sparse_activation}
 \end{equation}
+\equationdescription{Mean sparse activation}
 
 Equation~\eqref{eq:mean_sparse_activation} measures how frequently or strongly dictionary directions appear across categories similar to $C_u$. For each layer in $W^{+}$, the top-$t_A$ directions with the highest values in $\overline{|n|}^{C_u}$ are selected to form the adaptive category-irrelevant dictionary $A_{C_u} \in \mathbb{R}^{18 \times 512 \times t_A}$.
 
@@ -234,6 +249,7 @@ Assuming that the sparse representations of similar categories follow a Gaussian
     H(F_{k,i}, \alpha A_{C_u}\tilde{n}_j)\right).
     \label{eq:featuresage_synthesis}
 \end{equation}
+\equationdescription{FeatureSAGE synthesis}
 
 Equation~\eqref{eq:featuresage_synthesis} defines the final FeatureSAGE synthesis step. The term $\hat{e}^{C_u}$ preserves category-relevant structure, $A_{C_u}\tilde{n}_j$ introduces category-irrelevant variation, $\alpha$ controls edit intensity, and $H(\cdot)$ provides the edited feature tensor used by the generator.
 
@@ -254,6 +270,7 @@ The feature displacement used by the Feature Editor is computed as
     \Delta F_w = F_w - F_{\hat{w}}.
     \label{eq:feature_displacement}
 \end{equation}
+\equationdescription{Feature displacement}
 
 Equation~\eqref{eq:feature_displacement} compares the generator feature tensor of the original latent code with the generator feature tensor of the edited latent code. This displacement tells $H(\cdot)$ which feature-level details must be adjusted so that the image follows the latent edit while preserving reconstruction detail.
 
@@ -273,6 +290,7 @@ Phase 1 trains the attribute factorization block for disentangled sampling of ca
         L_{\mathrm{sparse}} = \|\sigma(\theta_0 n_i - \theta_1)\|_1.
         \label{eq:sparsity_loss}
     \end{equation}
+    \equationdescription{Sparsity loss}
     In Equation~\eqref{eq:sparsity_loss}, $\sigma(\cdot)$ is the sigmoid function, $n_i$ is the sparse code, and $\theta_0$ and $\theta_1$ are hyperparameters that control sparsity. The sigmoid compresses the MLP output into a stable range before the $L_1$ penalty approximates the sparsity behavior of the $L_0$ objective in Equation~\eqref{eq:sparse_dictionary_learning}.
 
     \item \textbf{Reconstruction Loss ($L_{\mathrm{rec}}$):} This loss keeps the edited image close to the original input:
@@ -280,6 +298,7 @@ Phase 1 trains the attribute factorization block for disentangled sampling of ca
         L_{\mathrm{rec}} = \|G(e^{C_s} + A n_i) - x_i^{C_s}\|_2.
         \label{eq:reconstruction_loss}
     \end{equation}
+    \equationdescription{Reconstruction loss}
     In Equation~\eqref{eq:reconstruction_loss}, $e^{C_s}$ is the class-center latent for the seen category, $A n_i$ is the attribute offset, $G(\cdot)$ is the StyleGAN2 generator, and $x_i^{C_s}$ is the original image. The loss anchors editing so that category-irrelevant changes do not destroy the image content.
 
     \item \textbf{Orthogonality Loss ($L_{\mathrm{orth}}$):}\\
@@ -288,6 +307,7 @@ Phase 1 trains the attribute factorization block for disentangled sampling of ca
         L_{\mathrm{orth}} = \|B^T A\|_F^2.
         \label{eq:orthogonality_loss}
     \end{equation}
+    \equationdescription{Orthogonality loss}
     In Equation~\eqref{eq:orthogonality_loss}, $B$ is the category-relevant embedding matrix, $A$ is the category-irrelevant dictionary, and $\|\cdot\|_F^2$ is the squared Frobenius norm. The mathematical basis is orthogonality: directions in $A$ should have minimal projection onto the category-relevant subspace $B$ so that edits preserve class identity.
 \end{itemize}
 
@@ -297,6 +317,7 @@ The total attribute factorization loss is
     L_{\mathrm{af}} = L_{\mathrm{rec}} + \lambda_1 L_{\mathrm{orth}} + \lambda_2 L_{\mathrm{sparse}},
     \label{eq:attribute_factorization_loss}
 \end{equation}
+\equationdescription{Total attribute factorization loss}
 
 where $\lambda_1$ and $\lambda_2$ weight the orthogonality and sparsity terms. Equation~\eqref{eq:attribute_factorization_loss} balances reconstruction fidelity, disentanglement, and sparse semantic editing \citep{ding2023stableattributegroupediting}.
 
@@ -314,6 +335,7 @@ The editing loss is defined as
     L_{\mathrm{edit}} = L_2 + \lambda_{\mathrm{lpips}} L_{\mathrm{lpips}}.
     \label{eq:editing_loss}
 \end{equation}
+\equationdescription{Editing loss}
 
 The inversion loss uses the same reconstruction and perceptual terms:
 
@@ -321,6 +343,7 @@ The inversion loss uses the same reconstruction and perceptual terms:
     L_{\mathrm{inv}} = L_2 + \lambda_{\mathrm{lpips}} L_{\mathrm{lpips}}.
     \label{eq:inversion_loss}
 \end{equation}
+\equationdescription{Inversion loss}
 
 Equations~\eqref{eq:editing_loss} and~\eqref{eq:inversion_loss} combine pixel-level reconstruction through $L_2$ with perceptual similarity through LPIPS. The total Feature Editor loss is
 
@@ -328,6 +351,7 @@ Equations~\eqref{eq:editing_loss} and~\eqref{eq:inversion_loss} combine pixel-le
     L_{\mathrm{fe}} = L_{\mathrm{edit}}(X, \hat{X}) + L_{\mathrm{inv}}(X, \hat{X}).
     \label{eq:feature_editor_loss}
 \end{equation}
+\equationdescription{Total Feature Editor loss}
 
 Equation~\eqref{eq:feature_editor_loss} jointly trains the Feature Editor to handle both edited outputs and identity-preserving inversion outputs.
 

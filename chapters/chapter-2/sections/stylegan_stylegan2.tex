@@ -16,6 +16,7 @@ Concretely, for each feature map $x_i$ in a convolutional layer, StyleGAN applie
 \text{AdaIN}(x_i, y) = y_{s,i} \left( \frac{x_i - \mu(x_i)}{\sigma(x_i)} \right) + y_{b,i}
 \label{eq:adain}
 \end{equation}
+\equationdescription{Adaptive Instance Normalization}
 where $y_s$ and $y_b$ (scalars for channel $i$) are derived from $\mathbf{w}$.
  In practice, StyleGAN’s mapping network $f$ (an eight-layer MLP) produces $\mathbf{w}$, and then each convolutional layer is modulated by the corresponding $(y_s,y_b)$ pair.
  This allows scale-specific control of features: coarse spatial styles 
@@ -52,6 +53,7 @@ It then computes the output standard deviation $\sigma_j$ of the convolution and
 w''_{i,s,j,k} = \frac{w'_{ijk}}{\sqrt{\sum_{i'} (w'_{ijk})^2 + \epsilon}}
 \label{eq:stylegan2_demod}
 \end{equation}
+\equationdescription{StyleGAN2 weight demodulation}
 This eliminates the need for explicit instance normalization after the convolution. 
 The result is that each convolutional layer can apply the style $s_i$ directly to its weights, 
 with the demodulation automatically preserving unit variance. This modification removes the “blob” artifacts common in StyleGAN outputs and leads to crisper, more natural images.

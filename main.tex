@@ -25,6 +25,7 @@
 \usepackage[english]{babel}              % language hyphenation
 \hyphenpenalty=1000
 \tolerance=1000
+\emergencystretch=2em
 
 \usepackage{chngcntr}                    % continuous equation numbering
 \counterwithout{equation}{chapter}
@@ -45,7 +46,7 @@
 \renewcommand{\headrulewidth}{0pt}
 
 \makeatletter
-\pretocmd{\@chapter}{\thispagestyle{fancy}}{}{}
+\pretocmd{\@chapter}{\thispagestyle{empty}}{}{}
 \makeatother
 
 % Set font to Candara as stated in the STUDENT CAPSTONE/THESIS GUIDELINES 
@@ -66,29 +67,66 @@
 \renewcommand{\listfigurename}{LIST OF FIGURES}
 \renewcommand{\listtablename}{LIST OF TABLES}
 \renewcommand{\bibname}{REFERENCES}
+\newlistof{equationentry}{loe}{LIST OF EQUATIONS}
+\newcommand{\listofequations}{\listofequationentry}
+\newcommand{\equationdescription}[1]{%
+  \phantomsection
+  \addcontentsline{loe}{equationentry}{\protect\numberline{Equation~(\theequation)}#1}%
+}
 \addto\captionsenglish{%
   \renewcommand{\contentsname}{TABLE OF CONTENTS}%
   \renewcommand{\listfigurename}{LIST OF FIGURES}%
   \renewcommand{\listtablename}{LIST OF TABLES}%
 }
 \setcounter{tocdepth}{2}
+\setlength{\cftbeforechapskip}{0pt}
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\setlength{\cftchapnumwidth}{2.5em}
+\setlength{\cftsecindent}{1.5em}
+\setlength{\cftsecnumwidth}{3.2em}
+\setlength{\cftsubsecindent}{4.7em}
+\setlength{\cftsubsecnumwidth}{4.1em}
 \setlength{\cftbeforetoctitleskip}{-1cm}
 \setlength{\cftaftertoctitleskip}{36pt}
+\setlength{\cftbeforeloetitleskip}{-1cm}
+\setlength{\cftafterloetitleskip}{36pt}
 \setlength{\cftbeforeloftitleskip}{-1cm}
 \setlength{\cftafterloftitleskip}{36pt}
 \setlength{\cftbeforelottitleskip}{-1cm}
 \setlength{\cftafterlottitleskip}{36pt}
 \renewcommand{\cfttoctitlefont}{\hfill\bfseries\fontsize{14}{16}\selectfont}
 \renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftloetitlefont}{\hfill\bfseries\fontsize{14}{16}\selectfont}
+\renewcommand{\cftafterloetitle}{\hfill}
 \renewcommand{\cftloftitlefont}{\hfill\bfseries\fontsize{14}{16}\selectfont}
 \renewcommand{\cftafterloftitle}{\hfill}
 \renewcommand{\cftlottitlefont}{\hfill\bfseries\fontsize{14}{16}\selectfont}
 \renewcommand{\cftafterlottitle}{\hfill}
+\setlength{\cftequationentryindent}{0pt}
+\setlength{\cftequationentrynumwidth}{6.8em}
+\setlength{\cftbeforeequationentryskip}{0pt}
+\setlength{\cftfigindent}{0pt}
+\setlength{\cftfignumwidth}{3.5em}
+\setlength{\cftbeforefigskip}{0pt}
+\setlength{\cfttabindent}{0pt}
+\setlength{\cfttabnumwidth}{3.5em}
+\setlength{\cftbeforetabskip}{0pt}
 \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftequationentryleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cftfigleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cfttableader}{\cftdotfill{\cftdotsep}}
+
+\makeatletter
+\newcommand{\printgeneratedlist}[1]{%
+  \begingroup
+  \let\addvspace\@gobble
+  #1%
+  \endgroup
+}
+\makeatother
 
 % Set Line Spacing
 \doublespacing
@@ -148,7 +186,7 @@
   {Computing and Information Sciences (CCIS)}
   {Caraga State University -- Main Campus}
   {Computer Science (BSCS)}
-  {\textbf{May 2026}}
+  {\textbf{February 2026}}
 \thispagestyle{empty}
 \clearpage
 % Preliminary Pages
@@ -172,14 +210,22 @@
 \tableofcontents
 \end{doublespacing}
 \clearpage
-\addcontentsline{toc}{chapter}{LIST OF FIGURES}
+\phantomsection
+\addcontentsline{toc}{chapter}{LIST OF EQUATIONS}
 \begin{doublespacing}
-\listoffigures
+\printgeneratedlist{\listofequations}
 \end{doublespacing}
 \clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
+\begin{doublespacing}
+\printgeneratedlist{\listoffigures}
+\end{doublespacing}
+\clearpage
+\phantomsection
 \addcontentsline{toc}{chapter}{LIST OF TABLES}
 \begin{doublespacing}
-\listoftables
+\printgeneratedlist{\listoftables}
 \end{doublespacing}
 
 \include{chapters/preliminary-chapters/abstract}
@@ -194,17 +240,17 @@
 \include{chapters/chapter-4/results_and_discussion}
 \include{chapters/chapter-5/summary}
 
-\begin{doublespacing}
+\begin{singlespace}
 \clearpage
 \renewcommand{\bibname}{REFERENCES}
+\phantomsection
 \addcontentsline{toc}{chapter}{REFERENCES}
 \bibliographystyle{apacite}
 \bibliography{references}
-\end{doublespacing}
+\end{singlespace}
 
 
 \input{chapters/appendix}
 % \include{bionote}
 
-\end{document}
 \end{document}

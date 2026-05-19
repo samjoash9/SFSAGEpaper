@@ -1,5 +1,7 @@
 \section{Evaluation Protocol}
 
+This section defines how the proposed framework and baseline models are assessed. It first presents the quantitative metrics used to measure image quality and perceptual variation, then identifies the baseline methods used for comparison.
+
 \subsection{Evaluation Metrics}
 
 The models are evaluated using quantitative metrics for reconstruction quality, distributional alignment, and perceptual variation under the one-shot test-time setup. The same metric implementations and evaluation parameters are used for AGE, SAGE, and FeatureSAGE.
@@ -15,6 +17,7 @@ The models are evaluated using quantitative metrics for reconstruction quality, 
         \mathrm{Tr}\left(\Sigma_r + \Sigma_g - 2(\Sigma_r\Sigma_g)^{1/2}\right).
         \label{eq:fid}
     \end{equation}
+    \equationdescription{FID}
 
     In Equation~\eqref{eq:fid}, $\mu_r$ and $\Sigma_r$ are the mean and covariance of the Inception features of real images, while $\mu_g$ and $\Sigma_g$ are the mean and covariance of the Inception features of generated images. The term $\|\mu_r-\mu_g\|_2^2$ measures the squared Euclidean distance between feature means, $\mathrm{Tr}(\cdot)$ is the trace operator, and $(\Sigma_r\Sigma_g)^{1/2}$ is the matrix square root of the covariance product.
 
@@ -33,6 +36,7 @@ The models are evaluated using quantitative metrics for reconstruction quality, 
         \right\|_2^2.
         \label{eq:lpips}
     \end{equation}
+    \equationdescription{LPIPS}
 
     In Equation~\eqref{eq:lpips}, $\hat{y}_{hw}^{l}(x)$ is the unit-normalized feature vector of image $x$ at layer $l$ and spatial position $(h,w)$, $w_l$ is the learned channel-weight vector for layer $l$, and $H_l$ and $W_l$ are the height and width of the feature map at layer $l$.
 

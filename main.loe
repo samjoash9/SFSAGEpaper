@@ -1,0 +1,31 @@
+\contentsline {equationentry}{\numberline {Equation~(1)}GAN value function}{10}{section*.7}%
+\contentsline {equationentry}{\numberline {Equation~(2)}GAN minimax objective}{10}{section*.8}%
+\contentsline {equationentry}{\numberline {Equation~(3)}Adaptive Instance Normalization}{13}{section*.9}%
+\contentsline {equationentry}{\numberline {Equation~(4)}StyleGAN2 weight demodulation}{15}{section*.10}%
+\contentsline {equationentry}{\numberline {Equation~(5)}ReStyle residual update}{32}{section*.12}%
+\contentsline {equationentry}{\numberline {Equation~(6)}Class embedding mean}{46}{section*.15}%
+\contentsline {equationentry}{\numberline {Equation~(7)}Train-test data split}{46}{section*.16}%
+\contentsline {equationentry}{\numberline {Equation~(8)}pSp inversion}{48}{section*.18}%
+\contentsline {equationentry}{\numberline {Equation~(9)}StyleFeatureEditor inversion}{49}{section*.19}%
+\contentsline {equationentry}{\numberline {Equation~(10)}Editing pair synthesis}{49}{section*.20}%
+\contentsline {equationentry}{\numberline {Equation~(11)}Residual latent component}{50}{section*.23}%
+\contentsline {equationentry}{\numberline {Equation~(12)}Dictionary residual approximation}{50}{section*.24}%
+\contentsline {equationentry}{\numberline {Equation~(13)}Category-irrelevant edit}{51}{section*.25}%
+\contentsline {equationentry}{\numberline {Equation~(14)}W+ residual}{51}{section*.26}%
+\contentsline {equationentry}{\numberline {Equation~(15)}Sparse dictionary learning objective}{51}{section*.27}%
+\contentsline {equationentry}{\numberline {Equation~(16)}MLP sparse code}{52}{section*.28}%
+\contentsline {equationentry}{\numberline {Equation~(17)}SVD class embedding}{53}{section*.30}%
+\contentsline {equationentry}{\numberline {Equation~(18)}Unseen class embedding projection}{53}{section*.31}%
+\contentsline {equationentry}{\numberline {Equation~(19)}Sparse-code back projection}{54}{section*.33}%
+\contentsline {equationentry}{\numberline {Equation~(20)}Mean sparse activation}{54}{section*.34}%
+\contentsline {equationentry}{\numberline {Equation~(21)}FeatureSAGE synthesis}{54}{section*.35}%
+\contentsline {equationentry}{\numberline {Equation~(22)}Feature displacement}{55}{section*.37}%
+\contentsline {equationentry}{\numberline {Equation~(23)}Sparsity loss}{56}{section*.38}%
+\contentsline {equationentry}{\numberline {Equation~(24)}Reconstruction loss}{56}{section*.39}%
+\contentsline {equationentry}{\numberline {Equation~(25)}Orthogonality loss}{57}{section*.40}%
+\contentsline {equationentry}{\numberline {Equation~(26)}Total attribute factorization loss}{57}{section*.41}%
+\contentsline {equationentry}{\numberline {Equation~(27)}Editing loss}{58}{section*.43}%
+\contentsline {equationentry}{\numberline {Equation~(28)}Inversion loss}{58}{section*.44}%
+\contentsline {equationentry}{\numberline {Equation~(29)}Total Feature Editor loss}{58}{section*.45}%
+\contentsline {equationentry}{\numberline {Equation~(30)}FID}{59}{section*.46}%
+\contentsline {equationentry}{\numberline {Equation~(31)}LPIPS}{60}{section*.47}%
