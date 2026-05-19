@@ -4,19 +4,19 @@
 
 \begin{table}[ht]
 \centering
-\caption{\textbf{Table \thetable.} Quantitative comparison of AGE, SAGE, and the proposed FeatureSAGE across Flowers and Animal Faces datasets at 1024$\times$1024 resolution. Lower FID indicates better distributional alignment; LPIPS is reported as a perceptual variation measure.}
+\caption[Quantitative comparison of FeatureSAGE and baselines at 1024 resolution]{\textbf{Table \thetable.} Quantitative comparison of AGE, SAGE, and the proposed FeatureSAGE across Flowers and Animal Faces datasets at 1024$\times$1024 resolution. Lower FID indicates better distributional alignment; LPIPS is reported as a perceptual variation measure.}
 \label{tab:quantitative_comparison_1024}
 \setlength{\tabcolsep}{10pt}
-\begin{tabular}{|l|l|cc|cc|}
+\begin{tabular}{ l l cc cc }
 \hline
 \textbf{Resolution} & \textbf{Model}
-& \multicolumn{2}{c|}{\textbf{Flowers}}
-& \multicolumn{2}{c|}{\textbf{Animal Faces}} \\ \cline{3-6}
+& \multicolumn{2}{c}{\textbf{Flowers}}
+& \multicolumn{2}{c}{\textbf{Animal Faces}} \\ 
 &
 & \textbf{FID $\downarrow$} & \textbf{LPIPS}
 & \textbf{FID $\downarrow$} & \textbf{LPIPS} \\ \hline
-1024 & AGE (Baseline) & 61.57 & 0.4108 & 62.13 & 0.5033 \\ \cline{2-6}
-1024 & SAGE (Baseline) & 54.17 & 0.4528 & 60.92 & 0.4867 \\ \cline{2-6}
+1024 & AGE (Baseline) & 61.57 & 0.4108 & 62.13 & 0.5033 \\ 
+1024 & SAGE (Baseline) & 54.17 & 0.4528 & 60.92 & 0.4867 \\ 
 1024 & \textbf{FeatureSAGE (Ours)} & 45.60 & 0.4209 & 49.60 & 0.4811 \\ \hline
 \end{tabular}
 \end{table}

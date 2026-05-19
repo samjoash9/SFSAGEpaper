@@ -64,11 +64,12 @@ To achieve editability, e4e accepts a small drop in reconstruction fidelity. Ver
 
 ReStyle (ICCV 2021) focuses on improving inversion accuracy by iterative refinement. Instead of a single encoder pass, ReStyle's encoder is applied multiple times in a feedback loop. Starting from an initial latent (the average 
 $w$ vector), ReStyle repeatedly concatenates the original image with the generator's current reconstruction and feeds them into the encoder. At each iteration $t$, the encoder predicts a residual $\Delta w^{(t)}$ to add to the current latent.
-\[
-\text{At step t,} w^{(t)} = w^{(t-1)} + E(x,G(w^{(t-1)}))
-\],
+\begin{equation}
+w^{(t)} = w^{(t-1)} + E(x,\,G(w^{(t-1)}))
+\label{eq:restyle_update}
+\end{equation}
 
-with $w^{(0)}$,  set to the average latent, and $G(w)$ , the current output image. 
+with $w^{(0)}$ set to the average latent, and $G(w)$ the current output image. 
  The encoder is trained to minimize reconstruction loss at each step (summing L2+LPIPS over all iterations).
  ReStyle can be applied on top of any base encoder (e.g. pSp or e4e). In implementation, the authors actually simplify those encoders by using only the final feature map (no pyramid). Each iteration uses a fresh forward pass through the same network (weights are shared across steps).
 The training, therefore, unrolls a small multi-step network with losses on each reconstructed image.

@@ -1,4 +1,4 @@
-﻿\section{Generative Adversarial Networks}
+\section{Generative Adversarial Networks}
 
 Generative Adversarial Networks (GANs) is a novel framework for training generative models via an adversarial process
 which was first introduced by \citet{GAN}.
@@ -22,12 +22,15 @@ The discriminator $D$ takes a data sample $x$ as input and outputs a probability
 $x$ is a real sample rather than one produced by $G$ \citep{salehi2020generativeadversarialnetworksgans,cohen2022generativeadversarialnetworks,Creswell_2018}.
 
 The adversarial training process in GANs is governed by a minimax optimization. Formally, \citet{GAN} define the value function:
-\[
+\begin{equation}
 V(D,G) = \mathbb{E}_{x \sim p_{\text{data}}(x)}[\log D(x)] + \mathbb{E}_{z \sim p_z(z)}[\log(1 - D(G(z)))]
-\] and train $D$ and $G$ in a two-player game:
-\[
+\label{eq:gan_value_function}
+\end{equation}
+and train $D$ and $G$ in a two-player game:
+\begin{equation}
 \min_{G} \max_{D} V(D,G)
-\]
+\label{eq:gan_minimax}
+\end{equation}
 
 $D$ and $G$ are alternatively updated via minibatch stochastic gradient descent during the GAN training process. 
 $D$ is trained to maximize the probability of predicting whether an input from both training example and sample from G are real or fake,

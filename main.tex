@@ -1,10 +1,10 @@
-﻿% ==========================================================================================================
+% ==========================================================================================================
 % DOCUMENT SETUP
 
 \documentclass[12pt]{report}
 
 % --- Packages ---
-\usepackage[round, authoryear]{natbib}  % citations
+\usepackage[natbibapa]{apacite}  % APA 7 citations
 \usepackage{enumitem}                    % bullet/numbered lists
 \usepackage{amsmath, amssymb}           % math formatting and symbols
 \usepackage{graphicx}                    % graphics/images inclusion
@@ -28,6 +28,10 @@
 
 \usepackage{chngcntr}                    % continuous equation numbering
 \counterwithout{equation}{chapter}
+% Display equation tags as "Equation (x)" on the right margin
+\makeatletter
+\renewcommand{\tagform@}[1]{\maketag@@@{Equation~(#1)\@@italiccorr}}
+\makeatother
 
 \usepackage{fancyhdr}                     % header/footer formatting
 \fancypagestyle{plain}{
@@ -41,7 +45,7 @@
 \renewcommand{\headrulewidth}{0pt}
 
 \makeatletter
-\pretocmd{\@chapter}{\thispagestyle{empty}}{}{}
+\pretocmd{\@chapter}{\thispagestyle{fancy}}{}{}
 \makeatother
 
 % Set font to Candara as stated in the STUDENT CAPSTONE/THESIS GUIDELINES 
@@ -68,11 +72,11 @@
   \renewcommand{\listtablename}{LIST OF TABLES}%
 }
 \setcounter{tocdepth}{2}
-\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftbeforetoctitleskip}{-1cm}
 \setlength{\cftaftertoctitleskip}{36pt}
-\setlength{\cftbeforeloftitleskip}{0pt}
+\setlength{\cftbeforeloftitleskip}{-1cm}
 \setlength{\cftafterloftitleskip}{36pt}
-\setlength{\cftbeforelottitleskip}{0pt}
+\setlength{\cftbeforelottitleskip}{-1cm}
 \setlength{\cftafterlottitleskip}{36pt}
 \renewcommand{\cfttoctitlefont}{\hfill\bfseries\fontsize{14}{16}\selectfont}
 \renewcommand{\cftaftertoctitle}{\hfill}
@@ -102,13 +106,13 @@
   {CHAPTER \thechapter}
   {0.5em}
   {\MakeUppercase}
-\titlespacing{\chapter}{0pt}{0pt}{36pt}
+\titlespacing{\chapter}{0pt}{-1cm}{36pt}
 \titleformat{name=\chapter,numberless}[block]
   {\normalfont\bfseries\centering\fontsize{14}{16}\selectfont}
   {}
   {0pt}
   {\MakeUppercase}
-\titlespacing{name=\chapter,numberless}{0pt}{0pt}{36pt}
+\titlespacing{name=\chapter,numberless}{0pt}{-1cm}{36pt}
 
 % Section headings.
 \titleformat{\section}
@@ -134,8 +138,6 @@
 \begin{document}
 
 \pagestyle{fancy}
-\pagenumbering{roman}
-
 % Title Page
 % \maketitle
 \makethesistitlepage
@@ -146,12 +148,15 @@
   {Computing and Information Sciences (CCIS)}
   {Caraga State University -- Main Campus}
   {Computer Science (BSCS)}
-  {April 2026}
+  {\textbf{May 2026}}
 \thispagestyle{empty}
 \clearpage
 % Preliminary Pages
 
 % Approval Sheet
+
+\pagenumbering{roman}
+\setcounter{page}{2}
 
 \include{chapters/preliminary-chapters/approval_sheet}
 
@@ -161,16 +166,23 @@
 % Acknowledgments =========================================================================================
 \include{chapters/preliminary-chapters/acknowledgement}
 
-\include{chapters/preliminary-chapters/abstract}
 
 % Main Content
+\begin{doublespacing}
 \tableofcontents
+\end{doublespacing}
 \clearpage
 \addcontentsline{toc}{chapter}{LIST OF FIGURES}
+\begin{doublespacing}
 \listoffigures
+\end{doublespacing}
 \clearpage
 \addcontentsline{toc}{chapter}{LIST OF TABLES}
+\begin{doublespacing}
 \listoftables
+\end{doublespacing}
+
+\include{chapters/preliminary-chapters/abstract}
 
 % Switch to Arabic numerals for chapters
 \clearpage
@@ -182,13 +194,17 @@
 \include{chapters/chapter-4/results_and_discussion}
 \include{chapters/chapter-5/summary}
 
-\begin{singlespace}
-\bibliographystyle{plainnat}
+\begin{doublespacing}
+\clearpage
+\renewcommand{\bibname}{REFERENCES}
+\addcontentsline{toc}{chapter}{REFERENCES}
+\bibliographystyle{apacite}
 \bibliography{references}
-\end{singlespace}
+\end{doublespacing}
 
 
-% \include{appendix}
+\input{chapters/appendix}
 % \include{bionote}
 
+\end{document}
 \end{document}
